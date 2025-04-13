@@ -28,14 +28,24 @@ describe('GET /todos', () => {
 //     })
 // })
 
-// describe('POST /todos', () => {
+describe('POST /todos', () => {
 //     it('should not create an empty todo', async () => {
 
 //     })
 
-//     it('should create a todo that has name', async () => {
+    it('should create a todo that has name', async () => {
+        const newTodo = {
+            name: "Write a test",
+            completed: false
+        }
+        
+        const response = await request(app).post('/todos').send(newTodo)
 
-//     })
+        expect(response.status).toBe(201)
+        expect(response.body.name).toBe(newTodo.name)
+        expect(response.body.completed).toBe(newTodo.completed)
+        expect(response.body.id).toBeDefined()
+    })
     
 //     it('should not create a todo that already exists', async () => {
 
@@ -53,5 +63,5 @@ describe('GET /todos', () => {
 
 //     it('should change the state for a single todo when done', async () => {
         
-//     })
-// })
+    // })
+})
