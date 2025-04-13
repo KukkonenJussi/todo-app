@@ -2,38 +2,38 @@ import request from 'supertest'
 import app from '../src/app'
 
 describe('GET /todos', () => {
-    it('should return all todos', async () => {
+    it('returns status code 200 and all todos', async () => {
         const response = await request(app).get('/todos')
 
         expect(response.status).toBe(200)
         expect(response.body).toHaveLength(3)
     })
 
-    // it('should return todos that are completed', async () => {
+    // it('returns status code 200 and only completed todos', async () => {
         
     // })
 
-    // it('should return todos that are not completed', async () => {
+    // it('returns status code 200 and only uncompleted todos', async () => {
         
     // })
 })
 
 // describe('DELETE /todos', () => {
-//     it('should delete a single todo', async () => {
+//     it('returns status code 200 when deleting a single todo', async () => {
         
 //     })
     
-//     it('should delete a all todos', async () => {
+//     it('returns status code 200 when deleting all todos', async () => {
 
 //     })
 // })
 
 describe('POST /todos', () => {
-//     it('should not create an empty todo', async () => {
+//     it('returns status code 400 when creating an empty todo', async () => {
 
 //     })
 
-    it('should create a todo that has name', async () => {
+    it('returns status code 201 when creating a valid todo', async () => {
         const newTodo = {
             name: "Write a test",
             completed: false
@@ -47,21 +47,21 @@ describe('POST /todos', () => {
         expect(response.body.id).toBeDefined()
     })
     
-//     it('should not create a todo that already exists', async () => {
+//     it('returns status code 409 when creating a duplicate todo', async () => {
 
 //     })
 
-//     it('should not create a todo that has too many characters', async () => {
+//     it('returns status code 400 when creating a todo with too many characters', async () => {
 
 //     })
 // })
 
 // describe('PUT /todos', () => {
-//     it('should be able to be edited', async () => {
+//     it('returns status code 200 when editing a todo', async () => {
 
 //     })
 
-//     it('should change the state for a single todo when done', async () => {
+//     it('returns status code 200 when marking a todo as done', async () => {
         
     // })
 })
