@@ -1,8 +1,4 @@
-interface TodoItem {
-    id: string,
-    name: string,
-    completed: boolean
-}
+import { TodoItem } from "./types";
 
 const todos: TodoItem[] = [
     { id: "1", name: "Build a Todo App", completed: false },

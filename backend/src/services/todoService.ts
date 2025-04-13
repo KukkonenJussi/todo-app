@@ -1,8 +1,9 @@
 import todosData from '../mockDb';
+import { TodoItem } from '../types';
 
 const todos = todosData
 
-const getAllTodos = () => {
+const getAllTodos = (): TodoItem[] => {
     return todos;
 }
 
