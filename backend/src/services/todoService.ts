@@ -1,5 +1,6 @@
 import todosData from '../mockDb';
-import { TodoItem } from '../types';
+import { TodoItem, NewTodoEntry } from '../types';
+import { v4 as uuidv4 } from 'uuid';
 
 const todos: TodoItem[] = todosData
 
@@ -7,4 +8,15 @@ const getAllTodos = (): TodoItem[] => {
     return todos;
 }
 
-export default { getAllTodos }
+const addTodo = (todo: NewTodoEntry): TodoItem => {
+    const newTodo = {
+        id: uuidv4(),
+        name: todo.name,
+        completed: false
+    }
+
+    todos.push(newTodo)
+    return newTodo
+}
+
+export default { getAllTodos, addTodo }

@@ -3,3 +3,5 @@ export interface TodoItem {
     name: string,
     completed: boolean
 }
+
+export type NewTodoEntry = Omit<TodoItem, 'id' | 'completed'>
