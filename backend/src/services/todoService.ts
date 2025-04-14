@@ -15,6 +15,10 @@ const addTodo = (todo: NewTodoEntry): TodoItem => {
         completed: false
     }
 
+    if (!newTodo.name) {
+        throw new Error("Name is required!");
+    }
+
     todos.push(newTodo)
     return newTodo
 }

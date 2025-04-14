@@ -27,4 +27,14 @@ describe("addTodo", () => {
     expect(addedTodo.name).toBe(newTodo.name)
     expect(addedTodo.completed).toBe(false)
   });
+
+  it("throws an error when a new todo does not have a name", async () => {
+    const newTodo: NewTodoEntry = {
+      name: "",
+    }
+   
+    expect(() => {
+      todoService.addTodo(newTodo)
+    }).toThrow('Name is required!')
+  });
 })
