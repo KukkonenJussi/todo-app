@@ -35,6 +35,6 @@ describe("addTodo", () => {
    
     expect(() => {
       todoService.addTodo(newTodo)
-    }).toThrow('Name is required!')
+    }).toThrow(new Error('Name is required!'))
   });
 })
