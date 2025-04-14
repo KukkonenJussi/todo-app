@@ -28,33 +28,33 @@ describe("GET /todos", () => {
 //     })
 // })
 
-// describe('POST /todos', () => {
-//     it('returns status code 400 when creating an empty todo', async () => {
+describe("POST /todos", () => {
+  it("returns status code 201 when creating a valid todo with default completed value", async () => {
+    const newTodo = {
+      name: "Write a test",
+    };
 
-//     })
+    const response = await request(app).post("/todos").send(newTodo);
 
-// it('returns status code 201 when creating a valid todo', async () => {
-//     const newTodo = {
-//         name: "Write a test",
-//         completed: false
-//     }
+    expect(response.status).toBe(201);
+    expect(response.body.name).toBe(newTodo.name);
+    expect(response.body.completed).toBe(false);
+    expect(response.body.id).toBeDefined();
+    expect(typeof response.body.id).toBe("string");
+  });
 
-//     const response = await request(app).post('/todos').send(newTodo)
+  // it('returns status code 400 when creating an empty todo', async () => {
 
-//     expect(response.status).toBe(201)
-//     expect(response.body.name).toBe(newTodo.name)
-//     expect(response.body.completed).toBe(newTodo.completed)
-//     expect(response.body.id).toBeDefined()
-// })
+  // })
 
-//     it('returns status code 409 when creating a duplicate todo', async () => {
+  // it('returns status code 409 when creating a duplicate todo', async () => {
 
-//     })
+  // })
 
-//     it('returns status code 400 when creating a todo with too many characters', async () => {
+  // it('returns status code 400 when creating a todo with too many characters', async () => {
 
-//     })
-// })
+  // })
+});
 
 // describe('PUT /todos', () => {
 //     it('returns status code 200 when editing a todo', async () => {

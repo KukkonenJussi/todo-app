@@ -7,18 +7,12 @@ router.get('/todos', (_request, response) => {
     response.send(todoService.getAllTodos())
 })
 
-// router.post('/todos', (request, response) => {
-//     const { name, completed } = request.body
+router.post('/todos', (request, response) => {
+    const { name } = request.body
 
-//     const newTodo = {
-//         id: uuidv4(),
-//         name,
-//         completed
-//     }
+    const newTodo = todoService.addTodo({ name })
 
-//     todos.push(newTodo)
-
-//     response.status(201).json(newTodo)
-// })
+    response.status(201).json(newTodo)
+})
 
 export default router
