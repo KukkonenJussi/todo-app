@@ -9,15 +9,18 @@ const getAllTodos = (): TodoItem[] => {
 }
 
 const addTodo = (todo: NewTodoEntry): TodoItem => {
+    const trimmedName = todo.name.trim()
+
+    if (trimmedName === "") {
+        throw new Error("Name is required!");
+    }
+
     const newTodo = {
         id: uuidv4(),
-        name: todo.name,
+        name: trimmedName,
         completed: false
     }
 
-    if (!newTodo.name) {
-        throw new Error("Name is required!");
-    }
 
     todos.push(newTodo)
     return newTodo
