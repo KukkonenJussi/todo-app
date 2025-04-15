@@ -1,5 +1,6 @@
 import request from "supertest";
 import app from "../src/app";
+import { NewTodoEntry } from "../src/types";
 
 describe("GET /todos", () => {
   it("returns status code 200 and all todos", async () => {
@@ -43,9 +44,16 @@ describe("POST /todos", () => {
     expect(typeof response.body.id).toBe("string");
   });
 
-  // it('returns status code 400 when creating an empty todo', async () => {
+  it('returns status code 400 when creating an empty todo', async () => {
+    const emptyTodo: NewTodoEntry = {
+      name: ""
+    }
 
-  // })
+    const response = await request(app).post("/todos").send(emptyTodo)
+
+    expect(response.status).toBe(400)
+    expect(response.body.error).toBe("Name is required!")
+  })
 
   // it('returns status code 409 when creating a duplicate todo', async () => {
 
