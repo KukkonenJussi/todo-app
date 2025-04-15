@@ -66,11 +66,6 @@ describe("POST /todos", () => {
     expect(response.body.error).toBe("Name already exists!")
   })
 
-
-  // expect(() => {
-  //       todoService.addTodo(newTodo)
-  //     }).toThrow("Name already exists!")
-
   // it('returns status code 400 when creating a todo with too many characters', async () => {
 
   // })
