@@ -3,11 +3,11 @@ import todoService from '../services/todoService';
 
 const router = express.Router();
 
-router.get('/todos', (_request, response) => {
+router.get('/', (_request, response) => {
     response.send(todoService.getAllTodos())
 })
 
-router.post('/todos', (request, response) => {
+router.post('/', (request, response) => {
     const { name } = request.body
 
     if (!name) {
