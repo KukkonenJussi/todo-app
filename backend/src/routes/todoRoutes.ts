@@ -15,10 +15,12 @@ router.post("/", (request, response) => {
     response.status(201).json(newTodo);
   } catch (error: unknown) {
     if (error instanceof Error) {
+      if (error instanceof Error && error.message === "Name already exists!") {
+        response.status(409).send({ error: error.message });
+      }
       response.status(400).send({ error: error.message });
-    } else {
-      response.status(400).send({ error: "unknown error" });
     }
+    response.status(400).send({ error: "unknown error" });
   }
 });
 

@@ -55,9 +55,21 @@ describe("POST /todos", () => {
     expect(response.body.error).toBe("Name is required!")
   })
 
-  // it('returns status code 409 when creating a duplicate todo', async () => {
+  it('returns status code 409 when creating a duplicate todo', async () => {
+    const duplicateTodo: NewTodoEntry = {
+      name: "Build a Todo App"
+    }
 
-  // })
+    const response = await request(app).post("/todos").send(duplicateTodo)
+
+    expect(response.status).toBe(409)
+    expect(response.body.error).toBe("Name already exists!")
+  })
+
+
+  // expect(() => {
+  //       todoService.addTodo(newTodo)
+  //     }).toThrow("Name already exists!")
 
   // it('returns status code 400 when creating a todo with too many characters', async () => {
 
