@@ -37,4 +37,14 @@ describe("addTodo", () => {
       todoService.addTodo(newTodo)
     }).toThrow(new Error('Name is required!'))
   });
+
+  it("throws an error when a name of a new todo already exists", async () => {
+    const newTodo: NewTodoEntry = {
+      name: "Build a Todo App"
+    }
+
+    expect(() => {
+      todoService.addTodo(newTodo)
+    }).toThrow("Name already exists!")
+  })
 })

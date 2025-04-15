@@ -15,6 +15,11 @@ const addTodo = (todo: NewTodoEntry): TodoItem => {
         throw new Error("Name is required!");
     }
 
+    const nameExists = todos.some((todo) => todo.name === trimmedName)
+    if (nameExists) {
+        throw new Error("Name already exists!")
+    }
+
     const newTodo = {
         id: uuidv4(),
         name: trimmedName,
