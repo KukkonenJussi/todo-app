@@ -32,7 +32,16 @@ describe('DELETE /todos/:id', () => {
       expect(deleteResponse.status).toBe(200)
       expect(deleteResponse.body.id).toBe(todoToDelete)
     })
+    
+    it('returns status code 404 when deleting a non-existing todo', async () => {
+      const nonExistingTodo = "non-existing-todo"
 
+      const deleteResponse = await request(app).delete(`/todos/${nonExistingTodo}`)
+
+      expect(deleteResponse.status).toBe(404)
+      expect(deleteResponse.body.error).toBe('Todo not found!')
+    })
+    
     // it('returns status code 200 when deleting all todos', async () => {
 
     // })

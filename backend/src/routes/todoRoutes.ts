@@ -25,9 +25,15 @@ router.post("/", (request, response) => {
 });
 
 router.delete("/:id", (request, response) => {
+  try {
     const todoToDelete = request.params.id
     const deletedTodo = todoService.deleteTodo(todoToDelete)
     response.status(200).json(deletedTodo)
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message === "Todo not found!") {
+      response.status(404).send({ error: error.message })
+    }
+  }
 })
 
 export default router;
