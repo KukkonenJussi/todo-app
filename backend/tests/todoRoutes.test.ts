@@ -19,15 +19,24 @@ describe("GET /todos", () => {
   // })
 });
 
-// describe('DELETE /todos', () => {
-//     it('returns status code 200 when deleting a single todo', async () => {
+describe('DELETE /todos/:id', () => {
+    it('returns status code 200 when deleting a single todo', async () => {
+      const newTodo: NewTodoEntry = {
+        name: "Remove this as soon as possible"
+      }
+      const postResponse = await request(app).post("/todos").send(newTodo)
+      const todoToDelete = postResponse.body.id
+      
+      const deleteResponse = await request(app).delete(`/todos/${todoToDelete}`)
 
-//     })
+      expect(deleteResponse.status).toBe(200)
+      expect(deleteResponse.body.id).toBe(todoToDelete)
+    })
 
-//     it('returns status code 200 when deleting all todos', async () => {
+    // it('returns status code 200 when deleting all todos', async () => {
 
-//     })
-// })
+    // })
+})
 
 describe("POST /todos", () => {
   it("returns status code 201 when creating a valid todo with default completed value", async () => {

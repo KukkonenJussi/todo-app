@@ -24,4 +24,10 @@ router.post("/", (request, response) => {
   }
 });
 
+router.delete("/:id", (request, response) => {
+    const todoToDelete = request.params.id
+    const deletedTodo = todoService.deleteTodo(todoToDelete)
+    response.status(200).json(deletedTodo)
+})
+
 export default router;
