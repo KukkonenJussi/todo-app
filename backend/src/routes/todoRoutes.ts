@@ -8,6 +8,12 @@ router.get("/", (_request, response) => {
   response.send(todoService.getAllTodos());
 });
 
+router.get("/:id", (request, response) => {
+  const id = request.params.id
+  const todo = todoService.getTodoById(id)
+  response.status(200).json(todo)
+});
+
 router.post("/", (request, response) => {
   try {
     const name = parseName(request.body.name);

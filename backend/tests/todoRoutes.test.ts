@@ -19,6 +19,17 @@ describe("GET /todos", () => {
   // })
 });
 
+describe("GET /todos/:id", () => {
+  it("returns status code 200 and the todo when the ID is valid", async () => {
+    const validId = "1"
+    const response = await request(app).get(`/todos/${validId}`)
+
+    expect(response.body.id).toBe(validId)
+    expect(response.body.name).toBe("Build a Todo App")
+    expect(response.body.completed).toBe(false)
+  })
+})
+
 describe('DELETE /todos/:id', () => {
     it('returns status code 200 when deleting a single todo', async () => {
       const newTodo: NewTodoEntry = {
