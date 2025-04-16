@@ -27,6 +27,14 @@ describe("getTodoById", () => {
 
     expect(response).toEqual(expectedTodo)
   });
+  
+  it("throws an error when todo with given ID does not exist", async () => {
+    const invalidId = 'invalid-id'
+
+    expect(() => {
+      todoService.getTodoById(invalidId)
+    }).toThrow(new Error("Todo not found!"))
+  });
 })
 
 describe("addTodo", () => {

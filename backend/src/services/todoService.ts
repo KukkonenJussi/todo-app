@@ -10,6 +10,11 @@ const getAllTodos = (): TodoItem[] => {
 
 const getTodoById = (id: string) => {
   const todo = todos.find((todo) => todo.id === id);
+
+  if (!todo) {
+    throw new Error("Todo not found!")
+  }
+
   return todo;
 };
 
