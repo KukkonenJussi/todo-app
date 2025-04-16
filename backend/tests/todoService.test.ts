@@ -59,4 +59,12 @@ describe("deleteTodo", () => {
     expect(allTodos.find((todo) => todo.id === existingId)).toBeUndefined()
     expect(deletedTodo.id).toBe(existingId)
   });
+
+  it("throws an error if the todo with given ID does not exist", async () => {
+    const invalidId = 'id-that-does-not-exist'
+
+    expect(() => {
+      todoService.deleteTodo(invalidId)
+    }).toThrow("Todo not found!")
+  });
 })
