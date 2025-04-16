@@ -25,6 +25,10 @@ const addTodo = (todo: NewTodoEntry): TodoItem => {
     throw new Error("Name is required!");
   }
 
+  if (trimmedName.length > 50) {
+    throw new Error("Name must be 50 characters or less!");
+  }
+
   const nameExists = todos.some((todo) => todo.name === trimmedName);
   if (nameExists) {
     throw new Error("Name already exists!");

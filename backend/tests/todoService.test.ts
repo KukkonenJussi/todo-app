@@ -61,6 +61,17 @@ describe("addTodo", () => {
     }).toThrow(new Error('Name is required!'))
   });
 
+  it("throws an error if name exceeds 50 characters", async () => {
+    const longName = "a".repeat(51)
+    const newTodo: NewTodoEntry = {
+      name: longName,
+    }
+   
+    expect(() => {
+      todoService.addTodo(newTodo)
+    }).toThrow(new Error('Name must be 50 characters or less!'))
+  });
+
   it("throws an error when a name of a new todo already exists", async () => {
     const newTodo: NewTodoEntry = {
       name: "Build a Todo App"
