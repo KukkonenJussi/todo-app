@@ -48,3 +48,13 @@ describe("addTodo", () => {
     }).toThrow("Name already exists!")
   })
 })
+
+describe("deleteTodo", () => {
+  it("deletes a todo", async () => {
+    const todoToRemove = "1"
+    
+    const deletedTodo = todoService.deleteTodo(todoToRemove)
+
+    expect(todoService.getAllTodos()).not.toContain(deletedTodo)
+  });
+})
