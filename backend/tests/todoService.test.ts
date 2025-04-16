@@ -1,6 +1,6 @@
 import todoService from "../src/services/todoService";
 import todosData from "../src/mockDb";
-import { NewTodoEntry } from "../src/types";
+import { NewTodoEntry, TodoItem } from "../src/types";
 
 describe("getAllTodos", () => {
   it("returns all todos", async () => {
@@ -11,6 +11,21 @@ describe("getAllTodos", () => {
     expect(Array.isArray(todos)).toBe(true)
     expect(todos).toHaveLength(mockData.length)
     expect(todos).toEqual(mockData)
+  });
+})
+
+describe("getTodoById", () => {
+  it("returns the correct todo when given a valid id", async () => {
+    const validId = "1"
+    const expectedTodo: TodoItem = {
+      id: "1",
+      name: "Build a Todo App",
+      completed: false
+    }
+
+    const response = todoService.getTodoById(validId)
+
+    expect(response).toEqual(expectedTodo)
   });
 })
 

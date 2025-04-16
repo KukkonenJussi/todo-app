@@ -8,6 +8,11 @@ const getAllTodos = (): TodoItem[] => {
   return todos;
 };
 
+const getTodoById = (id: string) => {
+  const todo = todos.find((todo) => todo.id === id);
+  return todo;
+};
+
 const addTodo = (todo: NewTodoEntry): TodoItem => {
   const trimmedName = todo.name.trim();
 
@@ -41,4 +46,4 @@ const deleteTodo = (id: string): TodoItem => {
   return deletedTodo;
 };
 
-export default { getAllTodos, addTodo, deleteTodo };
+export default { getAllTodos, addTodo, deleteTodo, getTodoById };
