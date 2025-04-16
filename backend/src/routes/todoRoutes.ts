@@ -9,9 +9,15 @@ router.get("/", (_request, response) => {
 });
 
 router.get("/:id", (request, response) => {
-  const id = request.params.id
-  const todo = todoService.getTodoById(id)
-  response.status(200).json(todo)
+  try {
+    const id = request.params.id
+    const todo = todoService.getTodoById(id)
+    response.status(200).json(todo)
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message === "Todo not found!") {
+      response.status(404).send({ error: error.message })
+    }
+  }
 });
 
 router.post("/", (request, response) => {

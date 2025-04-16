@@ -28,6 +28,15 @@ describe("GET /todos/:id", () => {
     expect(response.body.name).toBe("Build a Todo App")
     expect(response.body.completed).toBe(false)
   })
+
+  it("returns status code 404 when the todo is not found", async () => {
+    const invalidId = "invalid-id"
+
+    const response = await request(app).get(`/todos/${invalidId}`)
+
+    expect(response.status).toBe(404)
+    expect(response.body.error).toBe("Todo not found!")
+  })
 })
 
 describe('DELETE /todos/:id', () => {
