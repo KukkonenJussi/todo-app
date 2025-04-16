@@ -104,9 +104,17 @@ describe("POST /todos", () => {
     expect(response.body.error).toBe("Name already exists!")
   })
 
-  // it('returns status code 400 when creating a todo with too many characters', async () => {
+  it('returns status code 400 and error message when creating a todo with too many characters', async () => {
+    const longName = "a".repeat(51)
+    const invalidTodo: NewTodoEntry = {
+      name: longName
+    }
 
-  // })
+    const response = await request(app).post("/todos").send(invalidTodo)
+
+    expect(response.status).toBe(400)
+    expect(response.body.error).toBe("Name must be 50 characters or less!")
+  })
 });
 
 // describe('PUT /todos', () => {
