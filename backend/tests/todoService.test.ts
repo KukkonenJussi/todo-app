@@ -50,11 +50,13 @@ describe("addTodo", () => {
 })
 
 describe("deleteTodo", () => {
-  it("deletes a todo", async () => {
-    const todoToRemove = "1"
+  it("deletes the todo with given ID from the todo list", async () => {
+    const existingId = "1"
     
-    const deletedTodo = todoService.deleteTodo(todoToRemove)
-
-    expect(todoService.getAllTodos()).not.toContain(deletedTodo)
+    const deletedTodo = todoService.deleteTodo(existingId)
+    const allTodos = todoService.getAllTodos()
+    
+    expect(allTodos.find((todo) => todo.id === existingId)).toBeUndefined()
+    expect(deletedTodo.id).toBe(existingId)
   });
 })
