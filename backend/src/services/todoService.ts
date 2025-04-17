@@ -1,5 +1,6 @@
 import todosData from "../mockDb";
 import { TodoItem, NewTodoEntry } from "../types";
+import { parseName } from "../utils/validators";
 import { v4 as uuidv4 } from "uuid";
 
 const todos: TodoItem[] = todosData;
@@ -19,15 +20,7 @@ const getTodoById = (id: string) => {
 };
 
 const addTodo = (todo: NewTodoEntry): TodoItem => {
-  const trimmedName = todo.name.trim();
-
-  if (trimmedName === "") {
-    throw new Error("Name is required!");
-  }
-
-  if (trimmedName.length > 50) {
-    throw new Error("Name must be 50 characters or less!");
-  }
+  const trimmedName = parseName(todo.name);
 
   const nameExists = todos.some((todo) => todo.name === trimmedName);
   if (nameExists) {
@@ -62,7 +55,7 @@ const updateTodoName = (id: string, name: string): TodoItem => {
     throw new Error("Todo not found!")
   }
 
-  const trimmedName = name.trim()
+  const trimmedName = parseName(name)
   todoToUpdate.name = trimmedName
 
   return todoToUpdate
