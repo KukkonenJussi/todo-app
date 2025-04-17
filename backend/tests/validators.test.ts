@@ -13,6 +13,12 @@ describe("parseName", () => {
         }).toThrow("Name is required!")
     });
 
+    it("throws an error if name is only whitespace", () => {
+        expect(() => {
+            parseName("    ")
+        }).toThrow("Name is required!")
+    });
+
     it("throws an error if name exceeds 50 characters", () => {
         const longName = "a".repeat(51)
         expect(() => {
