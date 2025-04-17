@@ -10,12 +10,12 @@ router.get("/", (_request, response) => {
 
 router.get("/:id", (request, response) => {
   try {
-    const id = request.params.id
-    const todo = todoService.getTodoById(id)
-    response.status(200).json(todo)
+    const id = request.params.id;
+    const todo = todoService.getTodoById(id);
+    response.status(200).json(todo);
   } catch (error: unknown) {
     if (error instanceof Error && error.message === "Todo not found!") {
-      response.status(404).send({ error: error.message })
+      response.status(404).send({ error: error.message });
     }
   }
 });
@@ -38,22 +38,32 @@ router.post("/", (request, response) => {
 
 router.delete("/:id", (request, response) => {
   try {
-    const todoToDelete = request.params.id
-    const deletedTodo = todoService.deleteTodo(todoToDelete)
-    response.status(200).json(deletedTodo)
+    const todoToDelete = request.params.id;
+    const deletedTodo = todoService.deleteTodo(todoToDelete);
+    response.status(200).json(deletedTodo);
   } catch (error: unknown) {
     if (error instanceof Error && error.message === "Todo not found!") {
-      response.status(404).send({ error: error.message })
+      response.status(404).send({ error: error.message });
     }
   }
-})
+});
 
 router.put("/:id", (request, response) => {
-  const todoToUpdate = request.params.id
-  const updatedName = request.body.name
-  
-  const updateResponse = todoService.updateTodoName(todoToUpdate, updatedName)
-  response.status(200).json(updateResponse)
-})
+  try {
+    const todoToUpdate = request.params.id;
+    const updatedName = request.body.name;
+    const updateResponse = todoService.updateTodoName(
+      todoToUpdate,
+      updatedName
+    );
+    response.status(200).json(updateResponse);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      if (error.message === "Name already exists!") {
+        response.status(409).send({ error: error.message });
+      }
+    }
+  }
+});
 
 export default router;
