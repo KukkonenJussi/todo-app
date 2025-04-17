@@ -6,7 +6,9 @@ let todos: TodoItem[] = [
   { id: "3", name: "Remember to have a break", completed: true },
 ];
 
-const getTodos = () => todos;
+const getTodos = () => {
+  return todos;
+};
 
 const resetTodos = () => {
   todos = [
