@@ -55,4 +55,17 @@ const deleteTodo = (id: string): TodoItem => {
   return deletedTodo;
 };
 
-export default { getAllTodos, addTodo, deleteTodo, getTodoById };
+const updateTodoName = (id: string, name: string): TodoItem => {
+  const todoToUpdate = todos.find((todo) => todo.id === id)
+
+  if (!todoToUpdate) {
+    throw new Error("Todo not found!")
+  }
+
+  const trimmedName = name.trim()
+  todoToUpdate.name = trimmedName
+
+  return todoToUpdate
+}
+
+export default { getAllTodos, addTodo, deleteTodo, getTodoById, updateTodoName };

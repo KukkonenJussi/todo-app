@@ -101,4 +101,19 @@ describe("deleteTodo", () => {
       todoService.deleteTodo(invalidId)
     }).toThrow("Todo not found!")
   });
+
+  describe("updateTodoName", () => {
+    it("updates the name of the todo with the given ID and preserver the completed status", async () => {
+      const id = "2"
+      const originalTodo = todoService.getTodoById(id)
+      const originalCompleted = originalTodo.completed
+      const newName = "Updated name"
+
+      const updatedTodo = todoService.updateTodoName(id, newName)
+
+      expect(updatedTodo.id).toBe(id)
+      expect(updatedTodo.name).toBe(newName)
+      expect(updatedTodo.completed).toBe(originalCompleted)
+    });
+  })
 })
