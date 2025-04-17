@@ -1,6 +1,6 @@
 import express from "express";
 import todoService from "../services/todoService";
-import { parseName } from "../utils";
+import { parseName } from "../utils/validators";
 
 const router = express.Router();
 
