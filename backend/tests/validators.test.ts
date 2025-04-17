@@ -1,6 +1,12 @@
 import { parseName } from "../src/utils/validators";
 
 describe("parseName", () => {
+    it("returns trimmed name when input is valid", () => {
+        const input = "  Lunch time  "
+        const result = parseName(input)
+        expect(result).toBe("Lunch time")
+    });
+
     it("throws an error if name is empty", () => {
         expect(() => {
             parseName("")
