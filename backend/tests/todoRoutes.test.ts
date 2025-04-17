@@ -117,12 +117,18 @@ describe("POST /todos", () => {
   })
 });
 
-// describe('PUT /todos', () => {
-//     it('returns status code 200 when editing a todo', async () => {
+describe('PUT /todos/:id', () => {
+    it('returns status 200 and updates the todo name', async () => {
+      const idToUpdate = "2"
+      const newName = "Updated name"
 
-//     })
+      const response = await request(app).put(`/todos/${idToUpdate}`).send({ name: newName })
+
+      expect(response.status).toBe(200)
+      expect(response.body.name).toBe("Updated name")
+    })
 
 //     it('returns status code 200 when marking a todo as done', async () => {
 
 //     })
-// })
+})

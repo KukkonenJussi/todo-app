@@ -48,4 +48,12 @@ router.delete("/:id", (request, response) => {
   }
 })
 
+router.put("/:id", (request, response) => {
+  const todoToUpdate = request.params.id
+  const updatedName = request.body.name
+  
+  const updateResponse = todoService.updateTodoName(todoToUpdate, updatedName)
+  response.status(200).json(updateResponse)
+})
+
 export default router;
