@@ -2,9 +2,13 @@ import todoService from "../src/services/todoService";
 import todosData from "../src/mockDb";
 import { NewTodoEntry, TodoItem } from "../src/types";
 
+beforeEach(() => {
+  todosData.resetTodos();
+});
+
 describe("getAllTodos", () => {
   it("returns all todos", async () => {
-    const mockData = todosData
+    const mockData = todosData.getTodos()
 
     const todos = todoService.getAllTodos()
 

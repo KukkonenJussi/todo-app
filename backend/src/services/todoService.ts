@@ -3,27 +3,21 @@ import { TodoItem, NewTodoEntry } from "../types";
 import { parseName } from "../utils/validators";
 import { v4 as uuidv4 } from "uuid";
 
-const todos: TodoItem[] = todosData;
-
 const getAllTodos = (): TodoItem[] => {
-  return todos;
+  return todosData.getTodos();
 };
 
-const getTodoById = (id: string) => {
-  const todo = todos.find((todo) => todo.id === id);
-
-  if (!todo) {
-    throw new Error("Todo not found!");
-  }
-
+const getTodoById = (id: string): TodoItem => {
+  const todo = todosData.getTodos().find((todo) => todo.id === id);
+  if (!todo) throw new Error("Todo not found!");
   return todo;
 };
 
 const addTodo = (todo: NewTodoEntry): TodoItem => {
   const trimmedName = parseName(todo.name);
+  const todos = todosData.getTodos();
 
-  const nameExists = todos.some((todo) => todo.name === trimmedName);
-  if (nameExists) {
+  if (todos.some((t) => t.name === trimmedName)) {
     throw new Error("Name already exists!");
   }
 
@@ -38,41 +32,33 @@ const addTodo = (todo: NewTodoEntry): TodoItem => {
 };
 
 const deleteTodo = (id: string): TodoItem => {
-  const todoToDelete = todos.findIndex((todo) => todo.id === id);
+  const todos = todosData.getTodos();
+  const index = todos.findIndex((todo) => todo.id === id);
 
-  if (todoToDelete === -1) {
-    throw new Error("Todo not found!");
-  }
+  if (index === -1) throw new Error("Todo not found!");
 
-  const deletedTodo = todos.splice(todoToDelete, 1)[0];
-  return deletedTodo;
+  return todos.splice(index, 1)[0];
 };
 
 const updateTodoName = (id: string, name: string): TodoItem => {
+  const todos = todosData.getTodos();
   const todoToUpdate = todos.find((todo) => todo.id === id);
 
-  if (!todoToUpdate) {
-    throw new Error("Todo not found!");
-  }
+  if (!todoToUpdate) throw new Error("Todo not found!");
 
   const trimmedName = parseName(name);
-  const nameExists = todos.some(
-    (todo) => todo.name === trimmedName && todo.id !== id
-  );
+  const nameExists = todos.some((t) => t.name === trimmedName && t.id !== id);
 
-  if (nameExists) {
-    throw new Error("Name already exists!");
-  }
+  if (nameExists) throw new Error("Name already exists!");
 
   todoToUpdate.name = trimmedName;
-
   return todoToUpdate;
 };
 
 export default {
   getAllTodos,
+  getTodoById,
   addTodo,
   deleteTodo,
-  getTodoById,
   updateTodoName,
 };

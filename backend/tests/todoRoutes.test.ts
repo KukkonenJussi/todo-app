@@ -1,6 +1,11 @@
 import request from "supertest";
 import app from "../src/app";
 import { NewTodoEntry } from "../src/types";
+import todosData from "../src/mockDb";
+
+beforeEach(() => {
+  todosData.resetTodos();
+});
 
 describe("GET /todos", () => {
   it("returns status code 200 and all todos", async () => {
