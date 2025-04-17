@@ -7,5 +7,9 @@ export const parseName = (name: unknown): string => {
         throw new Error('Name is required!')
     }
 
+    if (name.trim().length > 50) {
+        throw new Error('Name must be 50 characters or less!')
+    }
+
     return name.trim()
 }
