@@ -19,4 +19,10 @@ describe("parseName", () => {
             parseName(longName)
         }).toThrow("Name must be 50 characters or less!")
     });
+
+    it("accepts name that is exactly 50 characters long", () => {
+        const input = "a".repeat(50)
+        const result = parseName(input)
+        expect(result).toBe(input)
+    });
 })
