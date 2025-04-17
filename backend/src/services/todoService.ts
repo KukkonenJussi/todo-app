@@ -13,7 +13,7 @@ const getTodoById = (id: string) => {
   const todo = todos.find((todo) => todo.id === id);
 
   if (!todo) {
-    throw new Error("Todo not found!")
+    throw new Error("Todo not found!");
   }
 
   return todo;
@@ -49,16 +49,30 @@ const deleteTodo = (id: string): TodoItem => {
 };
 
 const updateTodoName = (id: string, name: string): TodoItem => {
-  const todoToUpdate = todos.find((todo) => todo.id === id)
+  const todoToUpdate = todos.find((todo) => todo.id === id);
 
   if (!todoToUpdate) {
-    throw new Error("Todo not found!")
+    throw new Error("Todo not found!");
   }
 
-  const trimmedName = parseName(name)
-  todoToUpdate.name = trimmedName
+  const trimmedName = parseName(name);
+  const nameExists = todos.some(
+    (todo) => todo.name === trimmedName && todo.id !== id
+  );
 
-  return todoToUpdate
-}
+  if (nameExists) {
+    throw new Error("Name already exists!");
+  }
 
-export default { getAllTodos, addTodo, deleteTodo, getTodoById, updateTodoName };
+  todoToUpdate.name = trimmedName;
+
+  return todoToUpdate;
+};
+
+export default {
+  getAllTodos,
+  addTodo,
+  deleteTodo,
+  getTodoById,
+  updateTodoName,
+};

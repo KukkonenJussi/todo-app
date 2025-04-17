@@ -115,5 +115,14 @@ describe("deleteTodo", () => {
       expect(updatedTodo.name).toBe(newName)
       expect(updatedTodo.completed).toBe(originalCompleted)
     });
+
+    it("throws an error when the name already exists", async () => {
+      const idToUpdate = "3"
+      const existingName = "Learn TDD while doing this project"
+
+      expect(() => {
+        todoService.updateTodoName(idToUpdate, existingName)
+      }).toThrow(new Error("Name already exists!"))
+    })
   })
 })
