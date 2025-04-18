@@ -1,10 +1,10 @@
-function App() {
+const App = () => {
 
   return (
     <div>
-      pöö
+      <h1>Todo App</h1>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
