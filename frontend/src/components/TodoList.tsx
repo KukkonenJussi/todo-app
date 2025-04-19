@@ -1,4 +1,5 @@
 import { TodoItem } from "../types";
+import TodoListItem from "./TodoListItem";
 
 interface TodoListProps {
   todos: TodoItem[];
@@ -7,11 +8,9 @@ interface TodoListProps {
 const TodoList = ({ todos }: TodoListProps) => {
   return (
     <>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.name}</li>
-        ))}
-      </ul>
+      {todos.map((todo) => (
+        <TodoListItem key={todo.name} todoItem={todo} />
+      ))}
     </>
   );
 };
