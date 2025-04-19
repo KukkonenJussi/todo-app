@@ -1,19 +1,21 @@
-import axios from 'axios';
-import { useEffect } from 'react';
-
-const baseUrl = import.meta.env.VITE_API_BASE_URL
+import { useEffect, useState } from "react";
+import todoService from "./services/todoService";
+import { TodoItem } from "./types";
+import TodoList from "./components/TodoList";
 
 const App = () => {
+  const [todos, setTodos] = useState<TodoItem[]>([]);
 
   useEffect(() => {
-    axios.get(`${baseUrl}/todos`).then((response) => {
-      console.log(response.data)
-    })
-  })
+    todoService.getAllTodos().then((data) => {
+      setTodos(data);
+    });
+  }, []);
 
   return (
     <div>
       <h1>Todo App</h1>
+      <TodoList todos={todos}/>
     </div>
   );
 };
