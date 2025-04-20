@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import TodoListItem from "../TodoListItem";
 
-describe("TodoList", () => {
+describe("TodoListItem", () => {
   it("renders the todo name passed as prop", () => {
     const todo = {
       id: "1",
