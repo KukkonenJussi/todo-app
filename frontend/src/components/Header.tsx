@@ -6,7 +6,7 @@ interface HeaderProps {
 
 const Header = ({ header }: HeaderProps) => {
   return (
-    <Typography variant="h4" component={"h1"} align="center">
+    <Typography variant="h4" component={"h1"} align="center" sx={{ mb: 4 }}>
       {header}
     </Typography>
   );

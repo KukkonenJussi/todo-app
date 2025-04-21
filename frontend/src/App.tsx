@@ -35,8 +35,8 @@ const App = () => {
   };
 
   return (
-    <Container>
-      <Header header="Todo App"/>
+    <Container maxWidth="sm" fixed>
+      <Header header="Todo App" />
       {message}
       <AddTodoForm onSubmit={todoCreation} />
       <TodoList todos={todos} />

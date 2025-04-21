@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Button from '@mui/material/Button'
+import Button from "@mui/material/Button";
+import { Box, TextField } from "@mui/material";
 
 interface AddTodoFormProps {
   onSubmit: (name: string) => void;
@@ -15,10 +16,21 @@ const AddTodoForm = ({ onSubmit }: AddTodoFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input value={name} onChange={(event) => setName(event.target.value)} />
-      <Button variant="contained" type="submit">Add</Button>
-    </form>
+    <Box sx={{ my: 2 }}>
+      <form onSubmit={handleSubmit}>
+        <Box display={"flex"} gap={1}>
+          <TextField
+            label="Add item"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            fullWidth
+          />
+          <Button color="inherit" variant="contained" type="submit">
+            Add
+          </Button>
+        </Box>
+      </form>
+    </Box>
   );
 };
 
