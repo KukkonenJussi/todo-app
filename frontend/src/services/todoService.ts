@@ -1,5 +1,5 @@
 import axios from "axios";
-import { TodoItem } from "../types";
+import { TodoItem, NewTodoItem } from "../types";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -9,4 +9,10 @@ export const getAllTodos = () => {
     .then((response) => response.data);
 };
 
-export default { getAllTodos };
+export const createTodo = (object: NewTodoItem) => {
+  return axios
+    .post<TodoItem>(`${apiBaseUrl}/todos`, object)
+    .then(response => response.data)
+}
+
+export default { getAllTodos, createTodo };
