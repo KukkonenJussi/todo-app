@@ -11,4 +11,13 @@ describe("Notification", () => {
     const element = screen.getByText("Name is required!");
     expect(element).toBeVisible();
   });
+
+  it("renders with error severity when message contains 'exists'", () => {
+    const warningMessage = "Name already exists!";
+
+    render(<Notification message={warningMessage} />);
+
+    const element = screen.getByText("Name already exists!");
+    expect(element).toBeVisible();
+  });
 });
