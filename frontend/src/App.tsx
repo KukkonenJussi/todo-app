@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import todoService from "./services/todoService";
 import { TodoItem } from "./types";
 import TodoList from "./components/TodoList";
+import AddTodoForm from "./components/AddTodoForm";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [name, setName] = useState("");
 
   useEffect(() => {
     todoService.getAllTodos().then((data) => {
@@ -13,22 +13,16 @@ const App = () => {
     });
   }, []);
 
-  const todoCreation = (event: React.SyntheticEvent) => {
-    event.preventDefault();
-
+  const todoCreation = (name: string) => {
     todoService.createTodo({ name }).then((data) => {
       setTodos(todos.concat(data));
-      setName('')
-    })
+    });
   };
 
   return (
     <div>
       <h1>Todo App</h1>
-      <form onSubmit={todoCreation}>
-        <input value={name} onChange={(event) => setName(event.target.value)} />
-        <button type="submit">Add</button>
-      </form>
+      <AddTodoForm onSubmit={todoCreation}/>
       <TodoList todos={todos} />
     </div>
   );
