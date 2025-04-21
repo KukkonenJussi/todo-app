@@ -3,8 +3,9 @@ import todoService from "./services/todoService";
 import { TodoItem } from "./types";
 import TodoList from "./components/TodoList";
 import AddTodoForm from "./components/AddTodoForm";
+import Header from "./components/Header";
 import axios from "axios";
-import { Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
@@ -35,9 +36,7 @@ const App = () => {
 
   return (
     <Container>
-      <Typography variant="h4" component={"h1"} gutterBottom>
-        Todo App
-      </Typography>
+      <Header header="Todo App"/>
       {message}
       <AddTodoForm onSubmit={todoCreation} />
       <TodoList todos={todos} />
