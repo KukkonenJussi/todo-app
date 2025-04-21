@@ -1,10 +1,30 @@
-import { Alert, Collapse } from "@mui/material";
+import { Alert, Snackbar, SnackbarCloseReason } from "@mui/material";
+import { useEffect, useState } from "react";
 
 interface NotificationProps {
   message: string | null;
 }
 
 const Notification = ({ message }: NotificationProps) => {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (message) {
+      setOpen(true);
+    }
+  }, [message]);
+
+  const handleClose = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   if (!message) return null;
 
   let severity: "success" | "warning" | "error";
@@ -21,9 +41,11 @@ const Notification = ({ message }: NotificationProps) => {
   }
 
   return (
-    <Collapse in={true}>
-      <Alert severity={severity}>{message}</Alert>
-    </Collapse>
+    <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+      <Alert onClose={handleClose} severity={severity}>
+        {message}
+      </Alert>
+    </Snackbar>
   );
 };
 
