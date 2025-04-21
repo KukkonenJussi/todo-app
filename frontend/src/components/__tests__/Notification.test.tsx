@@ -20,4 +20,13 @@ describe("Notification", () => {
     const element = screen.getByText("Name already exists!");
     expect(element).toBeVisible();
   });
+
+  it("renders with error severity when message contains 'less'", () => {
+    const warningMessage = "Name must be 50 characters or less!";
+
+    render(<Notification message={warningMessage} />);
+
+    const element = screen.getByText("Name must be 50 characters or less!");
+    expect(element).toBeVisible();
+  });
 });
