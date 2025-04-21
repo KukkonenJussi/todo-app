@@ -1,3 +1,4 @@
+import { TableCell, TableRow } from "@mui/material";
 import { TodoItem } from "../types";
 
 interface TodoListProps {
@@ -6,9 +7,9 @@ interface TodoListProps {
 
 const TodoListItem = ({ todoItem }: TodoListProps) => {
   return (
-    <>
-      <li>{todoItem.name}</li>
-    </>
+    <TableRow>
+      <TableCell>{todoItem.name}</TableCell>
+    </TableRow>
   );
 };
 
