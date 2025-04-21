@@ -41,8 +41,13 @@ const Notification = ({ message }: NotificationProps) => {
   }
 
   return (
-    <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity={severity}>
+    <Snackbar
+      open={open}
+      autoHideDuration={5000}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+    >
+      <Alert onClose={handleClose} severity={severity} >
         {message}
       </Alert>
     </Snackbar>
