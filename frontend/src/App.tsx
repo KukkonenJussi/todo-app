@@ -4,10 +4,11 @@ import { TodoItem } from "./types";
 import TodoList from "./components/TodoList";
 import AddTodoForm from "./components/AddTodoForm";
 import axios from "axios";
+import { Container, Typography } from "@mui/material";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [message, setMessage] = useState(null)
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     todoService.getAllTodos().then((data) => {
@@ -33,12 +34,14 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>Todo App</h1>
+    <Container>
+      <Typography variant="h4" component={"h1"} gutterBottom>
+        Todo App
+      </Typography>
       {message}
       <AddTodoForm onSubmit={todoCreation} />
       <TodoList todos={todos} />
-    </div>
+    </Container>
   );
 };
 

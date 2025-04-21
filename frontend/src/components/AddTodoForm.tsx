@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from '@mui/material/Button'
 
 interface AddTodoFormProps {
   onSubmit: (name: string) => void;
@@ -16,7 +17,7 @@ const AddTodoForm = ({ onSubmit }: AddTodoFormProps) => {
   return (
     <form onSubmit={handleSubmit}>
       <input value={name} onChange={(event) => setName(event.target.value)} />
-      <button type="submit">Add</button>
+      <Button variant="contained" type="submit">Add</Button>
     </form>
   );
 };
