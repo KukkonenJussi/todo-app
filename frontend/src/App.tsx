@@ -6,10 +6,11 @@ import AddTodoForm from "./components/AddTodoForm";
 import Header from "./components/Header";
 import axios from "axios";
 import { Container } from "@mui/material";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
     todoService.getAllTodos().then((data) => {
@@ -37,7 +38,7 @@ const App = () => {
   return (
     <Container maxWidth="sm" fixed>
       <Header header="Todo App" />
-      {message}
+      <Notification message={message} />
       <AddTodoForm onSubmit={todoCreation} />
       <TodoList todos={todos} />
     </Container>
