@@ -10,7 +10,7 @@ describe("TodoListItem", () => {
       completed: false,
     };
 
-    render(<TodoListItem todoItem={todo}/>);
+    render(<TodoListItem todoItem={todo} onDelete={() => {}}/>);
 
     const element = screen.getByText('Build a Todo App')
     expect(element).toBeDefined()
