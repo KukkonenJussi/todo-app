@@ -47,9 +47,26 @@ test.describe("Todo App", () => {
       await expect(page.getByRole('alert')).toContainText('Name is required!');
     });
 
-    test.skip("should show error if trying to add duplicate name", async ({
+    test("should show error if trying to add duplicate name", async ({
       page,
-    }) => {});
+    }) => {
+      await page.goto(apiUrl);
+
+      await page.getByRole("textbox", { name: "Add item" }).click();
+      await page
+        .getByRole("textbox", { name: "Add item" })
+        .fill("Hello World!");
+      await page.getByRole("button", { name: "Add" }).click();
+
+      await page.getByRole("textbox", { name: "Add item" }).click();
+      await page
+        .getByRole("textbox", { name: "Add item" })
+        .fill("Hello World!");
+      await page.getByRole("button", { name: "Add" }).click();
+
+      await expect(page.getByText('Name already exists!')).toBeVisible();
+      await expect(page.getByRole('alert')).toContainText('Name already exists!');
+    });
     test.skip("should show error if name exceeds 50 characters", async ({
       page,
     }) => {});
