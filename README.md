@@ -29,14 +29,14 @@ This app is being built to:
 ## Current Status
 
 ### Current version looks like this
-<img src="./versions/TodoApp_0.1.png" alt="Todo App version 0.1"/>
+<img src="./versions/TodoApp_0.2.png" alt="Todo App version 0.2"/>
 
 ### Frontend (in progress)
 
 - Initialized with [Vite](https://vitejs.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - UI components built with [Material UI](https://mui.com/)
 - Functionalities added:
-    - Add and Delete todos
+    - Add, Edit and Delete todos
     - Displaying todos in a list format
 - Tests written with [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/)
     - Unit tests for individual components
@@ -78,6 +78,7 @@ This app is being built to:
 
 - **Backend**: Unit, integration and end-to-end tests using [Jest](https://jestjs.io/), [Supertest](https://github.com/visionmedia/supertest) and [Playwright](https://playwright.dev/)
 - **Frontend**: Unit and component tests using [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/)
+- **End-to-End tests**: Ensure that user can add, edit, and delete Todo items. Confirmation dialogs are triggered before deletion.
 - Continuous Integration is handled via [GitHub Actions](https://docs.github.com/en/actions) to run tests automatically on each push (planned)
 
 ---
