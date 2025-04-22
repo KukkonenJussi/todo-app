@@ -110,9 +110,26 @@ test.describe("Todo App", () => {
       await page.getByRole("row", { name: "Test" }).getByRole("button").click();
     });
 
-    test.skip("should allow user to delete a todo item", async ({
+    test("should allow user to delete a todo item", async ({
       page,
-    }) => {});
+    }) => {
+      await page.goto(apiUrl);
+
+      await page.getByRole("textbox", { name: "Add item" }).click();
+      await page.getByRole("textbox", { name: "Add item" }).fill("Test");
+      await page.getByRole("button", { name: "Add" }).click();
+      await page.getByRole("row", { name: "Test" }).getByRole("button").click();
+
+      page.once("dialog", async (dialog) => {
+        expect(dialog.type()).toBe("confirm");
+        expect(dialog.message()).toContain("Delete");
+        await dialog.accept(); // or dismiss(), if you do not want to cancel a Todo
+      });
+
+      await page.getByRole("row", { name: "Test" }).getByRole("button").click();
+
+      await expect(page.getByRole("cell", { name: "Test" })).toHaveCount(0)
+    });
 
     test.skip("should show success message when todo is deleted", async ({
       page,
