@@ -29,7 +29,7 @@ This app is being built to:
 ## Current Status
 
 ### Current version looks like this
-<img src="./versions/TodoApp_0.1.png" alt="Todo App version 0.1" width="40%"/>
+<img src="./versions/TodoApp_0.1.png" alt="Todo App version 0.1"/>
 
 ### Frontend (in progress)
 
