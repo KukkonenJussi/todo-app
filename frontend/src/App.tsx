@@ -49,8 +49,19 @@ const App = () => {
   };
 
   const updateTodoName = async (id: string, newName: string) => {
-    const updatedTodo = await todoService.updateTodo(id, { name: newName });
-    setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+    try {
+      const updatedTodo = await todoService.updateTodo(id, { name: newName });
+      setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setMessage(error.response?.data.error);
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      } else {
+        console.log(error);
+      }
+    }
   };
 
   return (
