@@ -37,7 +37,9 @@ const App = () => {
 
   const removeTodo = (id: string) => {
     const todoToRemove = todos.find((todo) => todo.id === id);
-    const deleteConfirmation = window.confirm(`Delete '${todoToRemove?.name}'?`);
+    const deleteConfirmation = window.confirm(
+      `Delete '${todoToRemove?.name}'?`
+    );
 
     if (deleteConfirmation) {
       todoService.deleteTodo(id).then(() => {
@@ -46,12 +48,17 @@ const App = () => {
     }
   };
 
+  const updateTodoName = async (id: string, newName: string) => {
+    const updatedTodo = await todoService.updateTodo(id, { name: newName });
+    setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
+  };
+
   return (
     <Container maxWidth="sm" fixed>
       <Header header="Todo App" />
       <Notification message={message} />
       <AddTodoForm onSubmit={todoCreation} />
-      <TodoList todos={todos} onDelete={removeTodo} />
+      <TodoList todos={todos} onDelete={removeTodo} onUpdate={updateTodoName} />
     </Container>
   );
 };

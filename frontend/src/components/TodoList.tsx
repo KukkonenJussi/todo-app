@@ -5,9 +5,10 @@ import TodoListItem from "./TodoListItem";
 interface TodoListProps {
   todos: TodoItem[];
   onDelete: (id: string) => void;
+  onUpdate: (id: string, newName: string) => void;
 }
 
-const TodoList = ({ todos, onDelete }: TodoListProps) => {
+const TodoList = ({ todos, onDelete, onUpdate }: TodoListProps) => {
   return (
     <Table>
       <TableBody>
@@ -16,6 +17,7 @@ const TodoList = ({ todos, onDelete }: TodoListProps) => {
             key={todo.id}
             todoItem={todo}
             onDelete={onDelete}
+            onUpdate={onUpdate}
           />
         ))}
       </TableBody>

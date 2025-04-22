@@ -12,13 +12,19 @@ export const getAllTodos = () => {
 export const createTodo = (object: NewTodoItem) => {
   return axios
     .post<TodoItem>(`${apiBaseUrl}/todos`, object)
-    .then(response => response.data)
-}
+    .then((response) => response.data);
+};
 
 export const deleteTodo = (id: string) => {
   return axios
     .delete<TodoItem>(`${apiBaseUrl}/todos/${id}`)
-    .then(response => response.data)
-}
+    .then((response) => response.data);
+};
 
-export default { getAllTodos, createTodo, deleteTodo };
+export const updateTodo = (id: string, object: unknown) => {
+  return axios
+    .put<TodoItem>(`${apiBaseUrl}/todos/${id}`, object)
+    .then((response) => response.data)
+};
+
+export default { getAllTodos, createTodo, deleteTodo, updateTodo };

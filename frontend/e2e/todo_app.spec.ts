@@ -94,7 +94,7 @@ test.describe("Todo App", () => {
 
       await page.getByRole("textbox", { name: "Add item" }).fill("Test");
       await page.getByRole("button", { name: "Add" }).click();
-      await page.getByRole("row", { name: "Test" }).getByRole("button").click();
+      await page.getByRole("row", { name: "Test" }).getByLabel("Delete Todo").click();
 
       page.once("dialog", async (dialog) => {
         expect(dialog.type()).toBe("confirm");
@@ -109,7 +109,7 @@ test.describe("Todo App", () => {
 
       await page.getByRole("textbox", { name: "Add item" }).fill("Test");
       await page.getByRole("button", { name: "Add" }).click();
-      await page.getByRole("row", { name: "Test" }).getByRole("button").click();
+      await page.getByRole("row", { name: "Test" }).getByLabel("Delete Todo").click();
 
       page.once("dialog", async (dialog) => {
         expect(dialog.type()).toBe("confirm");
@@ -117,7 +117,7 @@ test.describe("Todo App", () => {
         await dialog.accept(); // or dismiss(), if you do not want to cancel a Todo
       });
 
-      await page.getByRole("row", { name: "Test" }).getByRole("button").click();
+      await page.getByRole("row", { name: "Test" }).getByLabel("Delete").click();
 
       await expect(page.getByRole("cell", { name: "Test" })).toHaveCount(0)
     });
