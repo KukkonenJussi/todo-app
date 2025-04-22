@@ -36,15 +36,13 @@ test.describe("Todo App", () => {
       await expect(page.getByRole("rowgroup")).toContainText("Hello World!");
     });
 
-    test("should show error if trying to add empty name", async ({
-      page,
-    }) => {
+    test("should show error if trying to add empty name", async ({ page }) => {
       await page.goto(apiUrl);
 
-      await page.getByRole('button', { name: 'Add' }).click();
+      await page.getByRole("button", { name: "Add" }).click();
 
-      await expect(page.getByText('Name is required!')).toBeVisible();
-      await expect(page.getByRole('alert')).toContainText('Name is required!');
+      await expect(page.getByText("Name is required!")).toBeVisible();
+      await expect(page.getByRole("alert")).toContainText("Name is required!");
     });
 
     test("should show error if trying to add duplicate name", async ({
@@ -64,16 +62,36 @@ test.describe("Todo App", () => {
         .fill("Hello World!");
       await page.getByRole("button", { name: "Add" }).click();
 
-      await expect(page.getByText('Name already exists!')).toBeVisible();
-      await expect(page.getByRole('alert')).toContainText('Name already exists!');
+      await expect(page.getByText("Name already exists!")).toBeVisible();
+      await expect(page.getByRole("alert")).toContainText(
+        "Name already exists!"
+      );
     });
-    test.skip("should show error if name exceeds 50 characters", async ({
+
+    test("should show error if name exceeds 50 characters", async ({
       page,
-    }) => {});
+    }) => {
+      await page.goto(apiUrl);
+
+      await page.getByRole("textbox", { name: "Add item" }).click();
+      await page
+        .getByRole("textbox", { name: "Add item" })
+        .fill("Lorem ipsum dolor sit amet, consectetur adipiscing non.");
+      await page.getByRole("button", { name: "Add" }).click();
+
+      await expect(
+        page.getByText("Name must be 50 characters or")
+      ).toBeVisible();
+      await expect(page.getByRole("alert")).toContainText(
+        "Name must be 50 characters or less!"
+      );
+    });
+
     test.skip("should show success message when todo is added", async ({
       page,
     }) => {});
   });
+
   test.describe.skip("Deleting Todo items", () => {
     test("should allow user to delete a todo item", async ({ page }) => {});
     test("should show confirmation alert before deletion", async ({
