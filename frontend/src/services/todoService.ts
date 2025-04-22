@@ -15,4 +15,10 @@ export const createTodo = (object: NewTodoItem) => {
     .then(response => response.data)
 }
 
-export default { getAllTodos, createTodo };
+export const deleteTodo = (id: string) => {
+  return axios
+    .delete<TodoItem>(`${apiBaseUrl}/todos/${id}`)
+    .then(response => response.data)
+}
+
+export default { getAllTodos, createTodo, deleteTodo };

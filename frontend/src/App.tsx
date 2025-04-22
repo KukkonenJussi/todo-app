@@ -35,12 +35,18 @@ const App = () => {
     }
   };
 
+  const removeTodo = (id: string) => {
+    todoService.deleteTodo(id).then(() => {
+      setTodos(todos.filter((t) => t.id !== id));
+    });
+  };
+
   return (
     <Container maxWidth="sm" fixed>
       <Header header="Todo App" />
       <Notification message={message} />
       <AddTodoForm onSubmit={todoCreation} />
-      <TodoList todos={todos} />
+      <TodoList todos={todos} onDelete={removeTodo} />
     </Container>
   );
 };
