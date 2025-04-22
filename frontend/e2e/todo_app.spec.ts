@@ -36,9 +36,16 @@ test.describe("Todo App", () => {
       await expect(page.getByRole("rowgroup")).toContainText("Hello World!");
     });
 
-    test.skip("should show error if trying to add empty name", async ({
+    test("should show error if trying to add empty name", async ({
       page,
-    }) => {});
+    }) => {
+      await page.goto(apiUrl);
+
+      await page.getByRole('button', { name: 'Add' }).click();
+
+      await expect(page.getByText('Name is required!')).toBeVisible();
+      await expect(page.getByRole('alert')).toContainText('Name is required!');
+    });
 
     test.skip("should show error if trying to add duplicate name", async ({
       page,
