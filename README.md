@@ -28,11 +28,20 @@ This app is being built to:
 
 ## Current Status
 
+### Current version looks like this
+<img src="./versions/TodoApp_0.1.png" alt="Todo App version 0.1" width="40%"/>
+
 ### Frontend (in progress)
 
 - Initialized with [Vite](https://vitejs.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - UI components built with [Material UI](https://mui.com/)
+- Functionalities added:
+    - Add and Delete todos
+    - Displaying todos in a list format
 - Tests written with [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/)
+    - Unit tests for individual components
+    - Integration tests for ensuring proper interaction between components
+    - End-to-End tests using [Playwright](https://playwright.dev/)
 
 
 ### Backend
@@ -51,6 +60,7 @@ This app is being built to:
 - [TypeScript](https://www.typescriptlang.org/)
 - [Material UI](https://mui.com/)
 - [Vitest](https://vitest.dev/) + [Testing Library](https://testing-library.com/)
+- [Playwright](https://playwright.dev/)
 - [ESLint](https://eslint.org/)
 
 ### Backend:
@@ -66,7 +76,7 @@ This app is being built to:
 
 ### Testing
 
-- **Backend**: Unit & integration tests using [Jest](https://jestjs.io/) and [Supertest](https://github.com/visionmedia/supertest)
+- **Backend**: Unit, integration and end-to-end tests using [Jest](https://jestjs.io/), [Supertest](https://github.com/visionmedia/supertest) and [Playwright](https://playwright.dev/)
 - **Frontend**: Unit and component tests using [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/)
 - Continuous Integration is handled via [GitHub Actions](https://docs.github.com/en/actions) to run tests automatically on each push (planned)
 
