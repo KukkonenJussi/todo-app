@@ -19,32 +19,44 @@ test.describe("Todo App", () => {
       await expect(header).toHaveText("Todo App");
     });
   });
-  test.describe.skip("Adding Todo items", () => {
+
+  test.describe("Adding Todo items", () => {
     test("should allow user to add a new todo item", async ({ page }) => {
+      await page.goto(apiUrl);
 
-    })
-    test("should show error if trying to add empty name", async ({ page }) => {
+      await page.getByRole("textbox", { name: "Add item" }).click();
+      await page
+        .getByRole("textbox", { name: "Add item" })
+        .fill("Hello World!");
+      await page.getByRole("button", { name: "Add" }).click();
 
-    })
-    test("should show error if trying to add duplicate name", async ({ page }) => {
+      await expect(
+        page.getByRole("cell", { name: "Hello World!" })
+      ).toBeVisible();
+      await expect(page.getByRole("rowgroup")).toContainText("Hello World!");
+    });
 
-    })
-    test("should show error if name exceeds 50 characters", async ({ page }) => {
+    test.skip("should show error if trying to add empty name", async ({
+      page,
+    }) => {});
 
-    })
-    test("should show success message when todo is added", async ({ page }) => {
-
-    })
-  })
+    test.skip("should show error if trying to add duplicate name", async ({
+      page,
+    }) => {});
+    test.skip("should show error if name exceeds 50 characters", async ({
+      page,
+    }) => {});
+    test.skip("should show success message when todo is added", async ({
+      page,
+    }) => {});
+  });
   test.describe.skip("Deleting Todo items", () => {
-    test("should allow user to delete a todo item", async ({ page }) => {
-
-    })
-    test("should show confirmation alert before deletion", async ({ page }) => {
-
-    })
-    test("should show success message when todo is deleted", async ({ page }) => {
-
-    })
-  })
+    test("should allow user to delete a todo item", async ({ page }) => {});
+    test("should show confirmation alert before deletion", async ({
+      page,
+    }) => {});
+    test("should show success message when todo is deleted", async ({
+      page,
+    }) => {});
+  });
 });
