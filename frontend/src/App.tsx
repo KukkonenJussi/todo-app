@@ -36,9 +36,14 @@ const App = () => {
   };
 
   const removeTodo = (id: string) => {
-    todoService.deleteTodo(id).then(() => {
-      setTodos(todos.filter((t) => t.id !== id));
-    });
+    const todoToRemove = todos.find((todo) => todo.id === id);
+    const deleteConfirmation = window.confirm(`Delete '${todoToRemove?.name}'?`);
+
+    if (deleteConfirmation) {
+      todoService.deleteTodo(id).then(() => {
+        setTodos(todos.filter((t) => t.id !== id));
+      });
+    }
   };
 
   return (
