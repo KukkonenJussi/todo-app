@@ -24,7 +24,6 @@ test.describe("Todo App", () => {
     test("should allow user to add a new todo item", async ({ page }) => {
       await page.goto(apiUrl);
 
-      await page.getByRole("textbox", { name: "Add item" }).click();
       await page
         .getByRole("textbox", { name: "Add item" })
         .fill("Hello World!");
@@ -50,13 +49,11 @@ test.describe("Todo App", () => {
     }) => {
       await page.goto(apiUrl);
 
-      await page.getByRole("textbox", { name: "Add item" }).click();
       await page
         .getByRole("textbox", { name: "Add item" })
         .fill("Hello World!");
       await page.getByRole("button", { name: "Add" }).click();
 
-      await page.getByRole("textbox", { name: "Add item" }).click();
       await page
         .getByRole("textbox", { name: "Add item" })
         .fill("Hello World!");
@@ -73,7 +70,6 @@ test.describe("Todo App", () => {
     }) => {
       await page.goto(apiUrl);
 
-      await page.getByRole("textbox", { name: "Add item" }).click();
       await page
         .getByRole("textbox", { name: "Add item" })
         .fill("Lorem ipsum dolor sit amet, consectetur adipiscing non.");
@@ -96,7 +92,6 @@ test.describe("Todo App", () => {
     test("should show confirmation alert before deletion", async ({ page }) => {
       await page.goto(apiUrl);
 
-      await page.getByRole("textbox", { name: "Add item" }).click();
       await page.getByRole("textbox", { name: "Add item" }).fill("Test");
       await page.getByRole("button", { name: "Add" }).click();
       await page.getByRole("row", { name: "Test" }).getByRole("button").click();
@@ -104,10 +99,7 @@ test.describe("Todo App", () => {
       page.once("dialog", async (dialog) => {
         expect(dialog.type()).toBe("confirm");
         expect(dialog.message()).toContain("Delete");
-        await dialog.dismiss(); // tai dismiss(), if you do not want to cancel a Todo
       });
-
-      await page.getByRole("row", { name: "Test" }).getByRole("button").click();
     });
 
     test("should allow user to delete a todo item", async ({
@@ -115,7 +107,6 @@ test.describe("Todo App", () => {
     }) => {
       await page.goto(apiUrl);
 
-      await page.getByRole("textbox", { name: "Add item" }).click();
       await page.getByRole("textbox", { name: "Add item" }).fill("Test");
       await page.getByRole("button", { name: "Add" }).click();
       await page.getByRole("row", { name: "Test" }).getByRole("button").click();
