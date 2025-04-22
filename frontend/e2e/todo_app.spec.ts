@@ -92,12 +92,29 @@ test.describe("Todo App", () => {
     }) => {});
   });
 
-  test.describe.skip("Deleting Todo items", () => {
-    test("should allow user to delete a todo item", async ({ page }) => {});
-    test("should show confirmation alert before deletion", async ({
+  test.describe("Deleting Todo items", () => {
+    test("should show confirmation alert before deletion", async ({ page }) => {
+      await page.goto(apiUrl);
+
+      await page.getByRole("textbox", { name: "Add item" }).click();
+      await page.getByRole("textbox", { name: "Add item" }).fill("Test");
+      await page.getByRole("button", { name: "Add" }).click();
+      await page.getByRole("row", { name: "Test" }).getByRole("button").click();
+
+      page.once("dialog", async (dialog) => {
+        expect(dialog.type()).toBe("confirm");
+        expect(dialog.message()).toContain("Delete");
+        await dialog.dismiss(); // tai dismiss(), if you do not want to cancel a Todo
+      });
+
+      await page.getByRole("row", { name: "Test" }).getByRole("button").click();
+    });
+
+    test.skip("should allow user to delete a todo item", async ({
       page,
     }) => {});
-    test("should show success message when todo is deleted", async ({
+
+    test.skip("should show success message when todo is deleted", async ({
       page,
     }) => {});
   });
