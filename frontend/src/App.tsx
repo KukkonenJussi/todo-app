@@ -8,9 +8,18 @@ import axios from "axios";
 import { Container } from "@mui/material";
 import Notification from "./components/Notification";
 
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [message, setMessage] = useState<string | null>(null);
+  const [todoToDelete, setTodoToDelete] = useState<TodoItem | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     todoService.getAllTodos().then((data) => {
@@ -35,17 +44,27 @@ const App = () => {
     }
   };
 
-  const removeTodo = (id: string) => {
-    const todoToRemove = todos.find((todo) => todo.id === id);
-    const deleteConfirmation = window.confirm(
-      `Delete '${todoToRemove?.name}'?`
-    );
+  const handleDialogClose = () => {
+    setTodoToDelete(null)
+    setDialogOpen(false);
+  };
 
-    if (deleteConfirmation) {
-      todoService.deleteTodo(id).then(() => {
-        setTodos(todos.filter((t) => t.id !== id));
+  const handleDialogRequest = (id: string) => {
+    const todoToRemove = todos.find((todo) => todo.id === id);
+
+    if (todoToRemove) {
+      setTodoToDelete(todoToRemove);
+      setDialogOpen(true);
+    }
+  };
+
+  const handleConfirmDelete = () => {
+    if (todoToDelete) {
+      todoService.deleteTodo(todoToDelete.id).then(() => {
+        setTodos(todos.filter((t) => t.id !== todoToDelete.id));
       });
     }
+    handleDialogClose();
   };
 
   const updateTodoName = async (id: string, newName: string) => {
@@ -69,7 +88,33 @@ const App = () => {
       <Header header="Todo App" />
       <Notification message={message} />
       <AddTodoForm onSubmit={todoCreation} />
-      <TodoList todos={todos} onDelete={removeTodo} onUpdate={updateTodoName} />
+      <TodoList
+        todos={todos}
+        onDelete={handleDialogRequest}
+        onUpdate={updateTodoName}
+      />
+
+      <Dialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Delete confirmation"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {`Delete Todo '${todoToDelete?.name}'?`}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>Cancel</Button>
+          <Button onClick={handleConfirmDelete} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

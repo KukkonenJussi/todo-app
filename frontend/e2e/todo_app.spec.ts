@@ -91,35 +91,31 @@ test.describe("Todo App", () => {
   test.describe("Deleting Todo items", () => {
     test("should show confirmation alert before deletion", async ({ page }) => {
       await page.goto(apiUrl);
-
       await page.getByRole("textbox", { name: "Add item" }).fill("Test");
       await page.getByRole("button", { name: "Add" }).click();
-      await page.getByRole("row", { name: "Test" }).getByLabel("Delete Todo").click();
 
-      page.once("dialog", async (dialog) => {
-        expect(dialog.type()).toBe("confirm");
-        expect(dialog.message()).toContain("Delete");
-      });
+      await page
+        .getByRole("row", { name: "Test Delete Todo Edit Todo" })
+        .getByLabel("Delete Todo")
+        .click();
+
+      await expect(
+       page.getByRole('heading', { name: 'Delete confirmation' })
+      ).toBeVisible();
+      await expect(page.locator("#alert-dialog-title")).toContainText(
+        "Delete confirmation"
+      );
     });
 
-    test("should allow user to delete a todo item", async ({
-      page,
-    }) => {
+    test("should allow user to delete a todo item", async ({ page }) => {
       await page.goto(apiUrl);
+ 
+      await page.getByRole('textbox', { name: 'Add item' }).fill('Test');
+      await page.getByRole('button', { name: 'Add' }).click();
+      await page.getByRole('row', { name: 'Test Delete Todo Edit Todo' }).getByLabel('Delete Todo').click();
+      await page.getByRole('button', { name: 'Delete' }).click();
 
-      await page.getByRole("textbox", { name: "Add item" }).fill("Test");
-      await page.getByRole("button", { name: "Add" }).click();
-      await page.getByRole("row", { name: "Test" }).getByLabel("Delete Todo").click();
-
-      page.once("dialog", async (dialog) => {
-        expect(dialog.type()).toBe("confirm");
-        expect(dialog.message()).toContain("Delete");
-        await dialog.accept(); // or dismiss(), if you do not want to cancel a Todo
-      });
-
-      await page.getByRole("row", { name: "Test" }).getByLabel("Delete").click();
-
-      await expect(page.getByRole("cell", { name: "Test" })).toHaveCount(0)
+      await expect(page.getByRole("cell", { name: "Test" })).toHaveCount(0);
     });
 
     test.skip("should show success message when todo is deleted", async ({
