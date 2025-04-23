@@ -45,7 +45,6 @@ const App = () => {
   };
 
   const handleDialogClose = () => {
-    setTodoToDelete(null)
     setDialogOpen(false);
   };
 
@@ -99,6 +98,7 @@ const App = () => {
         onClose={handleDialogClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
+        onTransitionExited={() => setTodoToDelete(null)}
       >
         <DialogTitle id="alert-dialog-title">
           {"Delete confirmation"}
