@@ -5,7 +5,7 @@ import TodoList from "./components/TodoList";
 import AddTodoForm from "./components/AddTodoForm";
 import Header from "./components/Header";
 import axios from "axios";
-import { Container } from "@mui/material";
+import { Container, TextField } from "@mui/material";
 import Notification from "./components/Notification";
 
 import Button from "@mui/material/Button";
@@ -18,8 +18,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [message, setMessage] = useState<string | null>(null);
-  const [todoToDelete, setTodoToDelete] = useState<TodoItem | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [todoToDelete, setTodoToDelete] = useState<TodoItem | null>(null);
+  const [todoToEdit, setTodoToEdit] = useState<TodoItem | null>(null);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editedName, setEditedName] = useState("");
 
   useEffect(() => {
     todoService.getAllTodos().then((data) => {
@@ -66,20 +69,31 @@ const App = () => {
     handleDialogClose();
   };
 
-  const updateTodoName = async (id: string, newName: string) => {
-    try {
-      const updatedTodo = await todoService.updateTodo(id, { name: newName });
-      setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data.error);
-        setTimeout(() => {
-          setMessage(null);
-        }, 3000);
-      } else {
-        console.log(error);
-      }
+  const handleEditDialogClose = () => {
+    setEditDialogOpen(false);
+  };
+
+  const handleEditDialogRequest = (id: string) => {
+    const todoToEdit = todos.find((todo) => todo.id === id);
+
+    if (todoToEdit) {
+      setTodoToEdit(todoToEdit);
+      setEditedName(todoToEdit.name);
+      setEditDialogOpen(true);
     }
+  };
+
+  const handleConfirmEdit = () => {
+    if (todoToEdit) {
+      todoService.updateTodo(todoToEdit.id, { name: editedName }).then(() => {
+        setTodos(
+          todos.map((todo) =>
+            todo.id === todoToEdit.id ? { ...todo, name: editedName } : todo
+          )
+        );
+      });
+    }
+    handleEditDialogClose();
   };
 
   return (
@@ -90,7 +104,7 @@ const App = () => {
       <TodoList
         todos={todos}
         onDelete={handleDialogRequest}
-        onUpdate={updateTodoName}
+        onUpdate={handleEditDialogRequest}
       />
 
       <Dialog
@@ -113,6 +127,30 @@ const App = () => {
           <Button onClick={handleConfirmDelete} autoFocus>
             Delete
           </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={editDialogOpen}
+        onClose={handleEditDialogClose}
+        aria-labelledby="edit-dialog-title"
+        aria-describedby="edit-dialog-description"
+        onTransitionExited={() => setTodoToEdit(null)}
+      >
+        <DialogTitle id="edit-dialog-title">{"Edit Todo name"}</DialogTitle>
+        <DialogContent>
+          <TextField
+            fullWidth
+            autoFocus
+            margin="dense"
+            label="Todo name"
+            value={editedName}
+            onChange={(e) => setEditedName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleEditDialogClose}>Cancel</Button>
+          <Button onClick={handleConfirmEdit}>Save</Button>
         </DialogActions>
       </Dialog>
     </Container>

@@ -5,7 +5,7 @@ import TodoListItem from "./TodoListItem";
 interface TodoListProps {
   todos: TodoItem[];
   onDelete: (id: string) => void;
-  onUpdate: (id: string, newName: string) => void;
+  onUpdate: (id: string) => void;
 }
 
 const TodoList = ({ todos, onDelete, onUpdate }: TodoListProps) => {

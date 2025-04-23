@@ -7,7 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 interface TodoListProps {
   todoItem: TodoItem;
   onDelete: (id: string) => void;
-  onUpdate: (id: string, newName: string) => void;
+  onUpdate: (id: string) => void;
 }
 
 const TodoListItem = ({ todoItem, onDelete, onUpdate }: TodoListProps) => {
@@ -23,12 +23,7 @@ const TodoListItem = ({ todoItem, onDelete, onUpdate }: TodoListProps) => {
         </IconButton>
         <IconButton
           aria-label="Edit Todo"
-          onClick={() => {
-            const newName = prompt("Edit name: ", todoItem.name);
-            if (newName !== null) {
-              onUpdate(todoItem.id, newName);
-            }
-          }}
+          onClick={() => onUpdate(todoItem.id)}
         >
           <EditIcon />
         </IconButton>
