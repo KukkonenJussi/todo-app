@@ -61,11 +61,11 @@ const App = () => {
     }
   };
 
-  const handleConfirmDeleteTodo = async() => {
+  const handleConfirmDeleteTodo = async () => {
     if (todoToDelete) {
       await todoService.deleteTodo(todoToDelete.id);
       setTodos(todos.filter((t) => t.id !== todoToDelete.id));
-      setMessage(`'${todoToDelete.name}' deleted succesfully!`)
+      setMessage(`'${todoToDelete.name}' deleted succesfully!`);
     }
     handleDeleteDialogClose();
   };
@@ -84,19 +84,17 @@ const App = () => {
     }
   };
 
-  const handleConfirmEditTodo = () => {
+  const handleConfirmEditTodo = async () => {
     if (todoToEdit) {
-      todoService
-        .updateTodo(todoToEdit.id, { name: editedTodoName })
-        .then(() => {
-          setTodos(
-            todos.map((todo) =>
-              todo.id === todoToEdit.id
-                ? { ...todo, name: editedTodoName }
-                : todo
-            )
-          );
-        });
+      await todoService.updateTodo(todoToEdit.id, { name: editedTodoName });
+
+      setTodos(
+        todos.map((todo) =>
+          todo.id === todoToEdit.id ? { ...todo, name: editedTodoName } : todo
+        )
+      );
+
+      setMessage(`${editedTodoName} edited succesfully!`);
     }
     handleEditDialogClose();
   };
