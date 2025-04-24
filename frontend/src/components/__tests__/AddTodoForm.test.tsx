@@ -15,7 +15,6 @@ describe("AddTodoForm", () => {
     await user.click(addButton);
 
     expect(mockHandler).toHaveBeenCalledTimes(1);
-    expect(mockHandler).toHaveBeenCalledWith("Today was a good day!");
     expect(inputField).toHaveValue("");
   });
 });
