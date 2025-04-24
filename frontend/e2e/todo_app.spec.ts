@@ -83,9 +83,18 @@ test.describe("Todo App", () => {
       );
     });
 
-    test.skip("should show success message when todo is added", async ({
+    test("should show success message when todo is added", async ({
       page,
-    }) => {});
+    }) => {
+      await page.goto(apiUrl);
+
+      await page.getByRole('textbox', { name: 'Add item' }).fill('Test Todo');
+      await page.getByRole('button', { name: 'Add' }).click();
+      
+      await expect(page.getByRole('alert')).toBeVisible();
+      await expect(page.getByText('\'Test Todo\' added succesfully!')).toBeVisible();
+      await expect(page.getByRole('alert')).toContainText('\'Test Todo\' added succesfully!');
+    });
   });
 
   test.describe("Deleting Todo items", () => {
