@@ -1,28 +1,32 @@
 import { useEffect, useState } from "react";
-import todoService from "./services/todoService";
 import { TodoItem } from "./types";
 import TodoList from "./components/TodoList";
 import AddTodoForm from "./components/AddTodoForm";
 import Header from "./components/Header";
-import axios from "axios";
-import { Container, TextField } from "@mui/material";
 import Notification from "./components/Notification";
-
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import todoService from "./services/todoService";
+import axios from "axios";
+import {
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
   const [message, setMessage] = useState<string | null>(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [todoToDelete, setTodoToDelete] = useState<TodoItem | null>(null);
+
   const [todoToEdit, setTodoToEdit] = useState<TodoItem | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [editedName, setEditedName] = useState("");
+  const [editedTodoName, setEditedTodoName] = useState("");
 
   useEffect(() => {
     todoService.getAllTodos().then((data) => {
@@ -30,7 +34,7 @@ const App = () => {
     });
   }, []);
 
-  const todoCreation = async (name: string) => {
+  const handleCreateTodo = async (name: string) => {
     try {
       await todoService.createTodo({ name }).then((data) => {
         setTodos(todos.concat(data));
@@ -47,51 +51,55 @@ const App = () => {
     }
   };
 
-  const handleDialogClose = () => {
-    setDialogOpen(false);
+  const handleDeleteDialogClose = () => {
+    setDeleteDialogOpen(false);
   };
 
-  const handleDialogRequest = (id: string) => {
+  const handleDeleteDialogOpen = (id: string) => {
     const todoToRemove = todos.find((todo) => todo.id === id);
 
     if (todoToRemove) {
       setTodoToDelete(todoToRemove);
-      setDialogOpen(true);
+      setDeleteDialogOpen(true);
     }
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDeleteTodo = () => {
     if (todoToDelete) {
       todoService.deleteTodo(todoToDelete.id).then(() => {
         setTodos(todos.filter((t) => t.id !== todoToDelete.id));
       });
     }
-    handleDialogClose();
+    handleDeleteDialogClose();
   };
 
   const handleEditDialogClose = () => {
     setEditDialogOpen(false);
   };
 
-  const handleEditDialogRequest = (id: string) => {
+  const handleEditDialogOpen = (id: string) => {
     const todoToEdit = todos.find((todo) => todo.id === id);
 
     if (todoToEdit) {
       setTodoToEdit(todoToEdit);
-      setEditedName(todoToEdit.name);
+      setEditedTodoName(todoToEdit.name);
       setEditDialogOpen(true);
     }
   };
 
-  const handleConfirmEdit = () => {
+  const handleConfirmEditTodo = () => {
     if (todoToEdit) {
-      todoService.updateTodo(todoToEdit.id, { name: editedName }).then(() => {
-        setTodos(
-          todos.map((todo) =>
-            todo.id === todoToEdit.id ? { ...todo, name: editedName } : todo
-          )
-        );
-      });
+      todoService
+        .updateTodo(todoToEdit.id, { name: editedTodoName })
+        .then(() => {
+          setTodos(
+            todos.map((todo) =>
+              todo.id === todoToEdit.id
+                ? { ...todo, name: editedTodoName }
+                : todo
+            )
+          );
+        });
     }
     handleEditDialogClose();
   };
@@ -100,16 +108,16 @@ const App = () => {
     <Container maxWidth="sm" fixed>
       <Header header="Todo App" />
       <Notification message={message} />
-      <AddTodoForm onSubmit={todoCreation} />
+      <AddTodoForm onSubmit={handleCreateTodo} />
       <TodoList
         todos={todos}
-        onDelete={handleDialogRequest}
-        onUpdate={handleEditDialogRequest}
+        onDelete={handleDeleteDialogOpen}
+        onUpdate={handleEditDialogOpen}
       />
 
       <Dialog
-        open={dialogOpen}
-        onClose={handleDialogClose}
+        open={deleteDialogOpen}
+        onClose={handleDeleteDialogClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         onTransitionExited={() => setTodoToDelete(null)}
@@ -123,8 +131,8 @@ const App = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleDialogClose}>Cancel</Button>
-          <Button onClick={handleConfirmDelete} autoFocus>
+          <Button onClick={handleDeleteDialogClose}>Cancel</Button>
+          <Button onClick={handleConfirmDeleteTodo} autoFocus>
             Delete
           </Button>
         </DialogActions>
@@ -144,13 +152,13 @@ const App = () => {
             autoFocus
             margin="dense"
             label="Todo name"
-            value={editedName}
-            onChange={(e) => setEditedName(e.target.value)}
+            value={editedTodoName}
+            onChange={(e) => setEditedTodoName(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleEditDialogClose}>Cancel</Button>
-          <Button onClick={handleConfirmEdit}>Save</Button>
+          <Button onClick={handleConfirmEditTodo}>Save</Button>
         </DialogActions>
       </Dialog>
     </Container>
