@@ -86,15 +86,23 @@ const App = () => {
 
   const handleConfirmEditTodo = async () => {
     if (todoToEdit) {
-      await todoService.updateTodo(todoToEdit.id, { name: editedTodoName });
+      try {
+        await todoService.updateTodo(todoToEdit.id, { name: editedTodoName });
 
-      setTodos(
-        todos.map((todo) =>
-          todo.id === todoToEdit.id ? { ...todo, name: editedTodoName } : todo
-        )
-      );
+        setTodos(
+          todos.map((todo) =>
+            todo.id === todoToEdit.id ? { ...todo, name: editedTodoName } : todo
+          )
+        );
 
-      setMessage(`${editedTodoName} edited succesfully!`);
+        setMessage(`${editedTodoName} edited succesfully!`);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          setMessage(error.response?.data.error);
+        } else {
+          console.log(error);
+        }
+      }
     }
     handleEditDialogClose();
   };
