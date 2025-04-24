@@ -61,11 +61,11 @@ const App = () => {
     }
   };
 
-  const handleConfirmDeleteTodo = () => {
+  const handleConfirmDeleteTodo = async() => {
     if (todoToDelete) {
-      todoService.deleteTodo(todoToDelete.id).then(() => {
-        setTodos(todos.filter((t) => t.id !== todoToDelete.id));
-      });
+      await todoService.deleteTodo(todoToDelete.id);
+      setTodos(todos.filter((t) => t.id !== todoToDelete.id));
+      setMessage(`'${todoToDelete.name}' deleted succesfully!`)
     }
     handleDeleteDialogClose();
   };
