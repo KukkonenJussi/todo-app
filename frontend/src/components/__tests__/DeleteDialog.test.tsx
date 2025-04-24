@@ -20,14 +20,12 @@ describe("DeleteDialog", () => {
       />
     );
 
-    expect(
-      screen.getByText("Delete Todo 'Test Todo'?")
-    ).toBeInTheDocument();
+    expect(screen.getByText("Delete Todo 'Test Todo'?")).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Cancel' }));
+    await user.click(screen.getByRole("button", { name: "Cancel" }));
     expect(mockOnClose).toHaveBeenCalledTimes(1);
 
-    await user.click(screen.getByRole('button', { name: 'Delete' }));
+    await user.click(screen.getByRole("button", { name: "Delete" }));
     expect(mockOnConfirm).toHaveBeenCalledTimes(1);
   });
 });
