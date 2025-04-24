@@ -90,7 +90,7 @@ test.describe("Todo App", () => {
 
       await page.getByRole('textbox', { name: 'Add item' }).fill('Test Todo');
       await page.getByRole('button', { name: 'Add' }).click();
-      
+
       await expect(page.getByRole('alert')).toBeVisible();
       await expect(page.getByText('\'Test Todo\' added succesfully!')).toBeVisible();
       await expect(page.getByRole('alert')).toContainText('\'Test Todo\' added succesfully!');
@@ -127,8 +127,18 @@ test.describe("Todo App", () => {
       await expect(page.getByRole("cell", { name: "Test" })).toHaveCount(0);
     });
 
-    test.skip("should show success message when todo is deleted", async ({
+    test("should show success message when todo is deleted", async ({
       page,
-    }) => {});
+    }) => {
+      await page.goto(apiUrl);
+      await page.getByRole('textbox', { name: 'Add item' }).click();
+      await page.getByRole('textbox', { name: 'Add item' }).fill('Do not ignore doing tests!');
+      await page.getByRole('button', { name: 'Add' }).click();
+
+      await page.getByRole('row', { name: 'Do not ignore doing tests!' }).getByLabel('Delete Todo').click();
+      await page.getByRole('button', { name: 'Delete' }).click();
+
+      await expect(page.getByRole('alert')).toContainText('\'Do not ignore doing tests!\' deleted succesfully!');
+    });
   });
 });
