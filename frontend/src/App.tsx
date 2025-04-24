@@ -36,15 +36,12 @@ const App = () => {
 
   const handleCreateTodo = async (name: string) => {
     try {
-      await todoService.createTodo({ name }).then((data) => {
-        setTodos(todos.concat(data));
-      });
+      const data = await todoService.createTodo({ name });
+      setTodos(todos.concat(data));
+      setMessage(`'${name}' added succesfully!`);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setMessage(error.response?.data.error);
-        setTimeout(() => {
-          setMessage(null);
-        }, 3000);
       } else {
         console.log(error);
       }
