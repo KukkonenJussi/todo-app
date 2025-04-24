@@ -1,6 +1,6 @@
 # Todo App
 
-A simple Todo App built following TDD principles using [Express](https://expressjs.com/), [TypeScript](https://www.typescriptlang.org/), and [Material UI](https://mui.com/material-ui/).
+This is a ongoing project! A simple Todo App built following TDD principles using [Express](https://expressjs.com/), [TypeScript](https://www.typescriptlang.org/), and [Material UI](https://mui.com/material-ui/).
 
 ---
 
@@ -29,6 +29,7 @@ This app is being built to:
 ## Current Status
 
 ### Current version looks like this
+
 <img src="./versions/TodoApp_0.2.png" alt="Todo App version 0.2"/>
 
 ### Frontend (in progress)
@@ -36,13 +37,17 @@ This app is being built to:
 - Initialized with [Vite](https://vitejs.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - UI components built with [Material UI](https://mui.com/)
 - Functionalities added:
-    - Add, Edit and Delete todos
-    - Displaying todos in a list format
+  - Add, Edit and Delete todos
+  - Displaying todos in a list format
+  - Success and error notifications shown via `Snackbar`
+  - Dialogs for confirmation and editing using MUI `Dialog`
 - Tests written with [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/)
-    - Unit tests for individual components
-    - Integration tests for ensuring proper interaction between components
-    - End-to-End tests using [Playwright](https://playwright.dev/)
-
+  - Unit tests for individual components
+  - Integration tests for ensuring proper interaction between components
+  - End-to-End tests using [Playwright](https://playwright.dev/)
+- Security improvements:
+  - CORS configured to allow only one frontend origin
+  - [helmet](https://helmetjs.github.io/) used for securing HTTP headers
 
 ### Backend
 
@@ -71,6 +76,8 @@ This app is being built to:
 - [Jest](https://jestjs.io/) + [Supertest](https://github.com/visionmedia/supertest)
 - [uuid](https://www.npmjs.com/package/uuid)
 - [ESLint](https://eslint.org/) with TypeScript config
+- [helmet](https://helmetjs.github.io/)
+- [CORS](https://expressjs.com/en/resources/middleware/cors.html)
 
 ---
 
@@ -78,7 +85,10 @@ This app is being built to:
 
 - **Backend**: Unit, integration and end-to-end tests using [Jest](https://jestjs.io/), [Supertest](https://github.com/visionmedia/supertest) and [Playwright](https://playwright.dev/)
 - **Frontend**: Unit and component tests using [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/)
-- **End-to-End tests**: Ensure that user can add, edit, and delete Todo items. Confirmation dialogs are triggered before deletion.
+- End-to-End testing with [Playwright](https://playwright.dev/) covers:
+  - Todo creation, deletion, and editing
+  - Dialog confirmation flows
+  - Notification rendering for both success and error states
 - Continuous Integration is handled via [GitHub Actions](https://docs.github.com/en/actions) to run tests automatically on each push (planned)
 
 ---
@@ -89,7 +99,7 @@ In future, the following features are planned:
 
 - Filtering todos by 'completed' status
 - Sorting by
-    - Aphabetical order
-    - Manual order (drag-and-drop)
+  - Aphabetical order
+  - Manual order (drag-and-drop)
 - Ability to manage multiple lists
-- User-specific todo lists
+- User-specific todo lists (authentication)
