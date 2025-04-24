@@ -12,10 +12,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   TextField,
 } from "@mui/material";
+import DeleteDialog from "./components/DeleteDialog";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
@@ -118,28 +118,12 @@ const App = () => {
         onUpdate={handleEditDialogOpen}
       />
 
-      <Dialog
+      <DeleteDialog
         open={deleteDialogOpen}
+        todo={todoToDelete}
         onClose={handleDeleteDialogClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        onTransitionExited={() => setTodoToDelete(null)}
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Delete confirmation"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {`Delete Todo '${todoToDelete?.name}'?`}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteDialogClose}>Cancel</Button>
-          <Button onClick={handleConfirmDeleteTodo} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        onConfirm={handleConfirmDeleteTodo}
+      />
 
       <Dialog
         open={editDialogOpen}
