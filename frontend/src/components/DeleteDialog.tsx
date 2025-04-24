@@ -17,14 +17,14 @@ type DeleteDialogProps = {
 
 const DeleteDialog = ({
   open,
-  onClose: handleDeleteDialogClose,
+  onClose,
   todo,
   onConfirm,
 }: DeleteDialogProps) => {
   return (
     <Dialog
       open={open}
-      onClose={handleDeleteDialogClose}
+      onClose={onClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
@@ -35,7 +35,7 @@ const DeleteDialog = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleDeleteDialogClose}>Cancel</Button>
+        <Button onClick={onClose}>Cancel</Button>
         <Button onClick={onConfirm} autoFocus>
           Delete
         </Button>
