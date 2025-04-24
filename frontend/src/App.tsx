@@ -6,16 +6,9 @@ import Header from "./components/Header";
 import Notification from "./components/Notification";
 import todoService from "./services/todoService";
 import axios from "axios";
-import {
-  Button,
-  Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from "@mui/material";
+import { Container } from "@mui/material";
 import DeleteDialog from "./components/DeleteDialog";
+import EditDialog from "./components/EditDialog";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
@@ -125,29 +118,13 @@ const App = () => {
         onConfirm={handleConfirmDeleteTodo}
       />
 
-      <Dialog
+      <EditDialog
         open={editDialogOpen}
         onClose={handleEditDialogClose}
-        aria-labelledby="edit-dialog-title"
-        aria-describedby="edit-dialog-description"
-        onTransitionExited={() => setTodoToEdit(null)}
-      >
-        <DialogTitle id="edit-dialog-title">{"Edit Todo name"}</DialogTitle>
-        <DialogContent>
-          <TextField
-            fullWidth
-            autoFocus
-            margin="dense"
-            label="Todo name"
-            value={editedTodoName}
-            onChange={(e) => setEditedTodoName(e.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleEditDialogClose}>Cancel</Button>
-          <Button onClick={handleConfirmEditTodo}>Save</Button>
-        </DialogActions>
-      </Dialog>
+        onConfirm={handleConfirmEditTodo}
+        editedName={editedTodoName}
+        onNameChange={setEditedTodoName}
+      />
     </Container>
   );
 };
