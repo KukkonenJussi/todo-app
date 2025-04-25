@@ -5,7 +5,7 @@ import cors from "cors";
 const helmet = require("helmet");
 const app = express();
 const corsOptions = {
-  origin: "https://todo-app-seven-omega-40.vercel.app/",
+  origin: "https://todo-app-seven-omega-40.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
