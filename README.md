@@ -1,6 +1,6 @@
 # Todo App
 
-This is a ongoing project! A simple Todo App built following TDD principles using [Express](https://expressjs.com/), [TypeScript](https://www.typescriptlang.org/), and [Material UI](https://mui.com/material-ui/).
+This is a ongoing project! A simple Todo App built following TDD principles using [Express](https://expressjs.com/), [TypeScript](https://www.typescriptlang.org/), and [Material UI](https://mui.com/material-ui/). You can check the progress in Vercel: https://todo-app-seven-omega-40.vercel.app/
 
 ---
 
