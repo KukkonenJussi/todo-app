@@ -1,12 +1,14 @@
+import dotenv from "dotenv";
 import express from "express";
-import todoRoute from "./routes/todoRoutes";
 import cors from "cors";
+import helmet from "helmet";
 import slowDown from "express-slow-down";
+import todoRoute from "./routes/todoRoutes";
 
-const helmet = require("helmet");
+dotenv.config();
 const app = express();
 const corsOptions = {
-  origin: "https://todo-app-seven-omega-40.vercel.app",
+  origin: process.env.ORIGIN_URL,
   methods: ["GET", "POST", "PUT", "DELETE"],
 };
 
@@ -21,7 +23,6 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(slowLimiter);
 app.use(express.json());
-
 app.use("/todos", todoRoute);
 
 export default app;
