@@ -111,6 +111,17 @@ describe("POST /todos", () => {
     expect(response.body.error).toBe("Name already exists!");
   });
 
+  it("returns status code 409 when creating a duplicate todo with different casing", async () => {
+    const duplicateTodo: NewTodoEntry = {
+      name: "bUilD A toDo aPP",
+    };
+
+    const response = await request(app).post("/todos").send(duplicateTodo);
+
+    expect(response.status).toBe(409);
+    expect(response.body.error).toBe("Name already exists!");
+  });
+
   it("returns status code 400 and error message when creating a todo with too many characters", async () => {
     const longName = "a".repeat(51);
     const invalidTodo: NewTodoEntry = {

@@ -17,7 +17,7 @@ const addTodo = (todo: NewTodoEntry): TodoItem => {
   const trimmedName = parseName(todo.name);
   const todos = todosData.getTodos();
 
-  if (todos.some((t) => t.name === trimmedName)) {
+  if (todos.some((t) => t.name.toLowerCase() === trimmedName.toLowerCase())) {
     throw new Error("Name already exists!");
   }
 
