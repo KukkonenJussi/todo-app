@@ -67,9 +67,17 @@ const App = () => {
 
   const handleConfirmDeleteTodo = async () => {
     if (todoToDelete) {
-      await todoService.deleteTodo(todoToDelete.id);
-      setTodos(todos.filter((t) => t.id !== todoToDelete.id));
-      setMessage(`'${todoToDelete.name}' deleted succesfully!`);
+      try {
+        await todoService.deleteTodo(todoToDelete.id);
+        setTodos(todos.filter((t) => t.id !== todoToDelete.id));
+        setMessage(`'${todoToDelete.name}' deleted succesfully!`);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          setMessage(error.response?.data.error);
+        } else {
+          console.log(error);
+        }
+      }
     }
     handleDeleteDialogClose();
   };
