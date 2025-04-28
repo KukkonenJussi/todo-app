@@ -22,9 +22,20 @@ const App = () => {
   const [editedTodoName, setEditedTodoName] = useState("");
 
   useEffect(() => {
-    todoService.getAllTodos().then((data) => {
-      setTodos(data);
-    });
+    const fetchData = async () => {
+      try {
+        const data = await todoService.getAllTodos();
+        setTodos(data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          setMessage(error.response?.data.error);
+        } else {
+          console.log(error);
+        }
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleCreateTodo = async (name: string) => {
