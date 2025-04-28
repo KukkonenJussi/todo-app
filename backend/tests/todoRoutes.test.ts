@@ -160,6 +160,18 @@ describe("PUT /todos/:id", () => {
     expect(response.body.error).toBe("Name already exists!");
   });
 
+  it("returns status code 409 when updating a todo to a name that exists with different casing", async () => {
+    const idToUpdate = "3";
+    const existingName = "build a todo app";
+
+    const response = await request(app)
+      .put(`/todos/${idToUpdate}`)
+      .send({ name: existingName });
+
+    expect(response.status).toBe(409);
+    expect(response.body.error).toBe("Name already exists!");
+  });
+
   //     it('returns status code 200 when marking a todo as done', async () => {
 
   //     })

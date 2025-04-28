@@ -47,7 +47,7 @@ const updateTodoName = (id: string, name: string): TodoItem => {
   if (!todoToUpdate) throw new Error("Todo not found!");
 
   const trimmedName = parseName(name);
-  const nameExists = todos.some((t) => t.name === trimmedName && t.id !== id);
+  const nameExists = todos.some((t) => t.name.toLowerCase() === trimmedName.toLowerCase() && t.id !== id);
 
   if (nameExists) throw new Error("Name already exists!");
 
