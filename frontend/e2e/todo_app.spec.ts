@@ -13,7 +13,7 @@ test.describe("Todo App", () => {
     test("header is visible", async ({ page }) => {
       await page.goto(apiUrl);
 
-      const header = page.getByRole("heading", { name: "Todo App" });
+      const header = page.getByText('Todo App', { exact: true });
 
       await expect(header).toBeVisible();
       await expect(header).toHaveText("Todo App");
