@@ -68,19 +68,18 @@ describe("DELETE /todos/:id", () => {
     expect(deleteResponse.status).toBe(404);
     expect(deleteResponse.body.error).toBe("Todo not found!");
   });
-
-  // it('returns status code 200 when deleting all todos', async () => {
-
-  // })
 });
 
 describe("DELETE /todos/", () => {
   it("return status code 200 when deleting all todos", async () => {
-    const deleteResponse = await request(app).delete("/todos")
-    const remainingTodos = await request(app).get("/todos")
+    const initialTodos = await request(app).get("/todos");
 
-    expect(deleteResponse.status).toBe(200)
-    expect(remainingTodos.body).toHaveLength(0)
+    const deleteResponse = await request(app).delete("/todos");
+    const remainingTodos = await request(app).get("/todos");
+
+    expect(initialTodos.body.length).toBeGreaterThan(0)
+    expect(deleteResponse.status).toBe(200);
+    expect(remainingTodos.body).toHaveLength(0);
   });
 });
 
