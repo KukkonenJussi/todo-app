@@ -56,6 +56,11 @@ router.delete("/:id", (request, response) => {
   }
 });
 
+router.delete("/", (_request, response) => {
+  const deleteAllResponse = todoService.deleteAllTodos()
+  response.status(200).json(deleteAllResponse)
+});
+
 router.put("/:id", (request, response) => {
   try {
     const todoToUpdate = request.params.id;

@@ -74,6 +74,16 @@ describe("DELETE /todos/:id", () => {
   // })
 });
 
+describe("DELETE /todos/", () => {
+  it("return status code 200 when deleting all todos", async () => {
+    const deleteResponse = await request(app).delete("/todos")
+    const remainingTodos = await request(app).get("/todos")
+
+    expect(deleteResponse.status).toBe(200)
+    expect(remainingTodos.body).toHaveLength(0)
+  });
+});
+
 describe("POST /todos", () => {
   it("returns status code 201 when creating a valid todo with default completed value", async () => {
     const newTodo = {
