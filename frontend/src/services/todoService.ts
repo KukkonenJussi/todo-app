@@ -21,10 +21,22 @@ export const deleteTodo = (id: string) => {
     .then((response) => response.data);
 };
 
+export const deleteAllTodos = () => {
+  return axios
+    .delete<TodoItem[]>(`${apiBaseUrl}/todos`)
+    .then((response) => response.data);
+};
+
 export const updateTodo = (id: string, object: unknown) => {
   return axios
     .put<TodoItem>(`${apiBaseUrl}/todos/${id}`, object)
-    .then((response) => response.data)
+    .then((response) => response.data);
 };
 
-export default { getAllTodos, createTodo, deleteTodo, updateTodo };
+export default {
+  getAllTodos,
+  createTodo,
+  deleteTodo,
+  deleteAllTodos,
+  updateTodo,
+};
