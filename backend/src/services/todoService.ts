@@ -40,6 +40,12 @@ const deleteTodo = (id: string): TodoItem => {
   return todos.splice(index, 1)[0];
 };
 
+const deleteAllTodos = () => {
+  const todos = todosData.getTodos();
+
+  return todos.splice(0, todos.length)
+}
+
 const updateTodoName = (id: string, name: string): TodoItem => {
   const todos = todosData.getTodos();
   const todoToUpdate = todos.find((todo) => todo.id === id);
@@ -60,5 +66,6 @@ export default {
   getTodoById,
   addTodo,
   deleteTodo,
+  deleteAllTodos,
   updateTodoName,
 };

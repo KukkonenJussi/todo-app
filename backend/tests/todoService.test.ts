@@ -106,6 +106,16 @@ describe("deleteTodo", () => {
     }).toThrow("Todo not found!")
   });
 
+  describe("deleteAllTodos", () => {
+    it("deletes all todos from the todo list", async () => {
+      todoService.deleteAllTodos()
+      
+      const remainingTodos = todoService.getAllTodos()
+
+      expect(remainingTodos).toHaveLength(0)
+    });
+  })
+
   describe("updateTodoName", () => {
     it("updates the name of the todo with the given ID and preserver the completed status", async () => {
       const id = "2"
