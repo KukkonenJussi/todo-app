@@ -57,8 +57,18 @@ router.delete("/:id", (request, response) => {
 });
 
 router.delete("/", (_request, response) => {
-  const deleteAllResponse = todoService.deleteAllTodos()
-  response.status(200).json(deleteAllResponse)
+  try {
+    const deleteAllResponse = todoService.deleteAllTodos()
+    response.status(200).json(deleteAllResponse)
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      if (error.message === "Todo list already empty!") {
+        response.status(400).send({ error: error.message });
+      }
+      response.status(400).send({ error: error.message });
+    }
+    response.status(400).send({ error: "unknown error" });
+  }
 });
 
 router.put("/:id", (request, response) => {

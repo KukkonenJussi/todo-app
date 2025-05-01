@@ -81,6 +81,14 @@ describe("DELETE /todos/", () => {
     expect(deleteResponse.status).toBe(200);
     expect(remainingTodos.body).toHaveLength(0);
   });
+
+  it("returns 400 when trying to delete an already empty list", async () => {
+    await request(app).delete("/todos");
+    const deleteResponse = await request(app).delete("/todos");
+
+    expect(deleteResponse.status).toBe(400);
+    expect(deleteResponse.body.error).toBe("Todo list already empty!");
+  });
 });
 
 describe("POST /todos", () => {
