@@ -30,7 +30,7 @@ This app is being built to:
 
 ### Current version looks like this
 
-<img src="./versions/TodoApp_0.2.png" alt="Todo App version 0.2"/>
+<img src="./versions/TodoApp_0.3.png" alt="Todo App version 0.3"/>
 
 ### Frontend (in progress)
 
@@ -41,6 +41,8 @@ This app is being built to:
   - Displaying todos in a list format
   - Success and error notifications shown via `Snackbar`
   - Dialogs for confirmation and editing using MUI `Dialog`
+  - **NEW:** AppBar header with title and dropdown menu (Material UI)
+    - Menu includes actions: *Delete all todos* and *Close menu*
 - Tests written with [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/)
   - Unit tests for individual components
   - Integration tests for ensuring proper interaction between components
@@ -54,6 +56,7 @@ This app is being built to:
 - Basic CRUD operations implemented (GET, ADD, DELETE, PUT)
 - Basic error handling (400, 404, 409)
 - Unique ID generation with [`uuid`](https://www.npmjs.com/package/uuid)
+- **New:** Delete /todos endpoint added for bulk deletion for all todos
 
 ---
 
