@@ -16,6 +16,7 @@ const App = () => {
   const [message, setMessage] = useState<string | null>(null);
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteAllDialogOpen, setDeleteAllDialogOpen] = useState(false);
   const [todoToDelete, setTodoToDelete] = useState<TodoItem | null>(null);
 
   const [todoToEdit, setTodoToEdit] = useState<TodoItem | null>(null);
@@ -57,6 +58,10 @@ const App = () => {
     setDeleteDialogOpen(false);
   };
 
+  const handleDeleteAllDialogClose = () => {
+    setDeleteAllDialogOpen(false);
+  };
+
   const handleDeleteDialogOpen = (id: string) => {
     const todoToRemove = todos.find((todo) => todo.id === id);
 
@@ -95,7 +100,7 @@ const App = () => {
         console.log(error)
       }
     }
-    handleDeleteDialogClose()
+    handleDeleteAllDialogClose()
   }
 
   const handleEditDialogClose = () => {
@@ -137,7 +142,7 @@ const App = () => {
 
   return (
     <Container maxWidth="sm" fixed>
-      <Header header="Todo App" onDelete={() => setDeleteDialogOpen(true)}/>
+      <Header header="Todo App" onDelete={() => setDeleteAllDialogOpen(true)}/>
       <Notification message={message} />
       <AddTodoForm onSubmit={handleCreateTodo} />
       <TodoList
@@ -154,8 +159,8 @@ const App = () => {
       />
 
       <DeleteAllDialog 
-        open={deleteDialogOpen}
-        onClose={handleDeleteDialogClose}
+        open={deleteAllDialogOpen}
+        onClose={handleDeleteAllDialogClose}
         onConfirm={handleDeleteAllTodos}
       />
 
