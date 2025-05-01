@@ -8,6 +8,7 @@ import todoService from "./services/todoService";
 import axios from "axios";
 import { Container } from "@mui/material";
 import DeleteDialog from "./components/DeleteDialog";
+import DeleteAllDialog from "./components/DeleteAllDialog";
 import EditDialog from "./components/EditDialog";
 
 const App = () => {
@@ -94,6 +95,7 @@ const App = () => {
         console.log(error)
       }
     }
+    handleDeleteDialogClose()
   }
 
   const handleEditDialogClose = () => {
@@ -135,7 +137,7 @@ const App = () => {
 
   return (
     <Container maxWidth="sm" fixed>
-      <Header header="Todo App" onDelete={handleDeleteAllTodos}/>
+      <Header header="Todo App" onDelete={() => setDeleteDialogOpen(true)}/>
       <Notification message={message} />
       <AddTodoForm onSubmit={handleCreateTodo} />
       <TodoList
@@ -149,6 +151,12 @@ const App = () => {
         todo={todoToDelete}
         onClose={handleDeleteDialogClose}
         onConfirm={handleConfirmDeleteTodo}
+      />
+
+      <DeleteAllDialog 
+        open={deleteDialogOpen}
+        onClose={handleDeleteDialogClose}
+        onConfirm={handleDeleteAllTodos}
       />
 
       <EditDialog
