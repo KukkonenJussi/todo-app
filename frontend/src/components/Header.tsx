@@ -19,6 +19,11 @@ const Header = ({ header, onDelete }: HeaderProps) => {
     setAnchorEl(null);
   };
 
+  const handleDelete = () => {
+    onDelete()
+    handleMenuClose()
+  }
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -38,7 +43,7 @@ const Header = ({ header, onDelete }: HeaderProps) => {
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           transformOrigin={{ vertical: "top", horizontal: "right" }}
         >
-          <MenuItem onClick={onDelete}>Delete all todos</MenuItem>
+          <MenuItem onClick={handleDelete}>Delete all todos</MenuItem>
           <MenuItem onClick={handleMenuClose}>Close menu</MenuItem>
         </Menu>
       </Toolbar>
