@@ -4,9 +4,10 @@ import { useState } from "react";
 
 interface HeaderProps {
   header: string;
+  onDelete: () => void
 }
 
-const Header = ({ header }: HeaderProps) => {
+const Header = ({ header, onDelete }: HeaderProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
 
@@ -37,6 +38,7 @@ const Header = ({ header }: HeaderProps) => {
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           transformOrigin={{ vertical: "top", horizontal: "right" }}
         >
+          <MenuItem onClick={onDelete}>Delete all todos</MenuItem>
           <MenuItem onClick={handleMenuClose}>Close menu</MenuItem>
         </Menu>
       </Toolbar>

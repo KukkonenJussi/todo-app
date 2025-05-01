@@ -33,7 +33,8 @@ const Notification = ({ message }: NotificationProps) => {
     severity = "warning";
   } else if (
     message.toLowerCase().includes("exists") ||
-    message.toLowerCase().includes("less")
+    message.toLowerCase().includes("less") ||
+    message.toLowerCase().includes("list")
   ) {
     severity = "error";
   } else {

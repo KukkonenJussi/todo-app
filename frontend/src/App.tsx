@@ -82,6 +82,20 @@ const App = () => {
     handleDeleteDialogClose();
   };
 
+  const handleDeleteAllTodos = async () => {
+    try {
+      await todoService.deleteAllTodos()
+      setTodos([])
+      setMessage(`Todos deleted succesfully!`)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setMessage(error.response?.data.error)
+      } else {
+        console.log(error)
+      }
+    }
+  }
+
   const handleEditDialogClose = () => {
     setEditDialogOpen(false);
   };
@@ -121,7 +135,7 @@ const App = () => {
 
   return (
     <Container maxWidth="sm" fixed>
-      <Header header="Todo App" />
+      <Header header="Todo App" onDelete={handleDeleteAllTodos}/>
       <Notification message={message} />
       <AddTodoForm onSubmit={handleCreateTodo} />
       <TodoList
