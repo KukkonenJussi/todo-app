@@ -43,6 +43,8 @@ const deleteTodo = (id: string): TodoItem => {
 const deleteAllTodos = () => {
   const todos = todosData.getTodos();
 
+  if (todos.length === 0) throw new Error("Todo list already empty!")
+
   return todos.splice(0, todos.length)
 }
 

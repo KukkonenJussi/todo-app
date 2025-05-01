@@ -114,6 +114,14 @@ describe("deleteTodo", () => {
 
       expect(remainingTodos).toHaveLength(0)
     });
+    
+    it("throws an error if attempting to delete todos when list is already empty", async () => {
+      todoService.deleteAllTodos()
+      
+      expect(() => {
+        todoService.deleteAllTodos()
+      }).toThrow("Todo list already empty!")
+    });
   })
 
   describe("updateTodoName", () => {
