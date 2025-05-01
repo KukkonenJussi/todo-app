@@ -6,7 +6,7 @@ describe("Header", () => {
   it("renders the header text", () => {
     const header = "Todo App";
 
-    render(<Header header={header} />);
+    render(<Header header={header} onDelete={() => {}}/>);
 
     const element = screen.getByText("Todo App");
     expect(element).toBeDefined()
