@@ -27,7 +27,6 @@ const App = () => {
 
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem("darkMode");
-    console.log(`darkModen tila localStoragessa: ${saved}`);
     return saved === "true";
   });
 
