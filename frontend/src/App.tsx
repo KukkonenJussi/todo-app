@@ -11,6 +11,7 @@ import DeleteDialog from "./components/DeleteDialog";
 import DeleteAllDialog from "./components/DeleteAllDialog";
 import EditDialog from "./components/EditDialog";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { blueGrey } from "@mui/material/colors";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
@@ -46,6 +47,15 @@ const App = () => {
   const theme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
+      background: darkMode
+        ? {
+            default: blueGrey[900],
+            paper: blueGrey[800],
+          }
+        : {},
+      text: {
+        primary: darkMode ? "#fff" : "#000",
+      },
     },
   });
 
