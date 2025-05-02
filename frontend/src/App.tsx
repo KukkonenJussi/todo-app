@@ -10,6 +10,7 @@ import { Container } from "@mui/material";
 import DeleteDialog from "./components/DeleteDialog";
 import DeleteAllDialog from "./components/DeleteAllDialog";
 import EditDialog from "./components/EditDialog";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);
@@ -22,6 +23,8 @@ const App = () => {
   const [todoToEdit, setTodoToEdit] = useState<TodoItem | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editedTodoName, setEditedTodoName] = useState("");
+
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +42,20 @@ const App = () => {
 
     fetchData();
   }, []);
+
+  const theme = createTheme({
+    palette: {
+      mode: darkMode ? "dark" : "light",
+    },
+  });
+
+  const toggleDarkMode = () => {
+    if (darkMode === true) {
+      setDarkMode(false);
+    } else {
+      setDarkMode(true);
+    }
+  };
 
   const handleCreateTodo = async (name: string) => {
     try {
@@ -90,18 +107,18 @@ const App = () => {
 
   const handleDeleteAllTodos = async () => {
     try {
-      await todoService.deleteAllTodos()
-      setTodos([])
-      setMessage(`Todos deleted succesfully!`)
+      await todoService.deleteAllTodos();
+      setTodos([]);
+      setMessage(`Todos deleted succesfully!`);
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data.error)
+        setMessage(error.response?.data.error);
       } else {
-        console.log(error)
+        console.log(error);
       }
     }
-    handleDeleteAllDialogClose()
-  }
+    handleDeleteAllDialogClose();
+  };
 
   const handleEditDialogClose = () => {
     setEditDialogOpen(false);
@@ -141,37 +158,45 @@ const App = () => {
   };
 
   return (
-    <Container maxWidth="sm" fixed>
-      <Header header="Todo App" onDelete={() => setDeleteAllDialogOpen(true)}/>
-      <Notification message={message} />
-      <AddTodoForm onSubmit={handleCreateTodo} />
-      <TodoList
-        todos={todos}
-        onDelete={handleDeleteDialogOpen}
-        onUpdate={handleEditDialogOpen}
-      />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container maxWidth="sm" fixed>
+        <Header
+          header="Todo App"
+          onDelete={() => setDeleteAllDialogOpen(true)}
+          isDarkMode={darkMode}
+          toggleDarkMode={toggleDarkMode}
+        />
+        <Notification message={message} />
+        <AddTodoForm onSubmit={handleCreateTodo} />
+        <TodoList
+          todos={todos}
+          onDelete={handleDeleteDialogOpen}
+          onUpdate={handleEditDialogOpen}
+        />
 
-      <DeleteDialog
-        open={deleteDialogOpen}
-        todo={todoToDelete}
-        onClose={handleDeleteDialogClose}
-        onConfirm={handleConfirmDeleteTodo}
-      />
+        <DeleteDialog
+          open={deleteDialogOpen}
+          todo={todoToDelete}
+          onClose={handleDeleteDialogClose}
+          onConfirm={handleConfirmDeleteTodo}
+        />
 
-      <DeleteAllDialog 
-        open={deleteAllDialogOpen}
-        onClose={handleDeleteAllDialogClose}
-        onConfirm={handleDeleteAllTodos}
-      />
+        <DeleteAllDialog
+          open={deleteAllDialogOpen}
+          onClose={handleDeleteAllDialogClose}
+          onConfirm={handleDeleteAllTodos}
+        />
 
-      <EditDialog
-        open={editDialogOpen}
-        onClose={handleEditDialogClose}
-        onConfirm={handleConfirmEditTodo}
-        editedName={editedTodoName}
-        onNameChange={setEditedTodoName}
-      />
-    </Container>
+        <EditDialog
+          open={editDialogOpen}
+          onClose={handleEditDialogClose}
+          onConfirm={handleConfirmEditTodo}
+          editedName={editedTodoName}
+          onNameChange={setEditedTodoName}
+        />
+      </Container>
+    </ThemeProvider>
   );
 };
 

@@ -6,9 +6,16 @@ describe("Header", () => {
   it("renders the header text", () => {
     const header = "Todo App";
 
-    render(<Header header={header} onDelete={() => {}}/>);
+    render(
+      <Header
+        header={header}
+        onDelete={() => {}}
+        toggleDarkMode={() => {}}
+        isDarkMode={false}
+      />
+    );
 
     const element = screen.getByText("Todo App");
-    expect(element).toBeDefined()
+    expect(element).toBeDefined();
   });
 });

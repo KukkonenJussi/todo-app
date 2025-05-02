@@ -1,13 +1,31 @@
-import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import {
+  AppBar,
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+
 import { useState } from "react";
 
 interface HeaderProps {
   header: string;
-  onDelete: () => void
+  onDelete: () => void;
+  toggleDarkMode: () => void;
+  isDarkMode: boolean;
 }
 
-const Header = ({ header, onDelete }: HeaderProps) => {
+const Header = ({
+  header,
+  onDelete,
+  toggleDarkMode,
+  isDarkMode,
+}: HeaderProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
 
@@ -20,9 +38,9 @@ const Header = ({ header, onDelete }: HeaderProps) => {
   };
 
   const handleDelete = () => {
-    onDelete()
-    handleMenuClose()
-  }
+    onDelete();
+    handleMenuClose();
+  };
 
   return (
     <AppBar position="static">
@@ -31,7 +49,11 @@ const Header = ({ header, onDelete }: HeaderProps) => {
           {header}
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
-        
+
+        <IconButton color="inherit" onClick={toggleDarkMode}>
+          {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
+        </IconButton>
+
         <IconButton color="inherit" onClick={handleMenuOpen}>
           <MenuIcon />
         </IconButton>
