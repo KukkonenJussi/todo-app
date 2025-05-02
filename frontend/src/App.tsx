@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TodoItem } from "./types";
 import TodoList from "./components/TodoList";
 import AddTodoForm from "./components/AddTodoForm";
@@ -25,7 +25,15 @@ const App = () => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editedTodoName, setEditedTodoName] = useState("");
 
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem("darkMode");
+    console.log(`darkModen tila localStoragessa: ${saved}`);
+    return saved === "true";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", String(darkMode));
+  }, [darkMode]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,20 +52,24 @@ const App = () => {
     fetchData();
   }, []);
 
-  const theme = createTheme({
-    palette: {
-      mode: darkMode ? "dark" : "light",
-      background: darkMode
-        ? {
-            default: blueGrey[900],
-            paper: blueGrey[800],
-          }
-        : {},
-      text: {
-        primary: darkMode ? "#fff" : "#000",
-      },
-    },
-  });
+  const theme = useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: darkMode ? "dark" : "light",
+          background: darkMode
+            ? {
+                default: blueGrey[900],
+                paper: blueGrey[800],
+              }
+            : {},
+          text: {
+            primary: darkMode ? "#fff" : "#000",
+          },
+        },
+      }),
+    [darkMode]
+  );
 
   const toggleDarkMode = () => {
     if (darkMode === true) {
