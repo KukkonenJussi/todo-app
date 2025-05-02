@@ -43,7 +43,7 @@ const Header = ({
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ mt: 2 }}>
       <Toolbar>
         <Typography variant="h6" component="div">
           {header}
