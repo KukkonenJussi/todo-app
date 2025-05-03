@@ -184,9 +184,6 @@ const App = () => {
       setTodos(
         todos.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo))
       );
-      console.log(
-        `todo: ${updatedTodo.name}, completed: ${updatedTodo.completed}`
-      );
     } catch (error) {
       if (axios.isAxiosError(error)) {
         setMessage(error.response?.data?.error);
