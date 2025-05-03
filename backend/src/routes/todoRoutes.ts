@@ -91,4 +91,18 @@ router.put("/:id", (request, response) => {
   }
 });
 
+router.patch("/:id/completed", (request, response) => {
+  try {
+    const id = request.params.id;
+    const updatedTodo = todoService.updateTodoCompleted(id);
+    response.status(200).json(updatedTodo);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      response.status(400).json({ error: error.message });
+    } else {
+      response.status(400).json({ error: "Unknown error" });
+    }
+  }
+});
+
 export default router;

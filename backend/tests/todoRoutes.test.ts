@@ -193,3 +193,16 @@ describe("PUT /todos/:id", () => {
 
   //     })
 });
+
+describe("PATCH /todos/:id/completed", () => {
+  it("return status code 200 when updating the completed status of the todo", async () => {
+    const idToUpdate = "3";
+
+    const getResponse = await request(app).get(`/todos/${idToUpdate}`)
+    const patchResponse = await request(app).patch(`/todos/${idToUpdate}/completed`);
+
+    expect(getResponse.body.completed).toBe(true)
+    expect(patchResponse.status).toBe(200);
+    expect(patchResponse.body.completed).toBe(false)
+  });
+});
