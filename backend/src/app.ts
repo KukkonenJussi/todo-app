@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const corsOptions = {
   origin: process.env.ORIGIN_URL,
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 };
 
 const slowLimiter = slowDown({
