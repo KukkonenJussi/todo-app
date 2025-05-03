@@ -33,10 +33,17 @@ export const updateTodo = async (id: string, object: unknown) => {
   return response.data;
 };
 
+export const updateTodoCompleted = async (id: string) => {
+  const response = await axios
+    .patch<TodoItem>(`${apiBaseUrl}/todos/${id}/completed`);
+  return response.data;
+};
+
 export default {
   getAllTodos,
   createTodo,
   deleteTodo,
   deleteAllTodos,
   updateTodo,
+  updateTodoCompleted
 };
