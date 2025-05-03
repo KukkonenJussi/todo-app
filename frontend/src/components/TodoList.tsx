@@ -6,9 +6,15 @@ interface TodoListProps {
   todos: TodoItem[];
   onDelete: (id: string) => void;
   onUpdate: (id: string) => void;
+  onCompletedUpdate: (id: string) => void;
 }
 
-const TodoList = ({ todos, onDelete, onUpdate }: TodoListProps) => {
+const TodoList = ({
+  todos,
+  onDelete,
+  onUpdate,
+  onCompletedUpdate,
+}: TodoListProps) => {
   return (
     <Table>
       <TableBody>
@@ -18,6 +24,7 @@ const TodoList = ({ todos, onDelete, onUpdate }: TodoListProps) => {
             todoItem={todo}
             onDelete={onDelete}
             onUpdate={onUpdate}
+            onCompletedUpdate={onCompletedUpdate}
           />
         ))}
       </TableBody>

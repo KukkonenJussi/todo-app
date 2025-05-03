@@ -10,9 +10,16 @@ describe("TodoListItem", () => {
       completed: false,
     };
 
-    render(<TodoListItem todoItem={todo} onDelete={() => {}} onUpdate={() => {}}/>);
+    render(
+      <TodoListItem
+        todoItem={todo}
+        onDelete={() => {}}
+        onUpdate={() => {}}
+        onCompletedUpdate={() => {}}
+      />
+    );
 
-    const element = screen.getByText('Build a Todo App')
-    expect(element).toBeDefined()
+    const element = screen.getByText("Build a Todo App");
+    expect(element).toBeDefined();
   });
 });

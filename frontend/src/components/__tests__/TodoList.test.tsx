@@ -22,7 +22,14 @@ describe("TodoList", () => {
       },
     ];
 
-    render(<TodoList todos={todos} onDelete={() => {}} onUpdate={() => {}} />);
+    render(
+      <TodoList
+        todos={todos}
+        onDelete={() => {}}
+        onUpdate={() => {}}
+        onCompletedUpdate={() => {}}
+      />
+    );
 
     todos.forEach((todo) => {
       expect(screen.getByText(todo.name)).toBeDefined();

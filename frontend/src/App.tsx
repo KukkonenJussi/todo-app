@@ -178,6 +178,24 @@ const App = () => {
     handleEditDialogClose();
   };
 
+  const handleCompletedChange = async (id: string) => {
+    try {
+      const updatedTodo = await todoService.updateTodoCompleted(id);
+      setTodos(
+        todos.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo))
+      );
+      console.log(
+        `todo: ${updatedTodo.name}, completed: ${updatedTodo.completed}`
+      );
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setMessage(error.response?.data?.error);
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -194,6 +212,7 @@ const App = () => {
           todos={todos}
           onDelete={handleDeleteDialogOpen}
           onUpdate={handleEditDialogOpen}
+          onCompletedUpdate={handleCompletedChange}
         />
 
         <DeleteDialog
