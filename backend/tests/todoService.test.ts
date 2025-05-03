@@ -147,4 +147,16 @@ describe("deleteTodo", () => {
       }).toThrow(new Error("Name already exists!"))
     })
   })
+
+  describe("updateTodoCompleted", () => {
+    it("updates the completed status", async () => {
+      const id = "2"
+      const originalTodo = { ...todoService.getTodoById(id) }
+
+      const changedCompleted = todoService.updateTodoCompleted(id)
+
+      expect(originalTodo.completed).toBe(false)
+      expect(changedCompleted.completed).toBe(true)
+    });
+  })
 })

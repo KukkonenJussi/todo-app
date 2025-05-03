@@ -63,6 +63,17 @@ const updateTodoName = (id: string, name: string): TodoItem => {
   return todoToUpdate;
 };
 
+const updateTodoCompleted = (id: string): TodoItem => {
+  const todos = todosData.getTodos();
+  const todoToUpdate = todos.find((todo) => todo.id === id);
+
+  if (!todoToUpdate) throw new Error("Todo not found!");
+
+  todoToUpdate.completed = !todoToUpdate.completed
+
+  return todoToUpdate
+}
+
 export default {
   getAllTodos,
   getTodoById,
@@ -70,4 +81,5 @@ export default {
   deleteTodo,
   deleteAllTodos,
   updateTodoName,
+  updateTodoCompleted
 };
