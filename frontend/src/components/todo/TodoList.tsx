@@ -1,5 +1,5 @@
 import { Table, TableBody } from "@mui/material";
-import { TodoItem } from "../types";
+import { TodoItem } from "../../types";
 import TodoListItem from "./TodoListItem";
 
 interface TodoListProps {
