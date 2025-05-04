@@ -6,7 +6,7 @@ interface AppBarHeaderProps {
 
 const AppBarTitle = ({ title }: AppBarHeaderProps) => {
   return (
-    <Typography variant="h6" component="div">
+    <Typography variant="h6" component="div" aria-label="Application header">
       {title}
     </Typography>
   );

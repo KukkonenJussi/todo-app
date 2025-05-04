@@ -25,7 +25,11 @@ const AppBarMenu = ({ onDelete }: AppBarMenuProps) => {
 
   return (
     <>
-      <IconButton color="inherit" onClick={handleMenuOpen}>
+      <IconButton
+        color="inherit"
+        onClick={handleMenuOpen}
+        aria-label="Open menu"
+      >
         <MenuIcon />
       </IconButton>
 
@@ -36,8 +40,12 @@ const AppBarMenu = ({ onDelete }: AppBarMenuProps) => {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <MenuItem onClick={handleDelete}>Delete all todos</MenuItem>
-        <MenuItem onClick={handleMenuClose}>Close menu</MenuItem>
+        <MenuItem onClick={handleDelete} aria-label="Delete all todos">
+          Delete all todos
+        </MenuItem>
+        <MenuItem onClick={handleMenuClose} aria-label="Close menu">
+          Close menu
+        </MenuItem>
       </Menu>
     </>
   );

@@ -4,12 +4,12 @@ import AppBarTitle from "./AppBarTitle";
 import DarkModeToggle from "./DarkModeToggle";
 import AppBarMenu from "./AppBarMenu";
 
-interface HeaderProps {
+interface AppHeaderProps {
   onDelete: () => void;
   toggleDarkMode: () => void;
 }
 
-const Header = ({ onDelete, toggleDarkMode }: HeaderProps) => {
+const AppHeader = ({ onDelete, toggleDarkMode }: AppHeaderProps) => {
   return (
     <AppBar position="static" sx={{ mt: 2 }}>
       <Toolbar>
@@ -23,4 +23,4 @@ const Header = ({ onDelete, toggleDarkMode }: HeaderProps) => {
   );
 };
 
-export default Header;
+export default AppHeader;

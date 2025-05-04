@@ -12,7 +12,12 @@ const DarkModeToggle = ({
   toggleDarkMode,
 }: DarkModeToggleProps) => {
   return (
-    <IconButton color="inherit" onClick={toggleDarkMode}>
+    <IconButton
+      color="inherit"
+      onClick={toggleDarkMode}
+      aria-label="Toggle dark mode"
+      role="button"
+    >
       {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
     </IconButton>
   );

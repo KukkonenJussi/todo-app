@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { TodoItem } from "./types";
 import TodoList from "./components/TodoList";
 import AddTodoForm from "./components/AddTodoForm";
-import Header from "./components/Header";
+import AppHeader from "./components/AppHeader";
 import Notification from "./components/Notification";
 import todoService from "./services/todoService";
 import axios from "axios";
@@ -197,7 +197,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="sm" fixed>
-        <Header
+        <AppHeader
           onDelete={() => setDeleteAllDialogOpen(true)}
           toggleDarkMode={toggleDarkMode}
         />
