@@ -37,7 +37,8 @@ This app is being built to:
 - Initialized with [Vite](https://vitejs.dev/) + [TypeScript](https://www.typescriptlang.org/)
 - UI components built with [Material UI](https://mui.com/)
 - Functionalities added:
-  - Add, Edit and Delete todos
+  - Add, Edit, Delete, and **Mark todos as completed / not completed**
+    - Displaying todos in a list format **with visual indication for completed todos (text is struck through)**
   - Displaying todos in a list format
   - Success and error notifications shown via `Snackbar`
   - Dialogs for confirmation and editing using MUI `Dialog`
@@ -55,6 +56,7 @@ This app is being built to:
 ### Backend
 
 - Basic CRUD operations implemented (GET, ADD, DELETE, PUT)
+- **NEW**: Added functionality to **toggle the completed state** of a todo
 - Basic error handling (400, 404, 409)
 - Unique ID generation with [`uuid`](https://www.npmjs.com/package/uuid)
 - Delete /todos endpoint added for bulk deletion for all todos
