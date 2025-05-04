@@ -5,13 +5,13 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 
 import { useState } from "react";
+import AppBarTitle from "./AppBarTitle";
 
 interface HeaderProps {
   header: string;
@@ -20,12 +20,7 @@ interface HeaderProps {
   isDarkMode: boolean;
 }
 
-const Header = ({
-  header,
-  onDelete,
-  toggleDarkMode,
-  isDarkMode,
-}: HeaderProps) => {
+const Header = ({ onDelete, toggleDarkMode, isDarkMode }: HeaderProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
 
@@ -45,9 +40,7 @@ const Header = ({
   return (
     <AppBar position="static" sx={{ mt: 2 }}>
       <Toolbar>
-        <Typography variant="h6" component="div">
-          {header}
-        </Typography>
+        <AppBarTitle title="Todo App" />
         <Box sx={{ flexGrow: 1 }} />
 
         <IconButton color="inherit" onClick={toggleDarkMode}>
