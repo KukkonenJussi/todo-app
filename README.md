@@ -30,7 +30,7 @@ This app is being built to:
 
 ### Current version looks like this
 
-<img src="./versions/TodoApp_0.4.png" alt="Todo App version 0.3"/>
+<img src="./versions/TodoApp_0.5.png" alt="Todo App version 0.5"/>
 
 ### Frontend (in progress)
 
@@ -43,7 +43,7 @@ This app is being built to:
   - Dialogs for confirmation and editing using MUI `Dialog`
   - AppBar header with title and dropdown menu (Material UI)
     - Menu includes actions: *Delete all todos* and *Close menu*
-    - **NEW:** Added dark mode support
+    - Added dark mode support
 - Tests written with [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/)
   - Unit tests for individual components
   - Integration tests for ensuring proper interaction between components
