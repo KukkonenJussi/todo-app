@@ -7,11 +7,10 @@ import {
   Toolbar,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
 
 import { useState } from "react";
 import AppBarTitle from "./AppBarTitle";
+import DarkModeToggle from "./DarkModeToggle";
 
 interface HeaderProps {
   header: string;
@@ -42,10 +41,8 @@ const Header = ({ onDelete, toggleDarkMode, isDarkMode }: HeaderProps) => {
       <Toolbar>
         <AppBarTitle title="Todo App" />
         <Box sx={{ flexGrow: 1 }} />
-
-        <IconButton color="inherit" onClick={toggleDarkMode}>
-          {isDarkMode ? <LightModeIcon /> : <DarkModeIcon />}
-        </IconButton>
+        
+        <DarkModeToggle toggleDarkMode={toggleDarkMode} isDarkMode />
 
         <IconButton color="inherit" onClick={handleMenuOpen}>
           <MenuIcon />
