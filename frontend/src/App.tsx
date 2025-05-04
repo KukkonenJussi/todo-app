@@ -198,9 +198,7 @@ const App = () => {
       <CssBaseline />
       <Container maxWidth="sm" fixed>
         <Header
-          header="Todo App"
           onDelete={() => setDeleteAllDialogOpen(true)}
-          isDarkMode={darkMode}
           toggleDarkMode={toggleDarkMode}
         />
         <Notification message={message} />
