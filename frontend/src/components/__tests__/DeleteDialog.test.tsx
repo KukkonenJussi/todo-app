@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import DeleteDialog from "../DeleteDialog";
+import DeleteDialog from "../dialogs/DeleteDialog";
 import { TodoItem } from "../../types";
 
 describe("DeleteDialog", () => {

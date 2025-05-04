@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
-import TodoList from "../TodoList";
+import TodoList from "../todo/TodoList";
 
 describe("TodoList", () => {
   it("renders a list of todo items passed as props", () => {

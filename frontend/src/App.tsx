@@ -1,17 +1,24 @@
-import { useEffect, useMemo, useState } from "react";
-import { TodoItem } from "./types";
-import TodoList from "./components/TodoList";
-import AddTodoForm from "./components/AddTodoForm";
-import AppHeader from "./components/AppHeader";
-import Notification from "./components/Notification";
-import todoService from "./services/todoService";
 import axios from "axios";
-import { Container } from "@mui/material";
-import DeleteDialog from "./components/DeleteDialog";
-import DeleteAllDialog from "./components/DeleteAllDialog";
-import EditDialog from "./components/EditDialog";
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
+import {
+  createTheme,
+  CssBaseline,
+  ThemeProvider,
+  Container,
+} from "@mui/material";
 import { blueGrey } from "@mui/material/colors";
+
+import { TodoItem } from "./types";
+import todoService from "./services/todoService";
+
+import AppHeader from "./components/header/AppHeader";
+import TodoList from "./components/todo/TodoList";
+import AddTodoForm from "./components/todo/AddTodoForm";
+import Notification from "./components/Notification";
+
+import DeleteAllDialog from "./components/dialogs/DeleteAllDialog";
+import DeleteDialog from "./components/dialogs/DeleteDialog";
+import EditDialog from "./components/dialogs/EditDialog";
 
 const App = () => {
   const [todos, setTodos] = useState<TodoItem[]>([]);

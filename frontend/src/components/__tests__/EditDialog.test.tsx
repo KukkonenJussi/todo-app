@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import EditDialog from "../EditDialog";
+import EditDialog from "../dialogs/EditDialog";
 
 describe("EditDialog", () => {
   const mockOnClose = vi.fn();
