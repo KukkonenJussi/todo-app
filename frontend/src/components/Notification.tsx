@@ -51,6 +51,7 @@ const Notification = ({ message }: NotificationProps) => {
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <Alert
+        role="alert"
         onClose={handleClose}
         severity={severity}
         variant={theme.palette.mode === "light" ? "standard" : "filled"}
