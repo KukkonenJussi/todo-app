@@ -43,10 +43,10 @@ const deleteTodo = (id: string): TodoItem => {
 const deleteAllTodos = () => {
   const todos = todosData.getTodos();
 
-  if (todos.length === 0) throw new Error("Todo list already empty!")
+  if (todos.length === 0) throw new Error("Todo list already empty!");
 
-  return todos.splice(0, todos.length)
-}
+  return todos.splice(0, todos.length);
+};
 
 const updateTodoName = (id: string, name: string): TodoItem => {
   const todos = todosData.getTodos();
@@ -55,7 +55,9 @@ const updateTodoName = (id: string, name: string): TodoItem => {
   if (!todoToUpdate) throw new Error("Todo not found!");
 
   const trimmedName = parseName(name);
-  const nameExists = todos.some((t) => t.name.toLowerCase() === trimmedName.toLowerCase() && t.id !== id);
+  const nameExists = todos.some(
+    (t) => t.name.toLowerCase() === trimmedName.toLowerCase() && t.id !== id
+  );
 
   if (nameExists) throw new Error("Name already exists!");
 
@@ -69,10 +71,14 @@ const updateTodoCompleted = (id: string): TodoItem => {
 
   if (!todoToUpdate) throw new Error("Todo not found!");
 
-  todoToUpdate.completed = !todoToUpdate.completed
+  todoToUpdate.completed = !todoToUpdate.completed;
 
-  return todoToUpdate
-}
+  return todoToUpdate;
+};
+
+const resetTodos = () => {
+  todosData.resetTodos();
+};
 
 export default {
   getAllTodos,
@@ -81,5 +87,6 @@ export default {
   deleteTodo,
   deleteAllTodos,
   updateTodoName,
-  updateTodoCompleted
+  updateTodoCompleted,
+  resetTodos,
 };

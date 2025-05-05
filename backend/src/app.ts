@@ -21,7 +21,11 @@ const slowLimiter = slowDown({
 
 app.use(cors(corsOptions));
 app.use(helmet());
-app.use(slowLimiter);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(slowLimiter);
+}
+
 app.use(express.json());
 app.use("/todos", todoRoute);
 

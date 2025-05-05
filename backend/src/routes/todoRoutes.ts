@@ -40,6 +40,15 @@ router.post("/", (request, response) => {
   }
 });
 
+router.post("/reset", (_request, response) => {
+  try {
+    todoService.resetTodos();
+    response.status(204).end();
+  } catch (error: unknown) {
+    response.status(500).json({ error: "Failed to reset todos" });
+  }
+});
+
 router.delete("/:id", (request, response) => {
   try {
     const todoToDelete = request.params.id;
@@ -58,8 +67,8 @@ router.delete("/:id", (request, response) => {
 
 router.delete("/", (_request, response) => {
   try {
-    const deleteAllResponse = todoService.deleteAllTodos()
-    response.status(200).json(deleteAllResponse)
+    const deleteAllResponse = todoService.deleteAllTodos();
+    response.status(200).json(deleteAllResponse);
   } catch (error: unknown) {
     if (error instanceof Error) {
       if (error.message === "Todo list already empty!") {
