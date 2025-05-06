@@ -1,4 +1,4 @@
-name: Frontend Lint
+name: Frontend Lint & Test
 
 on:
   push:
@@ -20,3 +20,5 @@ jobs:
         run: npm install
       - name: Lint frontend
         run: npm run lint
+      - name: Run tests
+        run: npm run test
