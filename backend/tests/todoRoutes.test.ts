@@ -220,7 +220,7 @@ describe("PATCH /todos/:id/completed", () => {
     const patchResponse = await request(app).patch(
       `/todos/${idToUpdate}/completed`
     );
-    const updatedTodo = getResponse.body as TodoItem;
+    const updatedTodo = patchResponse.body as TodoItem;
 
     expect(originalTodo.completed).toBe(true);
     expect(patchResponse.status).toBe(200);

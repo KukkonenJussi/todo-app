@@ -26,8 +26,8 @@ router.get("/:id", (request, response) => {
 
 router.post("/", (request, response) => {
   try {
-    const name = request.body as { name: unknown };
-    const parsedName = parseName(name);
+    const body = request.body as { name: unknown };
+    const parsedName = parseName(body.name);
     const newTodo = todoService.addTodo({ name: parsedName });
     response.status(201).json(newTodo);
   } catch (error: unknown) {
@@ -84,8 +84,8 @@ router.delete("/", (_request, response) => {
 router.put("/:id", (request, response) => {
   try {
     const todoToUpdate = request.params.id;
-    const name = request.body as { name: unknown };
-    const updatedName = parseName(name);
+    const body = request.body as { name: unknown };
+    const updatedName = parseName(body.name);
     const updateResponse = todoService.updateTodoName(
       todoToUpdate,
       updatedName
