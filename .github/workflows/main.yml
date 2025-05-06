@@ -6,14 +6,32 @@ on:
       - main
 
 jobs:
-  lint:
+  lint-backend:
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Install dependencies
+      - name: Install backend dependencies
         run: npm install
-      - name: Check style
+      - name: Lint backend
+        run: npm run lint
+
+  lint-frontend:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install frontend dependencies
+        run: npm install
+      - name: Lint frontend
         run: npm run lint
