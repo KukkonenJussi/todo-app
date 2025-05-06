@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint-backend:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend
@@ -22,7 +22,7 @@ jobs:
         run: npm run lint
 
   lint-frontend:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: frontend
