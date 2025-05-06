@@ -26,8 +26,9 @@ router.get("/:id", (request, response) => {
 
 router.post("/", (request, response) => {
   try {
-    const name = parseName(request.body.name);
-    const newTodo = todoService.addTodo({ name });
+    const name = request.body as { name: unknown };
+    const parsedName = parseName(name);
+    const newTodo = todoService.addTodo({ name: parsedName });
     response.status(201).json(newTodo);
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -44,7 +45,7 @@ router.post("/reset", (_request, response) => {
   try {
     todoService.resetTodos();
     response.status(204).end();
-  } catch (error: unknown) {
+  } catch {
     response.status(500).json({ error: "Failed to reset todos" });
   }
 });
@@ -83,7 +84,8 @@ router.delete("/", (_request, response) => {
 router.put("/:id", (request, response) => {
   try {
     const todoToUpdate = request.params.id;
-    const updatedName = request.body.name;
+    const name = request.body as { name: unknown };
+    const updatedName = parseName(name);
     const updateResponse = todoService.updateTodoName(
       todoToUpdate,
       updatedName

@@ -2,6 +2,7 @@ import request from "supertest";
 import app from "../src/app";
 import { NewTodoEntry } from "../src/types";
 import todosData from "../src/mockDb";
+import { TodoItem } from "../src/types";
 
 beforeEach(() => {
   todosData.resetTodos();
@@ -29,18 +30,21 @@ describe("GET /todos/:id", () => {
     const validId = "1";
     const response = await request(app).get(`/todos/${validId}`);
 
-    expect(response.body.id).toBe(validId);
-    expect(response.body.name).toBe("Build a Todo App");
-    expect(response.body.completed).toBe(false);
+    const todo = response.body as TodoItem;
+
+    expect(todo.id).toBe(validId);
+    expect(todo.name).toBe("Build a Todo App");
+    expect(todo.completed).toBe(false);
   });
 
   it("returns status code 404 when the todo is not found", async () => {
     const invalidId = "invalid-id";
 
     const response = await request(app).get(`/todos/${invalidId}`);
+    const body = response.body as { error: string };
 
     expect(response.status).toBe(404);
-    expect(response.body.error).toBe("Todo not found!");
+    expect(body.error).toBe("Todo not found!");
   });
 });
 
@@ -50,12 +54,14 @@ describe("DELETE /todos/:id", () => {
       name: "Remove this as soon as possible",
     };
     const postResponse = await request(app).post("/todos").send(newTodo);
-    const todoToDelete = postResponse.body.id;
+    const createdTodo = postResponse.body as TodoItem;
+    const todoToDelete = createdTodo.id;
 
     const deleteResponse = await request(app).delete(`/todos/${todoToDelete}`);
+    const deletedTodo = deleteResponse.body as TodoItem;
 
     expect(deleteResponse.status).toBe(200);
-    expect(deleteResponse.body.id).toBe(todoToDelete);
+    expect(deletedTodo.id).toBe(todoToDelete);
   });
 
   it("returns status code 404 when deleting a non-existing todo", async () => {
@@ -64,9 +70,10 @@ describe("DELETE /todos/:id", () => {
     const deleteResponse = await request(app).delete(
       `/todos/${nonExistingTodo}`
     );
+    const body = deleteResponse.body as { error: string };
 
     expect(deleteResponse.status).toBe(404);
-    expect(deleteResponse.body.error).toBe("Todo not found!");
+    expect(body.error).toBe("Todo not found!");
   });
 });
 
@@ -76,8 +83,9 @@ describe("DELETE /todos/", () => {
 
     const deleteResponse = await request(app).delete("/todos");
     const remainingTodos = await request(app).get("/todos");
+    const body = initialTodos.body as TodoItem[];
 
-    expect(initialTodos.body.length).toBeGreaterThan(0)
+    expect(body.length).toBeGreaterThan(0);
     expect(deleteResponse.status).toBe(200);
     expect(remainingTodos.body).toHaveLength(0);
   });
@@ -85,9 +93,10 @@ describe("DELETE /todos/", () => {
   it("returns 400 when trying to delete an already empty list", async () => {
     await request(app).delete("/todos");
     const deleteResponse = await request(app).delete("/todos");
+    const body = deleteResponse.body as { error: string };
 
     expect(deleteResponse.status).toBe(400);
-    expect(deleteResponse.body.error).toBe("Todo list already empty!");
+    expect(body.error).toBe("Todo list already empty!");
   });
 });
 
@@ -98,12 +107,13 @@ describe("POST /todos", () => {
     };
 
     const response = await request(app).post("/todos").send(newTodo);
+    const todo = response.body as TodoItem;
 
     expect(response.status).toBe(201);
-    expect(response.body.name).toBe(newTodo.name);
-    expect(response.body.completed).toBe(false);
-    expect(response.body.id).toBeDefined();
-    expect(typeof response.body.id).toBe("string");
+    expect(todo.name).toBe(newTodo.name);
+    expect(todo.completed).toBe(false);
+    expect(todo.id).toBeDefined();
+    expect(typeof todo.id).toBe("string");
   });
 
   it("returns status code 400 when creating an empty todo", async () => {
@@ -112,9 +122,10 @@ describe("POST /todos", () => {
     };
 
     const response = await request(app).post("/todos").send(emptyTodo);
+    const body = response.body as { error: string };
 
     expect(response.status).toBe(400);
-    expect(response.body.error).toBe("Name is required!");
+    expect(body.error).toBe("Name is required!");
   });
 
   it("returns status code 409 when creating a duplicate todo", async () => {
@@ -123,9 +134,10 @@ describe("POST /todos", () => {
     };
 
     const response = await request(app).post("/todos").send(duplicateTodo);
+    const body = response.body as { error: string };
 
     expect(response.status).toBe(409);
-    expect(response.body.error).toBe("Name already exists!");
+    expect(body.error).toBe("Name already exists!");
   });
 
   it("returns status code 409 when creating a duplicate todo with different casing", async () => {
@@ -134,9 +146,10 @@ describe("POST /todos", () => {
     };
 
     const response = await request(app).post("/todos").send(duplicateTodo);
+    const body = response.body as { error: string };
 
     expect(response.status).toBe(409);
-    expect(response.body.error).toBe("Name already exists!");
+    expect(body.error).toBe("Name already exists!");
   });
 
   it("returns status code 400 and error message when creating a todo with too many characters", async () => {
@@ -146,9 +159,10 @@ describe("POST /todos", () => {
     };
 
     const response = await request(app).post("/todos").send(invalidTodo);
+    const body = response.body as { error: string };
 
     expect(response.status).toBe(400);
-    expect(response.body.error).toBe("Name must be 50 characters or less!");
+    expect(body.error).toBe("Name must be 50 characters or less!");
   });
 });
 
@@ -160,9 +174,10 @@ describe("PUT /todos/:id", () => {
     const response = await request(app)
       .put(`/todos/${idToUpdate}`)
       .send({ name: newName });
+    const body = response.body as TodoItem;
 
     expect(response.status).toBe(200);
-    expect(response.body.name).toBe("Updated name");
+    expect(body.name).toBe("Updated name");
   });
 
   it("returns status code 409 when updating a todo with a name that already exists", async () => {
@@ -172,9 +187,10 @@ describe("PUT /todos/:id", () => {
     const response = await request(app)
       .put(`/todos/${idToUpdate}`)
       .send({ name: existingName });
+    const body = response.body as { error: string };
 
     expect(response.status).toBe(409);
-    expect(response.body.error).toBe("Name already exists!");
+    expect(body.error).toBe("Name already exists!");
   });
 
   it("returns status code 409 when updating a todo to a name that exists with different casing", async () => {
@@ -184,9 +200,10 @@ describe("PUT /todos/:id", () => {
     const response = await request(app)
       .put(`/todos/${idToUpdate}`)
       .send({ name: existingName });
+    const body = response.body as { error: string };
 
     expect(response.status).toBe(409);
-    expect(response.body.error).toBe("Name already exists!");
+    expect(body.error).toBe("Name already exists!");
   });
 
   //     it('returns status code 200 when marking a todo as done', async () => {
@@ -198,11 +215,15 @@ describe("PATCH /todos/:id/completed", () => {
   it("return status code 200 when updating the completed status of the todo", async () => {
     const idToUpdate = "3";
 
-    const getResponse = await request(app).get(`/todos/${idToUpdate}`)
-    const patchResponse = await request(app).patch(`/todos/${idToUpdate}/completed`);
+    const getResponse = await request(app).get(`/todos/${idToUpdate}`);
+    const originalTodo = getResponse.body as TodoItem;
+    const patchResponse = await request(app).patch(
+      `/todos/${idToUpdate}/completed`
+    );
+    const updatedTodo = getResponse.body as TodoItem;
 
-    expect(getResponse.body.completed).toBe(true)
+    expect(originalTodo.completed).toBe(true);
     expect(patchResponse.status).toBe(200);
-    expect(patchResponse.body.completed).toBe(false)
+    expect(updatedTodo.completed).toBe(false);
   });
 });
