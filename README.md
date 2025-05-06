@@ -10,6 +10,7 @@ This is a ongoing project! A simple Todo App built following TDD principles usin
 - [Current Status](#current-status)
 - [Technologies Used](#technologies-used)
 - [Testing](#testing)
+- [CI/CD & Code Quality](#cicd--code-quality)
 - [Planned Features](#planned-features)
 
 ---
@@ -23,6 +24,7 @@ This app is being built to:
 - Develop a frontend using Vite + TypeScript + Material UI
 - Learn proper error handling and validation patterns
 - Publish the app using a production platform (Vercel)
+- Learn the basics of setting up a CI/CD pipeline with Git hooks and automated deployment
 
 ---
 
@@ -43,7 +45,7 @@ This app is being built to:
   - Success and error notifications shown via `Snackbar`
   - Dialogs for confirmation and editing using MUI `Dialog`
   - AppBar header with title and dropdown menu (Material UI)
-    - Menu includes actions: *Delete all todos* and *Close menu*
+    - Menu includes actions: _Delete all todos_ and _Close menu_
     - Added dark mode support
 - Tests written with [Vitest](https://vitest.dev/) and [Testing Library](https://testing-library.com/)
   - Unit tests for individual components
@@ -96,6 +98,16 @@ This app is being built to:
   - Dialog confirmation flows
   - Notification rendering for both success and error states
 - Continuous Integration is handled via [GitHub Actions](https://docs.github.com/en/actions) to run tests automatically on each push (planned)
+
+---
+
+## CI/CD & Code Quality
+
+- **Continuous Deployment** is handled by [Vercel](https://vercel.com/): each successful push to the main branch triggers a new production deployment automatically.
+- **Husky** is set up in the root of the monorepo to ensure code quality:
+  - A `pre-push` hook runs `npm run lint` and `npm run test` in both `/backend` and `/frontend` folders before allowing a push.
+  - This prevents broken code from being deployed to production via Vercel.
+- These hooks enforce that all pushed changes pass local tests and follow project conventions before being published.
 
 ---
 
