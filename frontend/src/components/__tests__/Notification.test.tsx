@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import Notification from "../Notification";
 
 enum Message {
@@ -47,5 +48,18 @@ describe("Notification", () => {
 
     expect(element).toBeInTheDocument();
     expect(element).toHaveTextContent("Name already exists!");
+  });
+
+  it("notification disappears when close button is pressed", async () => {
+    render(<Notification message={Message.NameExists} />);
+    const user = userEvent.setup();
+    const button = screen.getByRole("button", { name: "Close" });
+
+    await user.click(button);
+
+    const element = screen.queryByTestId("notification-error");
+    await waitFor(() => {
+      expect(element).not.toBeInTheDocument();
+    });
   });
 });
