@@ -52,6 +52,7 @@ const Notification = ({ message }: NotificationProps) => {
     >
       <Alert
         role="alert"
+        data-testid={`notification-${severity}`}
         onClose={handleClose}
         severity={severity}
         variant={theme.palette.mode === "light" ? "standard" : "filled"}
