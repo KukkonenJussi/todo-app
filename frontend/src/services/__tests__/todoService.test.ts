@@ -4,9 +4,9 @@ import { TodoItem } from "../../types";
 import todoService from "../todoService";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
 
-vi.mock('axios')
+vi.mock("axios");
 
-describe("getAllTodos", async () => {
+describe("getAllTodos", () => {
   it("should fetch all todos successfully", async () => {
     const mockTodos: TodoItem[] = [
       {
@@ -18,7 +18,7 @@ describe("getAllTodos", async () => {
         id: "2",
         name: "Learn TDD while doing this project",
         completed: false,
-      }
+      },
     ];
     vi.mocked(axios.get).mockResolvedValueOnce({ data: mockTodos });
 
@@ -29,7 +29,7 @@ describe("getAllTodos", async () => {
   });
 });
 
-describe("updateTodoCompleted", async () => {
+describe("updateTodoCompleted", () => {
   it("should update the status of a todo successfully", async () => {
     const originalTodo: TodoItem = {
       id: "1",

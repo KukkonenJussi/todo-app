@@ -6,7 +6,7 @@ describe("DeleteDialog", () => {
   const mockOnClose = vi.fn();
   const mockOnConfirm = vi.fn();
 
-  it("renders title, message and buttons", async () => {
+  it("renders title, message and buttons", () => {
     render(
       <DeleteAllDialog
         open={true}

@@ -3,21 +3,25 @@ import Button from "@mui/material/Button";
 import { Box, TextField } from "@mui/material";
 
 interface AddTodoFormProps {
-  onSubmit: (name: string) => void;
+  onSubmit: (name: string) => void | Promise<void>;
 }
 
 const AddTodoForm = ({ onSubmit }: AddTodoFormProps) => {
   const [name, setName] = useState("");
 
-  const handleSubmit = (event: React.SyntheticEvent) => {
+  const handleSubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault();
-    onSubmit(name);
+    await onSubmit(name);
     setName("");
   };
 
   return (
     <Box sx={{ my: 2 }}>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          void handleSubmit(e);
+        }}
+      >
         <Box display={"flex"} gap={1}>
           <TextField
             label="Add item"

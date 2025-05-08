@@ -9,10 +9,10 @@ import {
 
 type EditDialogProps = {
   open: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
+  onClose: () => void | Promise<void>;
+  onConfirm: () => void | Promise<void>;
   editedName: string;
-  onNameChange: (newName: string) => void;
+  onNameChange: (newName: string) => void | Promise<void>;
 };
 
 const EditDialog = ({
@@ -25,7 +25,9 @@ const EditDialog = ({
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={() => {
+        void onClose();
+      }}
       aria-labelledby="edit-dialog-title"
       aria-describedby="edit-dialog-description"
     >
@@ -37,12 +39,26 @@ const EditDialog = ({
           margin="dense"
           label="Todo name"
           value={editedName}
-          onChange={(e) => onNameChange(e.target.value)}
+          onChange={(e) => {
+            void onNameChange(e.target.value);
+          }}
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={onConfirm}>Save</Button>
+        <Button
+          onClick={() => {
+            void onClose();
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={() => {
+            void onConfirm();
+          }}
+        >
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );

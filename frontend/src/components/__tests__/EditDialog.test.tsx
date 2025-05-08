@@ -8,7 +8,7 @@ describe("EditDialog", () => {
   const mockOnConfirm = vi.fn();
   const mockOnNameChange = vi.fn();
 
-  it("renders title, input field and buttons", async () => {
+  it("renders title, input field and buttons", () => {
     render(
       <EditDialog
         open={true}
@@ -30,7 +30,7 @@ describe("EditDialog", () => {
     expect(saveButton).toBeInTheDocument();
   });
 
-  it("renders Todo with given name", async () => {
+  it("renders Todo with given name", () => {
     render(
       <EditDialog
         open={true}

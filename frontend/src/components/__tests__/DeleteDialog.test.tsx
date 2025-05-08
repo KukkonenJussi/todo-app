@@ -10,7 +10,7 @@ describe("DeleteDialog", () => {
   const mockOnConfirm = vi.fn();
   const mockTodo: TodoItem = { id: "2", name: "Test Todo", completed: false };
 
-  it("renders title, message and buttons", async () => {
+  it("renders title, message and buttons", () => {
     render(
       <DeleteDialog
         open={true}
@@ -21,14 +21,14 @@ describe("DeleteDialog", () => {
     );
 
     const title = screen.getByRole("heading", { name: "Delete confirmation" });
-    const message = screen.getByText('Delete Todo \'Test Todo\'?')
+    const message = screen.getByText("Delete Todo 'Test Todo'?");
     const cancelButton = screen.getByRole("button", { name: "Cancel" });
     const deleteButton = screen.getByRole("button", { name: "Delete" });
 
-    expect(title).toBeInTheDocument()
-    expect(message).toBeInTheDocument()
-    expect(cancelButton).toBeInTheDocument()
-    expect(deleteButton).toBeInTheDocument()
+    expect(title).toBeInTheDocument();
+    expect(message).toBeInTheDocument();
+    expect(cancelButton).toBeInTheDocument();
+    expect(deleteButton).toBeInTheDocument();
   });
 
   it("renders correct delete message and handles cancel/confirm", async () => {

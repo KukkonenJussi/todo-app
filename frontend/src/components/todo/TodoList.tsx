@@ -4,9 +4,9 @@ import TodoListItem from "./TodoListItem";
 
 interface TodoListProps {
   todos: TodoItem[];
-  onDelete: (id: string) => void;
-  onUpdate: (id: string) => void;
-  onCompletedUpdate: (id: string) => void;
+  onDelete: (id: string) => void | Promise<void>;
+  onUpdate: (id: string) => void | Promise<void>;
+  onCompletedUpdate: (id: string) => void | Promise<void>;
 }
 
 const TodoList = ({
@@ -22,9 +22,15 @@ const TodoList = ({
           <TodoListItem
             key={todo.id}
             todoItem={todo}
-            onDelete={onDelete}
-            onUpdate={onUpdate}
-            onCompletedUpdate={onCompletedUpdate}
+            onDelete={(id) => {
+              void onDelete(id);
+            }}
+            onUpdate={(id) => {
+              void onUpdate(id);
+            }}
+            onCompletedUpdate={(id) => {
+              void onCompletedUpdate(id);
+            }}
           />
         ))}
       </TableBody>

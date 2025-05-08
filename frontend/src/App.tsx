@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import {
   createTheme,
@@ -10,6 +9,7 @@ import { blueGrey } from "@mui/material/colors";
 
 import { TodoItem } from "./types";
 import todoService from "./services/todoService";
+import extractAxiosErrorMessage from "./utils/extractAxiosErrorMessage";
 
 import AppHeader from "./components/header/AppHeader";
 import TodoList from "./components/todo/TodoList";
@@ -47,15 +47,16 @@ const App = () => {
         const data = await todoService.getAllTodos();
         setTodos(data);
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          setMessage(error.response?.data.error);
+        const message = extractAxiosErrorMessage(error);
+        if (message) {
+          setMessage(message);
         } else {
           console.log(error);
         }
       }
     };
 
-    fetchData();
+    void fetchData();
   }, []);
 
   const theme = useMemo(
@@ -91,8 +92,9 @@ const App = () => {
       setTodos(todos.concat(data));
       setMessage(`'${name}' added succesfully!`);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data.error);
+      const message = extractAxiosErrorMessage(error);
+      if (message) {
+        setMessage(message);
       } else {
         console.log(error);
       }
@@ -123,8 +125,9 @@ const App = () => {
         setTodos(todos.filter((t) => t.id !== todoToDelete.id));
         setMessage(`'${todoToDelete.name}' deleted succesfully!`);
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          setMessage(error.response?.data.error);
+        const message = extractAxiosErrorMessage(error);
+        if (message) {
+          setMessage(message);
         } else {
           console.log(error);
         }
@@ -139,8 +142,9 @@ const App = () => {
       setTodos([]);
       setMessage(`Todos deleted succesfully!`);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data.error);
+      const message = extractAxiosErrorMessage(error);
+      if (message) {
+        setMessage(message);
       } else {
         console.log(error);
       }
@@ -175,8 +179,9 @@ const App = () => {
 
         setMessage(`${editedTodoName} edited succesfully!`);
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          setMessage(error.response?.data.error);
+        const message = extractAxiosErrorMessage(error);
+        if (message) {
+          setMessage(message);
         } else {
           console.log(error);
         }
@@ -192,8 +197,9 @@ const App = () => {
         todos.map((todo) => (todo.id === updatedTodo.id ? updatedTodo : todo))
       );
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setMessage(error.response?.data?.error);
+      const message = extractAxiosErrorMessage(error);
+      if (message) {
+        setMessage(message);
       } else {
         console.error(error);
       }
@@ -209,7 +215,11 @@ const App = () => {
           toggleDarkMode={toggleDarkMode}
         />
         <Notification message={message} />
-        <AddTodoForm onSubmit={handleCreateTodo} />
+        <AddTodoForm
+          onSubmit={(name) => {
+            void handleCreateTodo(name);
+          }}
+        />
         <TodoList
           todos={todos}
           onDelete={handleDeleteDialogOpen}

@@ -22,5 +22,17 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "env.d.ts"]
+  "include": [
+    "src",
+    "env.d.ts",
+    "vite.config.ts",
+    "testSetup.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "e2e"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+  ]
 }

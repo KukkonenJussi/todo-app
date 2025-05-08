@@ -9,19 +9,17 @@ import {
 
 type DeleteDialogProps = {
   open: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
+  onClose: () => void | Promise<void>;
+  onConfirm: () => void | Promise<void>;
 };
 
-const DeleteAllDialog = ({
-  open,
-  onClose,
-  onConfirm,
-}: DeleteDialogProps) => {
+const DeleteAllDialog = ({ open, onClose, onConfirm }: DeleteDialogProps) => {
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={() => {
+        void onClose();
+      }}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
@@ -32,8 +30,19 @@ const DeleteAllDialog = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={onConfirm} autoFocus>
+        <Button
+          onClick={() => {
+            void onClose();
+          }}
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={() => {
+            void onConfirm();
+          }}
+          autoFocus
+        >
           Delete
         </Button>
       </DialogActions>
