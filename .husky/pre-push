@@ -3,9 +3,17 @@
 echo "Running backend checks..."
 cd backend
 npm run lint && npm run test
+if [ $? -ne 0 ]; then
+  echo "Backend checks failed. Push aborted."
+  exit 1
+fi
 
 echo "Running frontend checks..."
 cd ../frontend
-npm run lint && npm run test
+npm run lint && npm run test && npm run e2e
+if [ $? -ne 0 ]; then
+  echo "Frontend checks failed. Push aborted."
+  exit 1
+fi
 
 echo "All checks passed!"
