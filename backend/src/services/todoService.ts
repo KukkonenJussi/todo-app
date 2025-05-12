@@ -3,8 +3,12 @@ import { TodoItem, NewTodoEntry } from "../types";
 import { parseName } from "../utils/validators";
 import { v4 as uuidv4 } from "uuid";
 
-const getAllTodos = (): TodoItem[] => {
-  return todosData.getTodos();
+const getAllTodos = (userId?: string): TodoItem[] => {
+  if (userId) {
+    return todosData.getTodos().filter((todo) => todo.userId === userId);
+  } else {
+    return todosData.getTodos();
+  }
 };
 
 const getTodoById = (id: string): TodoItem => {

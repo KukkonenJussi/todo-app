@@ -16,6 +16,24 @@ describe("getAllTodos", () => {
     expect(todos).toHaveLength(mockData.length);
     expect(todos).toEqual(mockData);
   });
+
+  it("returns only the todos that belong to the specified user", () => {
+    const todos = todoService.getAllTodos("12242");
+
+    expect(todos).toHaveLength(1);
+  });
+
+  it("does not return todos belonging to other users", () => {
+    const correctTodos = todoService.getAllTodos("23321");
+
+    expect(correctTodos.every((todo) => todo.userId === "23321")).toBe(true);
+  });
+
+  it("return an empty array if the user has no todos", () => {
+    const todos = todoService.getAllTodos("unknown-user");
+
+    expect(todos).toEqual([]);
+  });
 });
 
 describe("getTodoById", () => {
@@ -23,6 +41,7 @@ describe("getTodoById", () => {
     const validId = "1";
     const expectedTodo: TodoItem = {
       id: "1",
+      userId: "12242",
       name: "Build a Todo App",
       completed: false,
     };
