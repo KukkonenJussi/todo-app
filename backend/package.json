@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "npm run test:unit && npm run test:mongo",
+    "test:unit": "cross-env NODE_ENV=test jest --testPathPattern=\"tests/.*(Service|Routes)\\.test\\.ts\"",
+    "test:mongo": "cross-env NODE_ENV=test-mongo jest --testPathPattern=\"tests/.*Mongo\\.test\\.ts\"",
     "tsc": "tsc",
     "dev": "ts-node-dev src/index.ts",
     "lint": "eslint ."
@@ -19,8 +21,10 @@
     "@types/express": "^5.0.1",
     "@types/jest": "^29.5.14",
     "@types/supertest": "^6.0.3",
+    "cross-env": "^7.0.3",
     "eslint": "^9.24.0",
     "jest": "^29.7.0",
+    "mongodb-memory-server": "^10.1.4",
     "supertest": "^7.1.0",
     "ts-jest": "^29.3.1",
     "ts-node-dev": "^2.0.0",

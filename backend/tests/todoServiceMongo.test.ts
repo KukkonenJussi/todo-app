@@ -1,39 +1,7 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import Todo from "../src/models/Todo";
 import todoServiceMongo from "../src/services/todoServiceMongo";
+import { setupTestDatabase } from "./mongoTestSetup";
 
-dotenv.config();
-
-beforeAll(async () => {
-  await mongoose.connect(process.env.MONGODB_TEST_URI!);
-  //   console.log("Used database: ", mongoose.connection.db?.databaseName);
-});
-
-beforeEach(async () => {
-  await Todo.deleteMany({});
-  await Todo.insertMany([
-    {
-      name: "Build a Todo App",
-      completed: false,
-      userId: "user1",
-    },
-    {
-      name: "Learn TDD while doing this project",
-      completed: false,
-      userId: "user1",
-    },
-    {
-      name: "Remember to have a break",
-      completed: true,
-      userId: "user2",
-    },
-  ]);
-});
-
-afterAll(async () => {
-  await mongoose.connection.close();
-});
+setupTestDatabase();
 
 describe("getAllTodos", () => {
   it("returns all todos", async () => {

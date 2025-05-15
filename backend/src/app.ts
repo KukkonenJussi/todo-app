@@ -1,11 +1,11 @@
-import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import slowDown from "express-slow-down";
-import todoRoute from "./routes/todoRoutes";
 
-dotenv.config();
+import todoRoute from "./routes/todoRoutes";
+import todoRouteMongo from "./routes/todoRoutesMongo";
+
 const app = express();
 const corsOptions = {
   origin: process.env.ORIGIN_URL,
@@ -27,6 +27,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use(express.json());
-app.use("/todos", todoRoute);
+
+if (process.env.NODE_ENV === "test-mongo") {
+  app.use("/todos", todoRouteMongo);
+} else {
+  app.use("/todos", todoRoute);
+}
 
 export default app;
