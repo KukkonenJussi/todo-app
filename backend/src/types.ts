@@ -6,3 +6,10 @@ export interface TodoItem {
 }
 
 export type NewTodoEntry = Pick<TodoItem, "name">;
+
+export interface TodoData {
+  _id: string;
+  name: string;
+  completed: boolean;
+  userId?: string
+}

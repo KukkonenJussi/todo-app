@@ -21,4 +21,10 @@ router.get("/", async (request, response) => {
   }
 });
 
+router.get("/:id", async (request, response) => {
+  const id = request.params.id;
+  const todo = await todoServiceMongo.getTodoById(id);
+  response.status(200).json(todo);
+});
+
 export default router;
