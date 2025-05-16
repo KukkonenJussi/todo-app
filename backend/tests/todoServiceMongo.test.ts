@@ -35,11 +35,19 @@ describe("getTodoById", () => {
   it("returns the correct todo when given a valid id", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
     const id = existingTodo?._id.toString();
-    
+
     const todo = await todoServiceMongo.getTodoById(id!);
 
     expect(todo.name).toBe("Build a Todo App");
     expect(todo.completed).toBe(false);
     expect(todo.userId).toBe("user1");
+  });
+
+  it("throws an error when todo with given ID does not exist", async () => {
+    const nonExistingId = "68272e369206bfc8869e7cd2";
+
+    await expect(todoServiceMongo.getTodoById(nonExistingId)).rejects.toThrow(
+      "Todo not found!"
+    );
   });
 });
