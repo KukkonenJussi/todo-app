@@ -1,8 +1,10 @@
 import request from "supertest";
+import mongoose from "mongoose";
+
 import app from "../src/app";
-import { setupTestDatabase } from "./mongoTestSetup";
-import Todo from "../src/models/Todo";
 import { TodoData } from "../src/types";
+import Todo from "../src/models/Todo";
+import { setupTestDatabase } from "./mongoTestSetup";
 
 setupTestDatabase();
 
@@ -28,5 +30,16 @@ describe("GET /todos/:id", () => {
     expect(todoData.name).toBe("Build a Todo App");
     expect(todoData.completed).toBe(false);
     expect(todoData.userId).toBe("user1");
+  });
+
+  it("returns status code 404 when the todo is not found", async () => {
+    const nonExistingId = new mongoose.Types.ObjectId().toString();
+    // const nonExistingId = "68272e369206bfc8869e7cd2"; // An alternative way is to set a generated mongoose objectId as a string and use it
+
+    const response = await request(app).get(`/todos/${nonExistingId}`);
+    const body = response.body as { error: string };
+
+    expect(response.status).toBe(404);
+    expect(body.error).toBe("Todo not found!");
   });
 });
