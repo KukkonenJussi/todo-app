@@ -8,4 +8,14 @@ const getAllTodos = async (userId?: string) => {
   }
 };
 
-export default { getAllTodos };
+const getTodoById = async (id: string) => {
+  const todo = await Todo.findById(id);
+
+  if (!todo) {
+    throw new Error("Todo not found!");
+  }
+
+  return todo;
+};
+
+export default { getAllTodos, getTodoById };

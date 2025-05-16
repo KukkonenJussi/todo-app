@@ -1,5 +1,6 @@
 import todoServiceMongo from "../src/services/todoServiceMongo";
 import { setupTestDatabase } from "./mongoTestSetup";
+import Todo from "../src/models/Todo";
 
 setupTestDatabase();
 
@@ -27,5 +28,18 @@ describe("getAllTodos", () => {
     const todos = await todoServiceMongo.getAllTodos("unknown-user");
 
     expect(todos).toEqual([]);
+  });
+});
+
+describe("getTodoById", () => {
+  it("returns the correct todo when given a valid id", async () => {
+    const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
+    const id = existingTodo?._id.toString();
+    
+    const todo = await todoServiceMongo.getTodoById(id!);
+
+    expect(todo.name).toBe("Build a Todo App");
+    expect(todo.completed).toBe(false);
+    expect(todo.userId).toBe("user1");
   });
 });
