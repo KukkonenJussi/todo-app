@@ -1,6 +1,8 @@
 import todoServiceMongo from "../src/services/todoServiceMongo";
 import { setupTestDatabase } from "./mongoTestSetup";
 import Todo from "../src/models/Todo";
+import { NewTodoData } from "../src/types";
+import { isValidObjectId } from "mongoose";
 
 setupTestDatabase();
 
@@ -49,5 +51,20 @@ describe("getTodoById", () => {
     await expect(todoServiceMongo.getTodoById(nonExistingId)).rejects.toThrow(
       "Todo not found!"
     );
+  });
+
+  describe("addTodo", () => {
+    it("return a new todo item with generated id and default completed status", async () => {
+      const newTodo: NewTodoData = {
+        name: "Test TodoData",
+      };
+
+      const addedTodo = await todoServiceMongo.addTodo(newTodo);
+
+      expect(addedTodo.name).toBe("Test TodoData");
+      expect(addedTodo.completed).toBe(false);
+      expect(addedTodo._id).toBeDefined();
+      expect(isValidObjectId(addedTodo._id));
+    });
   });
 });

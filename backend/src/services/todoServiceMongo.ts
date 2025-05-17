@@ -1,4 +1,5 @@
 import Todo from "../models/Todo";
+import { NewTodoData } from "../types";
 
 const getAllTodos = async (userId?: string) => {
   if (userId) {
@@ -18,4 +19,13 @@ const getTodoById = async (id: string) => {
   return todo;
 };
 
-export default { getAllTodos, getTodoById };
+const addTodo = async (todo: NewTodoData) => {
+  const newTodo = new Todo({
+    name: todo.name,
+  });
+
+  await newTodo.save();
+  return newTodo;
+};
+
+export default { getAllTodos, getTodoById, addTodo };
