@@ -67,4 +67,25 @@ describe("getTodoById", () => {
       expect(isValidObjectId(addedTodo._id));
     });
   });
+
+  it("throws an error when a new todo does not have a name", async () => {
+    const invalidTodo: NewTodoData = {
+      name: "",
+    };
+
+    await expect(todoServiceMongo.addTodo(invalidTodo)).rejects.toThrow(
+      "Name is required!"
+    );
+  });
+
+  it("throws an error if name exceeds 50 characters", async () => {
+    const longName = "a".repeat(51);
+    const invalidTodo: NewTodoData = {
+      name: longName,
+    };
+
+    await expect(todoServiceMongo.addTodo(invalidTodo)).rejects.toThrow(
+      "Name must be 50 characters or less!"
+    );
+  });
 });

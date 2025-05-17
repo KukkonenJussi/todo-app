@@ -1,5 +1,6 @@
 import Todo from "../models/Todo";
 import { NewTodoData } from "../types";
+import { parseName } from "../utils/validators";
 
 const getAllTodos = async (userId?: string) => {
   if (userId) {
@@ -20,8 +21,9 @@ const getTodoById = async (id: string) => {
 };
 
 const addTodo = async (todo: NewTodoData) => {
+  const trimmedName = parseName(todo.name);
   const newTodo = new Todo({
-    name: todo.name,
+    name: trimmedName,
   });
 
   await newTodo.save();
