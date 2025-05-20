@@ -2,7 +2,7 @@ import todoServiceMongo from "../src/services/todoServiceMongo";
 import { setupTestDatabase } from "./mongoTestSetup";
 import Todo from "../src/models/Todo";
 import { NewTodoData } from "../src/types";
-import { isValidObjectId } from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 
 setupTestDatabase();
 
@@ -52,20 +52,47 @@ describe("getTodoById", () => {
       "Todo not found!"
     );
   });
+});
 
-  describe("addTodo", () => {
-    it("return a new todo item with generated id and default completed status", async () => {
-      const newTodo: NewTodoData = {
-        name: "Test TodoData",
-      };
+describe("addTodo", () => {
+  it("returns 'demoUser' as userId when no userId is provided", async () => {
+    const newTodo: NewTodoData = {
+      name: "Test TodoData",
+    };
 
-      const addedTodo = await todoServiceMongo.addTodo(newTodo);
+    const addedTodo = await todoServiceMongo.addTodo(newTodo);
 
-      expect(addedTodo.name).toBe("Test TodoData");
-      expect(addedTodo.completed).toBe(false);
-      expect(addedTodo._id).toBeDefined();
-      expect(isValidObjectId(addedTodo._id));
-    });
+    expect(addedTodo.name).toBe("Test TodoData");
+    expect(addedTodo.completed).toBe(false);
+    expect(addedTodo._id).toBeDefined();
+    expect(isValidObjectId(addedTodo._id));
+    expect(addedTodo.userId).toBe("demoUser");
+  });
+
+  it("uses 'demoUser' if provided userId is invalid", async () => {
+    const newTodo: NewTodoData = {
+      name: "Test TodoData",
+      userId: "not-valid-userId",
+    };
+
+    const addedTodo = await todoServiceMongo.addTodo(newTodo);
+
+    expect(addedTodo.userId).toBe("demoUser");
+  });
+
+  it("sets the correct userId when provided", async () => {
+    const testUserId = new mongoose.Types.ObjectId().toString();
+    const newTodo: NewTodoData = {
+      name: "Logged-in User",
+      userId: testUserId,
+    };
+
+    const addedTodo = await todoServiceMongo.addTodo(newTodo);
+
+    console.log({ addedTodo });
+
+    expect(addedTodo.name).toBe("Logged-in User");
+    expect(addedTodo.userId).toBe(testUserId);
   });
 
   it("throws an error when a new todo does not have a name", async () => {
