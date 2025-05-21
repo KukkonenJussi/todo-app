@@ -43,6 +43,10 @@ const addTodo = async (todo: NewTodoData) => {
 const deleteTodo = async (id: string) => {
   const deletedTodo = await Todo.findByIdAndDelete(id);
 
+  if (!deletedTodo) {
+    throw new Error("Todo not found!");
+  }
+
   return deletedTodo;
 };
 

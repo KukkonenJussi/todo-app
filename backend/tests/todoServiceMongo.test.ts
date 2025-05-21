@@ -89,8 +89,6 @@ describe("addTodo", () => {
 
     const addedTodo = await todoServiceMongo.addTodo(newTodo);
 
-    console.log({ addedTodo });
-
     expect(addedTodo.name).toBe("Logged-in User");
     expect(addedTodo.userId).toBe(testUserId);
   });
@@ -126,5 +124,13 @@ describe("deleteTodo", () => {
     const allTodos = await todoServiceMongo.getAllTodos();
 
     expect(allTodos).not.toContain(deletedTodo);
+  });
+
+  it("should throw an error when given id does not exist", async () => {
+    const nonExistingId = "68272e369206bfc8869e7cd2";
+
+    await expect(todoServiceMongo.deleteTodo(nonExistingId)).rejects.toThrow(
+      "Todo not found!"
+    );
   });
 });
