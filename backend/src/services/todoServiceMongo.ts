@@ -40,4 +40,10 @@ const addTodo = async (todo: NewTodoData) => {
   return newTodo;
 };
 
-export default { getAllTodos, getTodoById, addTodo };
+const deleteTodo = async (id: string) => {
+  const deletedTodo = await Todo.findByIdAndDelete(id);
+
+  return deletedTodo;
+};
+
+export default { getAllTodos, getTodoById, addTodo, deleteTodo };

@@ -116,3 +116,15 @@ describe("addTodo", () => {
     );
   });
 });
+
+describe("deleteTodo", () => {
+  it("should delete the todo when given a valid id", async () => {
+    const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
+    const id = existingTodo?._id.toString();
+
+    const deletedTodo = await todoServiceMongo.deleteTodo(id!);
+    const allTodos = await todoServiceMongo.getAllTodos();
+
+    expect(allTodos).not.toContain(deletedTodo);
+  });
+});
