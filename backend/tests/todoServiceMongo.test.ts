@@ -7,26 +7,26 @@ import mongoose, { isValidObjectId } from "mongoose";
 setupTestDatabase();
 
 describe("getAllTodos", () => {
-  it("returns all todos", async () => {
+  it("should return all todos when no userId is provided", async () => {
     const todos = await todoServiceMongo.getAllTodos();
 
     expect(todos).toHaveLength(3);
     expect(todos[0].name).toBe("Build a Todo App");
   });
 
-  it("returns only the todos that belong to the specified user", async () => {
+  it("should return todos that belong to the specified user", async () => {
     const todos = await todoServiceMongo.getAllTodos("user1");
 
     expect(todos).toHaveLength(2);
   });
 
-  it("does not return todos belonging to other users", async () => {
+  it("should not return todos belonging to other users", async () => {
     const correctTodos = await todoServiceMongo.getAllTodos("user2");
 
     expect(correctTodos.every((todo) => todo.userId === "user2")).toBe(true);
   });
 
-  it("return an empty array if the user has no todos", async () => {
+  it("should return an empty array if the user has no todos", async () => {
     const todos = await todoServiceMongo.getAllTodos("unknown-user");
 
     expect(todos).toEqual([]);
@@ -34,7 +34,7 @@ describe("getAllTodos", () => {
 });
 
 describe("getTodoById", () => {
-  it("returns the correct todo when given a valid id", async () => {
+  it("should return the correct todo when given a valid id", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
     const id = existingTodo?._id.toString();
 
@@ -45,7 +45,7 @@ describe("getTodoById", () => {
     expect(todo.userId).toBe("user1");
   });
 
-  it("throws an error when todo with given ID does not exist", async () => {
+  it("should throw an error when todo with the given id does not exist", async () => {
     const nonExistingId = "68272e369206bfc8869e7cd2";
 
     await expect(todoServiceMongo.getTodoById(nonExistingId)).rejects.toThrow(
@@ -55,7 +55,7 @@ describe("getTodoById", () => {
 });
 
 describe("addTodo", () => {
-  it("returns 'demoUser' as userId when no userId is provided", async () => {
+  it("should return 'demoUser' as userId when no userId is provided", async () => {
     const newTodo: NewTodoData = {
       name: "Test TodoData",
     };
@@ -69,7 +69,7 @@ describe("addTodo", () => {
     expect(addedTodo.userId).toBe("demoUser");
   });
 
-  it("uses 'demoUser' if provided userId is invalid", async () => {
+  it("should fallback to 'demoUser' if provided userId is invalid", async () => {
     const newTodo: NewTodoData = {
       name: "Test TodoData",
       userId: "not-valid-userId",
@@ -80,7 +80,7 @@ describe("addTodo", () => {
     expect(addedTodo.userId).toBe("demoUser");
   });
 
-  it("sets the correct userId when provided", async () => {
+  it("should set the correct userId when a valid userId is provided", async () => {
     const testUserId = new mongoose.Types.ObjectId().toString();
     const newTodo: NewTodoData = {
       name: "Logged-in User",
@@ -95,7 +95,7 @@ describe("addTodo", () => {
     expect(addedTodo.userId).toBe(testUserId);
   });
 
-  it("throws an error when a new todo does not have a name", async () => {
+  it("should throw an error when todo name is empty", async () => {
     const invalidTodo: NewTodoData = {
       name: "",
     };
@@ -105,7 +105,7 @@ describe("addTodo", () => {
     );
   });
 
-  it("throws an error if name exceeds 50 characters", async () => {
+  it("should throw an error when name exceeds 50 characters", async () => {
     const longName = "a".repeat(51);
     const invalidTodo: NewTodoData = {
       name: longName,
