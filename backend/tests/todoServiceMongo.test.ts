@@ -134,3 +134,15 @@ describe("deleteTodo", () => {
     );
   });
 });
+
+describe("deleteAllTodos", () => {
+  it("should delete all todos that belong to a specific user", async () => {
+    const todosBeforeDeletion = await todoServiceMongo.getAllTodos("user1");
+
+    await todoServiceMongo.deleteAllTodos("user1");
+    const todosAfterDeletion = await todoServiceMongo.getAllTodos("user1");
+
+    expect(todosBeforeDeletion).toHaveLength(2);
+    expect(todosAfterDeletion).toHaveLength(0);
+  });
+});

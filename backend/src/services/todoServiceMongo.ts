@@ -50,4 +50,16 @@ const deleteTodo = async (id: string) => {
   return deletedTodo;
 };
 
-export default { getAllTodos, getTodoById, addTodo, deleteTodo };
+const deleteAllTodos = async (userId?: string) => {
+  if (userId) {
+    await Todo.deleteMany({ userId });
+  }
+};
+
+export default {
+  getAllTodos,
+  getTodoById,
+  addTodo,
+  deleteTodo,
+  deleteAllTodos,
+};
