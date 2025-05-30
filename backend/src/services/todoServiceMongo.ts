@@ -56,10 +56,17 @@ const deleteAllTodos = async (userId?: string) => {
   }
 };
 
+const updateTodoCompleted = async (id: string) => {
+  const todo = await Todo.findById(id);
+
+  return !todo?.completed;
+};
+
 export default {
   getAllTodos,
   getTodoById,
   addTodo,
   deleteTodo,
   deleteAllTodos,
+  updateTodoCompleted,
 };

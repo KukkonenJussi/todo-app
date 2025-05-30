@@ -146,3 +146,16 @@ describe("deleteAllTodos", () => {
     expect(user1TodosAfter ).toHaveLength(0);
   });
 });
+
+describe("updateTodoCompleted", () => {
+  it("should toggle todo completed status when given a valid id", async () => {
+    const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
+    const id = existingTodo?._id.toString();
+    const completedBefore = existingTodo?.completed;
+
+    const completedAfter = await todoServiceMongo.updateTodoCompleted(id!);
+
+    expect(completedBefore).toBe(false);
+    expect(completedAfter).toBe(true);
+  });
+});
