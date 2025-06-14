@@ -137,13 +137,13 @@ describe("deleteTodo", () => {
 
 describe("deleteAllTodos", () => {
   it("should delete all todos for the given userId", async () => {
-    const user1TodosBefore  = await todoServiceMongo.getAllTodos("user1");
+    const user1TodosBefore = await todoServiceMongo.getAllTodos("user1");
 
     await todoServiceMongo.deleteAllTodos("user1");
-    const user1TodosAfter  = await todoServiceMongo.getAllTodos("user1");
+    const user1TodosAfter = await todoServiceMongo.getAllTodos("user1");
 
-    expect(user1TodosBefore ).toHaveLength(2);
-    expect(user1TodosAfter ).toHaveLength(0);
+    expect(user1TodosBefore).toHaveLength(2);
+    expect(user1TodosAfter).toHaveLength(0);
   });
 });
 
