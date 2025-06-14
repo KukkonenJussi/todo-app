@@ -62,6 +62,12 @@ const updateTodoCompleted = async (id: string) => {
   return !todo?.completed;
 };
 
+const updateTodoName = async (id: string, newName: string) => {
+  const updatedTodo = await Todo.findByIdAndUpdate(id, {name: newName}, {new: true});
+
+  return updatedTodo;
+};
+
 export default {
   getAllTodos,
   getTodoById,
@@ -69,4 +75,5 @@ export default {
   deleteTodo,
   deleteAllTodos,
   updateTodoCompleted,
+  updateTodoName
 };

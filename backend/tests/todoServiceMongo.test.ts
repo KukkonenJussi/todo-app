@@ -159,3 +159,16 @@ describe("updateTodoCompleted", () => {
     expect(completedAfter).toBe(true);
   });
 });
+
+describe("updateTodoName", () => {
+  it("should update todo name when given a valid id and name", async () => {
+    const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
+    const id = existingTodo?._id.toString();
+    const newName = "Update name";
+
+    const updatedTodo = await todoServiceMongo.updateTodoName(id!, newName);
+
+    expect(updatedTodo?.id).toBe(id);
+    expect(updatedTodo?.name).toBe(newName);
+  });
+});
