@@ -1,7 +1,7 @@
 import { isString } from "./validators";
 
 type TodoWithUserId = {
-  userId: unknown;
+  userId?: unknown;
 };
 
 export const verifyOwnership = (

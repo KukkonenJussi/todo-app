@@ -18,11 +18,11 @@ describe("GET /todos", () => {
 });
 
 describe("GET /todos/:id", () => {
-  it("returns status code 200 and the todo when the ID is valid", async () => {
+  it("returns status code 200 and the todo when the ID is valid and user owns it", async () => {
     const todo = await Todo.findOne({ name: "Build a Todo App" });
     const todoId = todo?._id.toString();
 
-    const response = await request(app).get(`/todos/${todoId}`);
+    const response = await request(app).get(`/todos/${todoId}?userId=user1`);
     const todoData = response.body as TodoData;
 
     expect(response.status).toBe(200);

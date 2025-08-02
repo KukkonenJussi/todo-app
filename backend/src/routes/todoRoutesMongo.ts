@@ -24,7 +24,13 @@ router.get("/", async (request, response) => {
 router.get("/:id", async (request, response) => {
   try {
     const id = request.params.id;
-    const todo = await todoServiceMongo.getTodoById(id);
+    const userId =
+      typeof request.query.userId === "string"
+        ? request.query.userId
+        : "demoUser";
+
+    const todo = await todoServiceMongo.getTodoById(id, userId);
+    
     response.status(200).json(todo);
   } catch (error: unknown) {
     if (error instanceof Error) {

@@ -2,6 +2,7 @@ import { isValidObjectId } from "mongoose";
 import Todo from "../models/Todo";
 import { NewTodoData } from "../types";
 import { parseName } from "../utils/validators";
+import { verifyOwnership } from "../utils/authUtils";
 
 const getAllTodos = async (userId?: string) => {
   if (userId) {
@@ -11,12 +12,10 @@ const getAllTodos = async (userId?: string) => {
   }
 };
 
-const getTodoById = async (id: string) => {
+const getTodoById = async (id: string, userId: string) => {
   const todo = await Todo.findById(id);
 
-  if (!todo) {
-    throw new Error("Todo not found!");
-  }
+  verifyOwnership(todo, userId);
 
   return todo;
 };
@@ -63,7 +62,11 @@ const updateTodoCompleted = async (id: string) => {
 };
 
 const updateTodoName = async (id: string, newName: string) => {
-  const updatedTodo = await Todo.findByIdAndUpdate(id, {name: newName}, {new: true});
+  const updatedTodo = await Todo.findByIdAndUpdate(
+    id,
+    { name: newName },
+    { new: true }
+  );
 
   return updatedTodo;
 };
@@ -75,5 +78,5 @@ export default {
   deleteTodo,
   deleteAllTodos,
   updateTodoCompleted,
-  updateTodoName
+  updateTodoName,
 };
