@@ -46,6 +46,15 @@ describe("getTodoById", () => {
     expect(todo.userId).toBe("user1");
   });
 
+  it("should throw an error when the user does not own the todo", async () => {
+    const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
+    const id = existingTodo?._id.toString();
+
+    await expect(todoServiceMongo.getTodoById(id!, "user2")).rejects.toThrow(
+      "Not authorized to access this todo"
+    );
+  });
+
   it("should throw an error when todo with the given id does not exist", async () => {
     const nonExistingId = "68272e369206bfc8869e7cd2";
 
