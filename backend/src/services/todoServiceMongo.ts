@@ -39,12 +39,12 @@ const addTodo = async (todo: NewTodoData) => {
   return newTodo;
 };
 
-const deleteTodo = async (id: string) => {
-  const deletedTodo = await Todo.findByIdAndDelete(id);
+const deleteTodo = async (id: string, userId: string) => {
+  const todo = await Todo.findById(id);
 
-  if (!deletedTodo) {
-    throw new Error("Todo not found!");
-  }
+  verifyOwnership(todo, userId);
+
+  const deletedTodo = await Todo.findByIdAndDelete(id);
 
   return deletedTodo;
 };

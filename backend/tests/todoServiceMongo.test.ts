@@ -126,22 +126,29 @@ describe("addTodo", () => {
 });
 
 describe("deleteTodo", () => {
-  it("should delete the todo when given a valid id", async () => {
+  it("should delete the todo if user owns it", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
     const id = existingTodo?._id.toString();
 
-    const deletedTodo = await todoServiceMongo.deleteTodo(id!);
-    const allTodos = await todoServiceMongo.getAllTodos();
-
-    expect(allTodos).not.toContain(deletedTodo);
+    const deletedTodo = await todoServiceMongo.deleteTodo(id!, "user1");
+    expect(deletedTodo?._id.toString()).toBe(id);
   });
 
-  it("should throw an error when given id does not exist", async () => {
+  it("should throw an error if user does not own the todo", async () => {
+    const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
+    const id = existingTodo?._id.toString();
+
+    await expect(todoServiceMongo.deleteTodo(id!, "user2")).rejects.toThrow(
+      "Not authorized to access this todo"
+    );
+  });
+
+  it("should throw an error if todo does not exist", async () => {
     const nonExistingId = "68272e369206bfc8869e7cd2";
 
-    await expect(todoServiceMongo.deleteTodo(nonExistingId)).rejects.toThrow(
-      "Todo not found!"
-    );
+    await expect(
+      todoServiceMongo.deleteTodo(nonExistingId, "user1")
+    ).rejects.toThrow("Todo not found!");
   });
 });
 
