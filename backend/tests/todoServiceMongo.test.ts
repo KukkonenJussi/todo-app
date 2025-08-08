@@ -36,10 +36,16 @@ describe("getAllTodos", () => {
 describe("getTodoById", () => {
   it("should return the correct todo when given a valid id and matching userId", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
-    const id = existingTodo?._id.toString();
+    if (!existingTodo) {
+      throw new Error(`Test setup error: Todo ${existingTodo} not found`);
+    }
 
-    const todo = await todoServiceMongo.getTodoById(id!, "user1");
-    if (!todo) throw new Error("Test setup error: todo not found");
+    const id = existingTodo._id.toString();
+
+    const todo = await todoServiceMongo.getTodoById(id, "user1");
+    if (!todo) {
+      throw new Error("Test setup error: expected Todo not returned");
+    }
 
     expect(todo.name).toBe("Build a Todo App");
     expect(todo.completed).toBe(false);
@@ -48,9 +54,12 @@ describe("getTodoById", () => {
 
   it("should throw an error when the user does not own the todo", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
-    const id = existingTodo?._id.toString();
+    if (!existingTodo) {
+      throw new Error(`Test setup error: Todo ${existingTodo} not found`);
+    }
+    const id = existingTodo._id.toString();
 
-    await expect(todoServiceMongo.getTodoById(id!, "user2")).rejects.toThrow(
+    await expect(todoServiceMongo.getTodoById(id, "user2")).rejects.toThrow(
       "Not authorized to access this todo"
     );
   });
@@ -128,17 +137,29 @@ describe("addTodo", () => {
 describe("deleteTodo", () => {
   it("should delete the todo if user owns it", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
-    const id = existingTodo?._id.toString();
+    if (!existingTodo) {
+      throw new Error(`Test setup error: Todo ${existingTodo} not found`);
+    }
 
-    const deletedTodo = await todoServiceMongo.deleteTodo(id!, "user1");
-    expect(deletedTodo?._id.toString()).toBe(id);
+    const id = existingTodo._id.toString();
+
+    const deletedTodo = await todoServiceMongo.deleteTodo(id, "user1");
+    if (!deletedTodo) {
+      throw new Error(`Test error: Deleted todo is null`);
+    }
+
+    expect(deletedTodo._id.toString()).toBe(id);
   });
 
   it("should throw an error if user does not own the todo", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
-    const id = existingTodo?._id.toString();
+    if (!existingTodo) {
+      throw new Error(`Test setup error: Todo ${existingTodo} not found`);
+    }
 
-    await expect(todoServiceMongo.deleteTodo(id!, "user2")).rejects.toThrow(
+    const id = existingTodo._id.toString();
+
+    await expect(todoServiceMongo.deleteTodo(id, "user2")).rejects.toThrow(
       "Not authorized to access this todo"
     );
   });
@@ -167,10 +188,14 @@ describe("deleteAllTodos", () => {
 describe("updateTodoCompleted", () => {
   it("should toggle todo completed status when given a valid id", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
-    const id = existingTodo?._id.toString();
-    const completedBefore = existingTodo?.completed;
+    if (!existingTodo) {
+      throw new Error(`Test setup error: Todo ${existingTodo} not found`);
+    }
 
-    const completedAfter = await todoServiceMongo.updateTodoCompleted(id!);
+    const id = existingTodo._id.toString();
+    const completedBefore = existingTodo.completed;
+
+    const completedAfter = await todoServiceMongo.updateTodoCompleted(id);
 
     expect(completedBefore).toBe(false);
     expect(completedAfter).toBe(true);
@@ -180,12 +205,19 @@ describe("updateTodoCompleted", () => {
 describe("updateTodoName", () => {
   it("should update todo name when given a valid id and name", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
-    const id = existingTodo?._id.toString();
+    if (!existingTodo) {
+      throw new Error(`Test setup error: Todo ${existingTodo} not found`);
+    }
+
+    const id = existingTodo._id.toString();
     const newName = "Update name";
 
-    const updatedTodo = await todoServiceMongo.updateTodoName(id!, newName);
+    const updatedTodo = await todoServiceMongo.updateTodoName(id, newName);
+    if (!updatedTodo) {
+      throw new Error(`Test error: updated Todo not returned`);
+    }
 
-    expect(updatedTodo?.id).toBe(id);
-    expect(updatedTodo?.name).toBe(newName);
+    expect(updatedTodo.id).toBe(id);
+    expect(updatedTodo.name).toBe(newName);
   });
 });
