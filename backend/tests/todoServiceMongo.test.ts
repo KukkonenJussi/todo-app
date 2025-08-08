@@ -231,7 +231,7 @@ describe("updateTodoCompleted", () => {
 });
 
 describe("updateTodoName", () => {
-  it("should update todo name when given a valid id and name", async () => {
+  it("should update the todo name when user tries to update a todo that they own", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
     if (!existingTodo) {
       throw new Error(`Test setup error: Todo ${existingTodo} not found`);
@@ -240,12 +240,30 @@ describe("updateTodoName", () => {
     const id = existingTodo._id.toString();
     const newName = "Update name";
 
-    const updatedTodo = await todoServiceMongo.updateTodoName(id, newName);
+    const updatedTodo = await todoServiceMongo.updateTodoName(
+      id,
+      newName,
+      "user1"
+    );
     if (!updatedTodo) {
       throw new Error(`Test error: updated Todo not returned`);
     }
 
     expect(updatedTodo.id).toBe(id);
     expect(updatedTodo.name).toBe(newName);
+  });
+
+  it("should throw an error when a user tries to update a todo they do not own", async () => {
+    const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!existingTodo) {
+      throw new Error(`Test setup error: Todo ${existingTodo} not found`);
+    }
+
+    const id = existingTodo._id.toString();
+    const newName = "Update name";
+
+    await expect(
+      todoServiceMongo.updateTodoName(id, newName, "user2")
+    ).rejects.toThrow("Unauthorized access");
   });
 });

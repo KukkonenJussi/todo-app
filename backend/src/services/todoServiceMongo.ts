@@ -77,7 +77,16 @@ const updateTodoCompleted = async (id: string, userId: string) => {
   return !todo.completed;
 };
 
-const updateTodoName = async (id: string, newName: string) => {
+const updateTodoName = async (id: string, newName: string, userId: string) => {
+  const todo = await Todo.findById(id);
+  if (!todo) {
+    throw new Error(`Todo not found`);
+  }
+
+  if (todo.userId !== userId) {
+    throw new Error(`Unauthorized access`);
+  }
+
   const updatedTodo = await Todo.findByIdAndUpdate(
     id,
     { name: newName },
