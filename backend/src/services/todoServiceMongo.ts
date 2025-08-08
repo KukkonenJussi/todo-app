@@ -64,10 +64,17 @@ const deleteAllTodos = async (
   await Todo.deleteMany({ userId: targetUserId });
 };
 
-const updateTodoCompleted = async (id: string) => {
+const updateTodoCompleted = async (id: string, userId: string) => {
   const todo = await Todo.findById(id);
+  if (!todo) {
+    throw new Error(`Todo not found`);
+  }
 
-  return !todo?.completed;
+  if (todo.userId !== userId) {
+    throw new Error(`Unauthorized access`);
+  }
+
+  return !todo.completed;
 };
 
 const updateTodoName = async (id: string, newName: string) => {

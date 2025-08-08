@@ -199,7 +199,7 @@ describe("deleteAllTodos", () => {
 });
 
 describe("updateTodoCompleted", () => {
-  it("should toggle todo completed status when given a valid id", async () => {
+  it("should allow a user to toggle their own todo's completed status", async () => {
     const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
     if (!existingTodo) {
       throw new Error(`Test setup error: Todo ${existingTodo} not found`);
@@ -208,10 +208,25 @@ describe("updateTodoCompleted", () => {
     const id = existingTodo._id.toString();
     const completedBefore = existingTodo.completed;
 
-    const completedAfter = await todoServiceMongo.updateTodoCompleted(id);
+    const completedAfter = await todoServiceMongo.updateTodoCompleted(
+      id,
+      "user1"
+    );
 
     expect(completedBefore).toBe(false);
     expect(completedAfter).toBe(true);
+  });
+
+  it("should throw an error when trying to toggle a todo not owned by the user", async () => {
+    const existingTodo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!existingTodo) {
+      throw new Error(`Test setup error: Todo ${existingTodo} not found`);
+    }
+    const id = existingTodo._id.toString();
+
+    await expect(
+      todoServiceMongo.updateTodoCompleted(id, "user2")
+    ).rejects.toThrow("Unauthorized access");
   });
 });
 
