@@ -49,10 +49,19 @@ const deleteTodo = async (id: string, userId: string) => {
   return deletedTodo;
 };
 
-const deleteAllTodos = async (userId?: string) => {
-  if (userId) {
-    await Todo.deleteMany({ userId });
+const deleteAllTodos = async (
+  requestinUserId: string,
+  targetUserId: string
+) => {
+  if (!requestinUserId || !targetUserId) {
+    throw new Error(`Unauthorized: userId is required`);
   }
+
+  if (requestinUserId !== targetUserId) {
+    throw new Error(`Unauthorized access`);
+  }
+
+  await Todo.deleteMany({ userId: targetUserId });
 };
 
 const updateTodoCompleted = async (id: string) => {

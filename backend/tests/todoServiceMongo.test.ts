@@ -174,14 +174,27 @@ describe("deleteTodo", () => {
 });
 
 describe("deleteAllTodos", () => {
-  it("should delete all todos for the given userId", async () => {
+  it("should delete all todos for the given user", async () => {
     const user1TodosBefore = await todoServiceMongo.getAllTodos("user1");
 
-    await todoServiceMongo.deleteAllTodos("user1");
+    await todoServiceMongo.deleteAllTodos("user1", "user1");
     const user1TodosAfter = await todoServiceMongo.getAllTodos("user1");
 
     expect(user1TodosBefore).toHaveLength(2);
     expect(user1TodosAfter).toHaveLength(0);
+  });
+
+  it("should not delete todos of other user", async () => {
+    await expect(
+      todoServiceMongo.deleteAllTodos("user1", "user2")
+    ).rejects.toThrow("Unauthorized access");
+  });
+
+  it("should throw an error is userId is missing", async () => {
+    // @ts-expect-error intentionally omitting userId for test purposes
+    await expect(todoServiceMongo.deleteAllTodos()).rejects.toThrow(
+      "Unauthorized: userId is required"
+    );
   });
 });
 
