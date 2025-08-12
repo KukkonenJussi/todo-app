@@ -18,11 +18,16 @@ describe("GET /todos", () => {
 });
 
 describe("GET /todos/:id", () => {
-  it("returns status code 200 and the todo when the ID is valid and user owns it", async () => {
+  it("returns status code 200 and the todo when the user owns it", async () => {
     const todo = await Todo.findOne({ name: "Build a Todo App" });
-    const todoId = todo?._id.toString();
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+    const todoId = todo._id.toString();
 
-    const response = await request(app).get(`/todos/${todoId}?userId=user1`);
+    const response = await request(app).get(
+      `/todos/${todo._id}?userId=${todo.userId}`
+    );
     const todoData = response.body as TodoData;
 
     expect(response.status).toBe(200);
@@ -41,5 +46,19 @@ describe("GET /todos/:id", () => {
 
     expect(response.status).toBe(404);
     expect(body.error).toBe("Todo not found!");
+  });
+
+  it("returns status code 403 when the user is not authorized to access the todo", async () => {
+    const todo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+    const todoId = todo._id.toString();
+
+    const response = await request(app).get(`/todos/${todoId}?userId=user2`);
+    const body = response.body as { error: string };
+
+    expect(response.status).toBe(403);
+    expect(body.error).toBe("Not authorized to access this todo");
   });
 });

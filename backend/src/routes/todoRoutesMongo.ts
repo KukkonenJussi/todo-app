@@ -30,10 +30,14 @@ router.get("/:id", async (request, response) => {
         : "demoUser";
 
     const todo = await todoServiceMongo.getTodoById(id, userId);
-    
+
     response.status(200).json(todo);
   } catch (error: unknown) {
     if (error instanceof Error) {
+      if (error.message === "Not authorized to access this todo") {
+        response.status(403).send({ error: error.message });
+        return;
+      }
       if (error.message === "Todo not found!") {
         response.status(404).send({ error: error.message });
         return;
