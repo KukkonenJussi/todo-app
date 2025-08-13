@@ -62,3 +62,17 @@ describe("GET /todos/:id", () => {
     expect(body.error).toBe("Not authorized to access this todo");
   });
 });
+
+describe("POST /todos", () => {
+  it("falls back to demoUser when userId is missing", async () => {
+    const newTodo = {
+      name: "Watch a movie",
+    };
+
+    const response = await request(app).post("/todos").send(newTodo);
+    const todoData = response.body as TodoData;
+
+    expect(response.status).toBe(201);
+    expect(todoData.userId).toBe("demoUser");
+  });
+});

@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 
 import todoServiceMongo from "../services/todoServiceMongo";
+import { NewTodoData } from "../types";
 
 const router = express.Router();
 
@@ -48,6 +49,17 @@ router.get("/:id", async (request, response) => {
     response.status(400).send({ error: "unknown error" });
     return;
   }
+});
+
+router.post("/", async (request, response) => {
+  const body = request.body as NewTodoData;
+
+  const todo = await todoServiceMongo.addTodo({
+    name: body.name,
+    userId: body.userId,
+  });
+
+  response.status(201).json(todo);
 });
 
 export default router;
