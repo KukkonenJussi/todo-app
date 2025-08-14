@@ -63,14 +63,8 @@ router.post("/", async (request, response) => {
     response.status(201).json(todo);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      if (error.message === "Name is required!") {
-        response.status(400).send({ error: error.message });
-        return;
-      }
-      if (error.message === "Name must be 50 characters or less!") {
-        response.status(400).send({ error: error.message });
-        return;
-      }
+      response.status(400).send({ error: error.message });
+      return;
     }
     response.status(400).send({ error: "unknown error" });
     return;
