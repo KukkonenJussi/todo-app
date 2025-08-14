@@ -64,7 +64,19 @@ describe("GET /todos/:id", () => {
 });
 
 describe("POST /todos", () => {
-  it("falls back to demoUser when userId is missing", async () => {
+  it("returns status code 400 when todo name is empty", async () => {
+    const newTodo = {
+      name: "",
+    };
+
+    const response = await request(app).post("/todos").send(newTodo);
+    const body = response.body as { error: string };
+
+    expect(response.status).toBe(400);
+    expect(body.error).toBe("Name is required!");
+  });
+
+  it("returns status code 201 and sets userId to demoUser when userId is missing", async () => {
     const newTodo = {
       name: "Watch a movie",
     };
