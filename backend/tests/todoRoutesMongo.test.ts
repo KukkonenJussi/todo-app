@@ -76,6 +76,18 @@ describe("POST /todos", () => {
     expect(body.error).toBe("Name is required!");
   });
 
+  it("returns status code 400 when name length is greater than 50 characters", async () => {
+    const newTodo = {
+      name: "a".repeat(51),
+    };
+
+    const response = await request(app).post("/todos").send(newTodo);
+    const body = response.body as { error: string };
+
+    expect(response.status).toBe(400);
+    expect(body.error).toBe("Name must be 50 characters or less!");
+  });
+
   it("returns status code 201 and sets userId to demoUser when userId is missing", async () => {
     const newTodo = {
       name: "Watch a movie",
