@@ -64,6 +64,21 @@ describe("GET /todos/:id", () => {
 });
 
 describe("POST /todos", () => {
+  it("returns status code 201 and stores the given userId when it is valid", async () => {
+    const validUserId = new mongoose.Types.ObjectId().toString();
+    const newTodo = {
+      name: "Learn new programming concepts",
+      userId: validUserId,
+    };
+
+    const response = await request(app).post("/todos").send(newTodo);
+    const todoData = response.body as TodoData;
+
+    expect(response.status).toBe(201);
+    expect(todoData.userId).toBe(validUserId);
+    expect(todoData.name).toBe("Learn new programming concepts");
+  });
+
   it("returns status code 400 when todo name is empty", async () => {
     const newTodo = {
       name: "",
