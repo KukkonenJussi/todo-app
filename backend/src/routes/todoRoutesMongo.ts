@@ -72,15 +72,26 @@ router.post("/", async (request, response) => {
 });
 
 router.delete("/:id", async (request, response) => {
-  const id = request.params.id;
-  const userId =
-    typeof request.query.userId === "string"
-      ? request.query.userId
-      : "demoUser";
+  try {
+    const id = request.params.id;
+    const userId =
+      typeof request.query.userId === "string"
+        ? request.query.userId
+        : "demoUser";
 
-  const todo = await todoServiceMongo.deleteTodo(id, userId);
+    const todo = await todoServiceMongo.deleteTodo(id, userId);
 
-  response.status(200).json(todo);
+    response.status(200).json(todo);
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message === "Not authorized to access this todo") {
+        response.status(403).send({ error: error.message });
+        return;
+      }
+    }
+    response.status(400).send({ error: "unknown error" });
+    return;
+  }
 });
 
 export default router;

@@ -134,4 +134,20 @@ describe("DELETE /todos/:id", () => {
     expect(todoData.name).toBe(todo.name);
     expect(todoData.userId).toBe(todo.userId);
   });
+
+  it("returns status code 403 when user is not authorized to delete todo", async () => {
+    const todo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+    const todoId = todo._id.toString();
+
+    const response = await request(app).delete(
+      `/todos/${todoId}?userId=user2`
+    );
+    const body = response.body as { error: string };
+
+    expect(response.status).toBe(403);
+    expect(body.error).toBe("Not authorized to access this todo");
+  });
 });
