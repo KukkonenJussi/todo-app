@@ -115,3 +115,23 @@ describe("POST /todos", () => {
     expect(todoData.userId).toBe("demoUser");
   });
 });
+
+describe("DELETE /todos/:id", () => {
+  it("returns status code 200 and the deleted todo when valid id and userId are provided", async () => {
+    const todo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+    const todoId = todo._id.toString();
+
+    const response = await request(app).delete(
+      `/todos/${todoId}?userId=${todo.userId}`
+    );
+    const todoData = response.body as TodoData;
+
+    expect(response.status).toBe(200);
+    expect(todoData._id).toBe(todoId);
+    expect(todoData.name).toBe(todo.name);
+    expect(todoData.userId).toBe(todo.userId);
+  });
+});
