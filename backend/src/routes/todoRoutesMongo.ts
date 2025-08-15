@@ -88,6 +88,10 @@ router.delete("/:id", async (request, response) => {
         response.status(403).send({ error: error.message });
         return;
       }
+      if (error.message === "Todo not found!") {
+        response.status(404).send({ error: error.message });
+        return;
+      }
     }
     response.status(400).send({ error: "unknown error" });
     return;

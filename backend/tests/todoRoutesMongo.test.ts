@@ -142,12 +142,21 @@ describe("DELETE /todos/:id", () => {
     }
     const todoId = todo._id.toString();
 
-    const response = await request(app).delete(
-      `/todos/${todoId}?userId=user2`
-    );
+    const response = await request(app).delete(`/todos/${todoId}?userId=user2`);
     const body = response.body as { error: string };
 
     expect(response.status).toBe(403);
     expect(body.error).toBe("Not authorized to access this todo");
+  });
+
+  it("returns status code 404 when the todo is not found", async () => {
+    const nonExistingId = new mongoose.Types.ObjectId().toString();
+    // const nonExistingId = "68272e369206bfc8869e7cd2"; // An alternative way is to set a generated mongoose objectId as a string and use it
+
+    const response = await request(app).get(`/todos/${nonExistingId}?userId=user1`);
+    const body = response.body as { error: string };
+
+    expect(response.status).toBe(404);
+    expect(body.error).toBe("Todo not found!");
   });
 });
