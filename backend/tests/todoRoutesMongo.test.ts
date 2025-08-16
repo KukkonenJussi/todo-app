@@ -153,10 +153,36 @@ describe("DELETE /todos/:id", () => {
     const nonExistingId = new mongoose.Types.ObjectId().toString();
     // const nonExistingId = "68272e369206bfc8869e7cd2"; // An alternative way is to set a generated mongoose objectId as a string and use it
 
-    const response = await request(app).get(`/todos/${nonExistingId}?userId=user1`);
+    const response = await request(app).get(
+      `/todos/${nonExistingId}?userId=user1`
+    );
     const body = response.body as { error: string };
 
     expect(response.status).toBe(404);
     expect(body.error).toBe("Todo not found!");
+  });
+});
+
+describe("DELETE /todos/", () => {
+  it("returns status code 200 and removes only todos of the specified user", async () => {
+    const response = await request(app).delete(`/todos?userId=user1`);
+    const user1todos = await request(app).get(`/todos?userId=user1`);
+    const user2todos = await request(app).get(`/todos?userId=user2`);
+
+    const user1body = user1todos.body as Array<{
+      _id: string;
+      name: string;
+      userId: string;
+    }>;
+
+    const user2body = user2todos.body as Array<{
+      _id: string;
+      name: string;
+      userId: string;
+    }>;
+
+    expect(response.status).toBe(200);
+    expect(user1body.length).toBe(0);
+    expect(user2body.length).toBeGreaterThan(0);
   });
 });

@@ -98,4 +98,15 @@ router.delete("/:id", async (request, response) => {
   }
 });
 
+router.delete("/", async (request, response) => {
+  const userId =
+    typeof request.query.userId === "string"
+      ? request.query.userId
+      : "demoUser";
+
+  const todos = await todoServiceMongo.deleteAllTodos(userId, userId);
+
+  response.status(200).json(todos);
+});
+
 export default router;
