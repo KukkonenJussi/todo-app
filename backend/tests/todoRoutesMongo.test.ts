@@ -15,6 +15,21 @@ describe("GET /todos", () => {
     expect(response.status).toBe(200);
     expect(response.body).toHaveLength(3);
   });
+
+  it("returns status code 200 and only todos belonging to the specified user", async () => {
+    const response = await request(app).get("/todos?userId=user1");
+    const body = response.body as Array<{
+      _id: string;
+      name: string;
+      userId: string;
+    }>;
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveLength(2);
+    for (const todo of body) {
+      expect(todo.userId).toBe("user1");
+    }
+  });
 });
 
 describe("GET /todos/:id", () => {
