@@ -180,7 +180,9 @@ describe("DELETE /todos/:id", () => {
 
 describe("DELETE /todos/", () => {
   it("returns status code 200 and removes only todos of the specified user", async () => {
-    const response = await request(app).delete(`/todos?userId=user1`);
+    const response = await request(app)
+      .delete("/todos?userId=user1")
+      .set("x-user-id", "user1");
     const user1todos = await request(app).get(`/todos?userId=user1`);
     const user2todos = await request(app).get(`/todos?userId=user2`);
 
@@ -199,5 +201,15 @@ describe("DELETE /todos/", () => {
     expect(response.status).toBe(200);
     expect(user1body.length).toBe(0);
     expect(user2body.length).toBeGreaterThan(0);
+  });
+
+  it("returns status code 401 when deleting another user's todos", async () => {
+    const response = await request(app)
+      .delete("/todos?userId=user2")
+      .set("x-user-id", "user1");
+    const body = response.body as { error: string };
+
+    expect(response.status).toBe(401);
+    expect(body.error).toBe("Unauthorized access");
   });
 });

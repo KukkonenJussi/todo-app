@@ -99,12 +99,25 @@ router.delete("/:id", async (request, response) => {
 });
 
 router.delete("/", async (request, response) => {
-  const userId =
+  const requestingUserId =
+    typeof request.headers["x-user-id"] === "string"
+      ? request.headers["x-user-id"]
+      : "demoUser";
+
+  const targetUserId =
     typeof request.query.userId === "string"
       ? request.query.userId
       : "demoUser";
 
-  const todos = await todoServiceMongo.deleteAllTodos(userId, userId);
+  if (requestingUserId !== targetUserId) {
+    response.status(401).send({ error: "Unauthorized access" });
+    return;
+  }
+
+  const todos = await todoServiceMongo.deleteAllTodos(
+    requestingUserId,
+    targetUserId
+  );
 
   response.status(200).json(todos);
 });
