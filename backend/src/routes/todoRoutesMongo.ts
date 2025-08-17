@@ -99,27 +99,33 @@ router.delete("/:id", async (request, response) => {
 });
 
 router.delete("/", async (request, response) => {
-  const requestingUserId =
-    typeof request.headers["x-user-id"] === "string"
-      ? request.headers["x-user-id"]
-      : "demoUser";
+  try {
+    const requestingUserId =
+      typeof request.headers["x-user-id"] === "string"
+        ? request.headers["x-user-id"]
+        : "demoUser";
 
-  const targetUserId =
-    typeof request.query.userId === "string"
-      ? request.query.userId
-      : "demoUser";
+    const targetUserId =
+      typeof request.query.userId === "string"
+        ? request.query.userId
+        : "demoUser";
 
-  if (requestingUserId !== targetUserId) {
-    response.status(401).send({ error: "Unauthorized access" });
+    const todos = await todoServiceMongo.deleteAllTodos(
+      requestingUserId,
+      targetUserId
+    );
+
+    response.status(200).json(todos);
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message === "Unauthorized access") {
+        response.status(401).send({ error: error.message });
+        return;
+      }
+    }
+    response.status(400).send({ error: "unknown error" });
     return;
   }
-
-  const todos = await todoServiceMongo.deleteAllTodos(
-    requestingUserId,
-    targetUserId
-  );
-
-  response.status(200).json(todos);
 });
 
 export default router;
