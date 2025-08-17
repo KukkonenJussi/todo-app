@@ -50,14 +50,14 @@ const deleteTodo = async (id: string, userId: string) => {
 };
 
 const deleteAllTodos = async (
-  requestinUserId: string,
+  requestingUserId: string,
   targetUserId: string
 ) => {
-  if (!requestinUserId || !targetUserId) {
+  if (!requestingUserId || !targetUserId) {
     throw new Error(`Unauthorized: userId is required`);
   }
 
-  if (requestinUserId !== targetUserId) {
+  if (requestingUserId !== targetUserId) {
     throw new Error(`Unauthorized access`);
   }
 
