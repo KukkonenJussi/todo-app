@@ -264,6 +264,6 @@ describe("updateTodoName", () => {
 
     await expect(
       todoServiceMongo.updateTodoName(id, newName, "user2")
-    ).rejects.toThrow("Unauthorized access");
+    ).rejects.toThrow("Not authorized to access this todo");
   });
 });
