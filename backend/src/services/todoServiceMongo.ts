@@ -66,15 +66,10 @@ const deleteAllTodos = async (
 
 const updateTodoCompleted = async (id: string, userId: string) => {
   const todo = await Todo.findById(id);
-  if (!todo) {
-    throw new Error(`Todo not found`);
-  }
 
-  if (todo.userId !== userId) {
-    throw new Error(`Unauthorized access`);
-  }
+  verifyOwnership(todo, userId);
 
-  return !todo.completed;
+  return !todo!.completed;
 };
 
 const updateTodoName = async (id: string, newName: string, userId: string) => {
