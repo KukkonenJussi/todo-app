@@ -128,4 +128,15 @@ router.delete("/", async (request, response) => {
   }
 });
 
+router.patch("/:id/completed", async (request, response) => {
+  const id = request.params.id;
+  const requestingUserId =
+    typeof request.headers["x-user-id"] === "string"
+      ? request.headers["x-user-id"]
+      : "demoUser";
+
+  const updatedTodo = await todoServiceMongo.updateTodoCompleted(id, requestingUserId);
+  response.status(200).json(updatedTodo);
+});
+
 export default router;

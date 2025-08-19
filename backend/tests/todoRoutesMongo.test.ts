@@ -213,3 +213,25 @@ describe("DELETE /todos/", () => {
     expect(body.error).toBe("Unauthorized access");
   });
 });
+
+describe("PATCH /todos/:id/completed", () => {
+  it("returns status code 200 and toggles todo.completed for the specified user", async () => {
+    const todo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+
+    const getResponse = await request(app).get(
+      `/todos/${todo._id}?userId=${todo.userId}`
+    );
+    const originalTodo = getResponse.body as TodoData;
+    const patchResponse = await request(app)
+      .patch(`/todos/${todo.id}/completed`)
+      .set("x-user-id", "user1");
+    const updatedTodo = patchResponse.body as TodoData;
+
+    expect(originalTodo.completed).toBe(false);
+    expect(patchResponse.status).toBe(200);
+    expect(updatedTodo).toBe(true);
+  });
+});
