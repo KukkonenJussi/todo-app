@@ -206,15 +206,18 @@ describe("updateTodoCompleted", () => {
     }
 
     const id = existingTodo._id.toString();
-    const completedBefore = existingTodo.completed;
+    const completedBefore = existingTodo;
 
     const completedAfter = await todoServiceMongo.updateTodoCompleted(
       id,
       "user1"
     );
+    if (!completedAfter) {
+      throw new Error("Test setup error: Todo could not be updated");
+    }
 
-    expect(completedBefore).toBe(false);
-    expect(completedAfter).toBe(true);
+    expect(completedBefore.completed).toBe(false);
+    expect(completedAfter.completed).toBe(true);
   });
 
   it("should throw an error when trying to toggle a todo not owned by the user", async () => {

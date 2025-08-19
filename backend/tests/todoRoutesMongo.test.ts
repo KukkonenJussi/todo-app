@@ -232,6 +232,6 @@ describe("PATCH /todos/:id/completed", () => {
 
     expect(originalTodo.completed).toBe(false);
     expect(patchResponse.status).toBe(200);
-    expect(updatedTodo).toBe(true);
+    expect(updatedTodo.completed).toBe(true);
   });
 });

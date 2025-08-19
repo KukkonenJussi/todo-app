@@ -69,7 +69,10 @@ const updateTodoCompleted = async (id: string, userId: string) => {
 
   verifyOwnership(todo, userId);
 
-  return !todo!.completed;
+  todo!.completed = !todo!.completed;
+  await todo?.save();
+
+  return todo;
 };
 
 const updateTodoName = async (id: string, newName: string, userId: string) => {
