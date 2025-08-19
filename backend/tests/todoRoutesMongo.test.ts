@@ -234,4 +234,19 @@ describe("PATCH /todos/:id/completed", () => {
     expect(patchResponse.status).toBe(200);
     expect(updatedTodo.completed).toBe(true);
   });
+
+  it("returns status code 401 when toggling another user's todo", async () => {
+    const todo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+
+    const patchResponse = await request(app)
+      .patch(`/todos/${todo.id}/completed`)
+      .set("x-user-id", "user2");
+    const body = patchResponse.body as { error: string };
+
+    expect(patchResponse.status).toBe(401);
+    expect(body.error).toBe("Not authorized to access this todo");
+  });
 });

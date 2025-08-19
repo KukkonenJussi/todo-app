@@ -129,14 +129,29 @@ router.delete("/", async (request, response) => {
 });
 
 router.patch("/:id/completed", async (request, response) => {
-  const id = request.params.id;
-  const requestingUserId =
-    typeof request.headers["x-user-id"] === "string"
-      ? request.headers["x-user-id"]
-      : "demoUser";
+  try {
+    const id = request.params.id;
+    const requestingUserId =
+      typeof request.headers["x-user-id"] === "string"
+        ? request.headers["x-user-id"]
+        : "demoUser";
 
-  const updatedTodo = await todoServiceMongo.updateTodoCompleted(id, requestingUserId);
-  response.status(200).json(updatedTodo);
+    const updatedTodo = await todoServiceMongo.updateTodoCompleted(
+      id,
+      requestingUserId
+    );
+
+    response.status(200).json(updatedTodo);
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message === "Not authorized to access this todo") {
+        response.status(401).send({ error: error.message });
+        return;
+      }
+    }
+    response.status(400).send({ error: "unknown error" });
+    return;
+  }
 });
 
 export default router;
