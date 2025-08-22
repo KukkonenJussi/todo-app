@@ -250,3 +250,29 @@ describe("PATCH /todos/:id/completed", () => {
     expect(body.error).toBe("Not authorized to access this todo");
   });
 });
+
+describe("PATCH /todos/:id/name", () => {
+  it("returns status code 200 and updates the todo name for the specified user", async () => {
+    const todo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+
+    const getResponse = await request(app).get(
+      `/todos/${todo._id}?userId=${todo.userId}`
+    );
+    const originalTodo = getResponse.body as TodoData;
+    const newName = "Have a break and grap some coffee";
+    const patchResponse = await request(app)
+      .patch(`/todos/${todo.id}/name`)
+      .send({ name: newName })
+      .set("x-user-id", "user1");
+    const updatedTodo = patchResponse.body as TodoData;
+
+    expect(patchResponse.status).toBe(200);
+    expect(updatedTodo.name).toBe(newName);
+    expect(updatedTodo._id).toBe(originalTodo._id);
+    expect(updatedTodo.completed).toBe(originalTodo.completed);
+    expect(updatedTodo.userId).toBe(originalTodo.userId);
+  });
+});

@@ -154,4 +154,22 @@ router.patch("/:id/completed", async (request, response) => {
   }
 });
 
+router.patch("/:id/name", async (request, response) => {
+  const body = request.body as NewTodoData;
+  const id = request.params.id;
+  const newName = body.name;
+  const requestingUserId =
+    typeof request.headers["x-user-id"] === "string"
+      ? request.headers["x-user-id"]
+      : "demoUser";
+
+  const updatedTodo = await todoServiceMongo.updateTodoName(
+    id,
+    newName,
+    requestingUserId
+  );
+
+  response.status(200).json(updatedTodo);
+});
+
 export default router;
