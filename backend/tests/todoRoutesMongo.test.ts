@@ -309,4 +309,20 @@ describe("PATCH /todos/:id/name", () => {
     expect(patchResponse.status).toBe(400);
     expect(responseBody.error).toBe("Name must be 50 characters or less!");
   });
+
+  it("returns 401 when a user attempts to update a todo they do not own", async () => {
+    const todo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+
+    const patchResponse = await request(app)
+      .patch(`/todos/${todo.id}/completed`)
+      .send("I just wanted to say 'hi'")
+      .set("x-user-id", "user2");
+    const body = patchResponse.body as { error: string };
+
+    expect(patchResponse.status).toBe(401);
+    expect(body.error).toBe("Not authorized to access this todo");
+  });
 });
