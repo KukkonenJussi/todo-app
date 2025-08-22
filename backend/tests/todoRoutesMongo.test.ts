@@ -275,4 +275,38 @@ describe("PATCH /todos/:id/name", () => {
     expect(updatedTodo.completed).toBe(originalTodo.completed);
     expect(updatedTodo.userId).toBe(originalTodo.userId);
   });
+
+  it("returns status code 400 when updating a todo name without providing a name", async () => {
+    const todo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+
+    const newName = "";
+    const patchResponse = await request(app)
+      .patch(`/todos/${todo.id}/name`)
+      .send({ name: newName })
+      .set("x-user-id", "user1");
+    const responseBody = patchResponse.body as { error: string };
+
+    expect(patchResponse.status).toBe(400);
+    expect(responseBody.error).toBe("Name is required!");
+  });
+
+  it("returns status code 400 when updating a todo name longer than 50 characters", async () => {
+    const todo = await Todo.findOne({ name: "Build a Todo App" });
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+
+    const newName = "a".repeat(51);
+    const patchResponse = await request(app)
+      .patch(`/todos/${todo.id}/name`)
+      .send({ name: newName })
+      .set("x-user-id", "user1");
+    const responseBody = patchResponse.body as { error: string };
+
+    expect(patchResponse.status).toBe(400);
+    expect(responseBody.error).toBe("Name must be 50 characters or less!");
+  });
 });

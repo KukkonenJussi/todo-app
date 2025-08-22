@@ -155,21 +155,30 @@ router.patch("/:id/completed", async (request, response) => {
 });
 
 router.patch("/:id/name", async (request, response) => {
-  const body = request.body as NewTodoData;
-  const id = request.params.id;
-  const newName = body.name;
-  const requestingUserId =
-    typeof request.headers["x-user-id"] === "string"
-      ? request.headers["x-user-id"]
-      : "demoUser";
+  try {
+    const body = request.body as NewTodoData;
+    const id = request.params.id;
+    const newName = body.name;
+    const requestingUserId =
+      typeof request.headers["x-user-id"] === "string"
+        ? request.headers["x-user-id"]
+        : "demoUser";
 
-  const updatedTodo = await todoServiceMongo.updateTodoName(
-    id,
-    newName,
-    requestingUserId
-  );
+    const updatedTodo = await todoServiceMongo.updateTodoName(
+      id,
+      newName,
+      requestingUserId
+    );
 
-  response.status(200).json(updatedTodo);
+    response.status(200).json(updatedTodo);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      response.status(400).send({ error: error.message });
+      return;
+    }
+    response.status(400).send({ error: "unknown error" });
+    return;
+  }
 });
 
 export default router;

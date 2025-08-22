@@ -80,9 +80,10 @@ const updateTodoName = async (id: string, newName: string, userId: string) => {
 
   verifyOwnership(todo, userId);
 
+  const trimmedName = parseName(newName);
   const updatedTodo = await Todo.findByIdAndUpdate(
     id,
-    { name: newName },
+    { name: trimmedName },
     { new: true }
   );
 
