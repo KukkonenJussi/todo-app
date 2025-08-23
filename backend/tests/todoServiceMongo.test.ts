@@ -132,6 +132,24 @@ describe("addTodo", () => {
       "Name must be 50 characters or less!"
     );
   });
+
+  it("should throw an error when adding a duplicate todo for the same user", async () => {
+    const userId = new mongoose.Types.ObjectId().toString();
+
+    await todoServiceMongo.addTodo({
+      name: "Build a Todo App",
+      userId: userId,
+    });
+
+    const duplicateTodo = {
+      name: "Build a Todo App",
+      userId: userId,
+    };
+
+    await expect(todoServiceMongo.addTodo(duplicateTodo)).rejects.toThrow(
+      /^Todo already exists!$/
+    );
+  });
 });
 
 describe("deleteTodo", () => {

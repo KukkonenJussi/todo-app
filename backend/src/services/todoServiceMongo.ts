@@ -30,6 +30,11 @@ const addTodo = async (todo: NewTodoData) => {
     userId = "demoUser";
   }
 
+  const existingTodo = await Todo.findOne({ name: trimmedName, userId });
+  if (existingTodo) {
+    throw new Error("Todo already exists!");
+  }
+
   const newTodo = new Todo({
     name: trimmedName,
     userId: userId || "demoUser",
