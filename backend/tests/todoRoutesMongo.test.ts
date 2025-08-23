@@ -129,6 +129,21 @@ describe("POST /todos", () => {
     expect(response.status).toBe(201);
     expect(todoData.userId).toBe("demoUser");
   });
+
+  it("returns status code 400 when adding a todo with duplicate name for the same user", async () => {
+    const validUserId = new mongoose.Types.ObjectId().toString();
+    const newTodo = {
+      name: "Whoopsie Daisy!",
+      userId: validUserId,
+    };
+
+    await request(app).post("/todos").send(newTodo);
+    const response = await request(app).post("/todos").send(newTodo);
+    const body = response.body as { error: string };
+
+    expect(response.status).toBe(400);
+    expect(body.error).toBe("Todo already exists!");
+  });
 });
 
 describe("DELETE /todos/:id", () => {
