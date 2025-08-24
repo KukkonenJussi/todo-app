@@ -340,4 +340,33 @@ describe("PATCH /todos/:id/name", () => {
     expect(patchResponse.status).toBe(401);
     expect(body.error).toBe("Not authorized to access this todo");
   });
+
+  it("returns status code 400 when updating a todo name to an existing one for the same user", async () => {
+    const validUserId = new mongoose.Types.ObjectId().toString();
+    const originalTodo = {
+      name: "Sneaky Nachos",
+      userId: validUserId,
+    };
+    const duplicateTodo = {
+      name: "Waffle Ninja",
+      userId: validUserId,
+    };
+
+    await request(app).post("/todos").send(originalTodo);
+    await request(app).post("/todos").send(duplicateTodo);
+
+    const todo = await Todo.findOne(duplicateTodo);
+    if (!todo) {
+      throw new Error(`Error: Todo ${todo} not found!`);
+    }
+
+    const patchResponse = await request(app)
+      .patch(`/todos/${todo.id}/name`)
+      .send({ name: "Sneaky Nachos" })
+      .set("x-user-id", validUserId);
+    const body = patchResponse.body as { error: string };
+
+    expect(patchResponse.status).toBe(400);
+    expect(body.error).toBe("Todo already exists!");
+  });
 });
