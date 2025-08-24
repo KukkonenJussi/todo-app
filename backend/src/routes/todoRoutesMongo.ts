@@ -173,6 +173,10 @@ router.patch("/:id/name", async (request, response) => {
     response.status(200).json(updatedTodo);
   } catch (error: unknown) {
     if (error instanceof Error) {
+      if (error.message === "Not authorized to access this todo") {
+        response.status(403).send({ error: error.message });
+        return;
+      }
       response.status(400).send({ error: error.message });
       return;
     }
