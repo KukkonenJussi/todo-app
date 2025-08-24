@@ -287,4 +287,26 @@ describe("updateTodoName", () => {
       todoServiceMongo.updateTodoName(id, newName, "user2")
     ).rejects.toThrow("Not authorized to access this todo");
   });
+
+  it("should throw an error when trying to update a todo's name to another existing name for the same user", async () => {
+    const userId = new mongoose.Types.ObjectId().toString();
+
+    await todoServiceMongo.addTodo({
+      name: "Mickey Mouse",
+      userId: userId,
+    });
+
+    const todo = await todoServiceMongo.addTodo({
+      name: "Goofy",
+      userId: userId,
+    });
+
+    await expect(
+      todoServiceMongo.updateTodoName(
+        todo._id.toString(),
+        "Mickey Mouse",
+        userId
+      )
+    ).rejects.toThrow(/^Todo already exists!$/);
+  });
 });

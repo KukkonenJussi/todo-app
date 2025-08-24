@@ -86,6 +86,12 @@ const updateTodoName = async (id: string, newName: string, userId: string) => {
   verifyOwnership(todo, userId);
 
   const trimmedName = parseName(newName);
+
+  const existingTodo = await Todo.findOne({ name: trimmedName, userId });
+  if (existingTodo) {
+    throw new Error("Todo already exists!");
+  }
+
   const updatedTodo = await Todo.findByIdAndUpdate(
     id,
     { name: trimmedName },
