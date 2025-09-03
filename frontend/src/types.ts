@@ -8,4 +8,9 @@ export interface TodoItem {
   completed: boolean;
 }
 
+export interface TodoItemMongoose extends TodoItem {
+  userId: string;
+}
+
 export type NewTodoItem = Pick<TodoItem, "name">;
+export type NewMongooseTodoItem = Pick<TodoItemMongoose, "name" | "userId">;
