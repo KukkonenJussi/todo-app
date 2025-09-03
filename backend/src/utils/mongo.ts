@@ -4,7 +4,11 @@ dotenv.config();
 
 export const connectToDatabase = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI!);
+    const uri = process.env.NODE_ENV === "test-mongo"
+      ? process.env.MONGODB_TEST_URI
+      : process.env.MONGODB_URI;
+
+    await mongoose.connect(uri!);
     console.log(
       "Connected to MongoDB. Used database:",
       mongoose.connection.db?.databaseName
