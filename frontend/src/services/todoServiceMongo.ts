@@ -13,6 +13,13 @@ export const getAllTodos = async (
   return response.data;
 };
 
+export const createTodo = async (object: TodoItemMongoose): Promise<TodoItemMongoose> => {
+  const response = await axios
+    .post<TodoItemMongoose>(`${apiBaseUrl}/todos`, object);
+  return response.data;
+};
+
 export default {
   getAllTodos,
+  createTodo
 };
