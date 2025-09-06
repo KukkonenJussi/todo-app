@@ -5,6 +5,7 @@ import slowDown from "express-slow-down";
 
 import todoRoute from "./routes/todoRoutes";
 import todoRouteMongo from "./routes/todoRoutesMongo";
+import userRoute from "./controllers/users";
 
 const app = express();
 const corsOptions = {
@@ -27,6 +28,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.use(express.json());
+
+if (process.env.NODE_ENV !== "production") {
+  app.use("/users", userRoute);
+}
 
 if (process.env.NODE_ENV === "test-mongo") {
   app.use("/todos", todoRouteMongo);

@@ -3,6 +3,7 @@ import Todo from "../models/Todo";
 import { NewTodoData } from "../types";
 import { parseName } from "../utils/validators";
 import { verifyOwnership } from "../utils/authUtils";
+import User from "../models/User";
 
 const getAllTodos = async (userId?: string) => {
   if (userId) {
@@ -41,6 +42,15 @@ const addTodo = async (todo: NewTodoData) => {
   });
 
   await newTodo.save();
+
+  if (isValidObjectId(userId)) {
+    const user = await User.findById(userId);
+    if (user) {
+      user.todos = user.todos.concat(newTodo._id);
+      await user.save();
+    }
+  }
+
   return newTodo;
 };
 

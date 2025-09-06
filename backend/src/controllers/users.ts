@@ -1,6 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import User from "../models/user";
+import User from "../models/User";
 import { createUserBody } from "../types";
 
 const router = express.Router();
@@ -22,4 +22,4 @@ router.post("/", async (request, response) => {
   response.status(201).json(savedUser);
 });
 
-module.exports = router;
+export default router;
