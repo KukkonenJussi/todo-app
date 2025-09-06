@@ -1,3 +1,9 @@
+export interface createUserBody {
+  name: string;
+  username: string;
+  password: string;
+}
+
 export interface TodoItem {
   id: string;
   userId?: string;
